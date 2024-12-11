@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'MaJ',
     'profil',
     'rech',
+    'bdd',
+    'rest_framework',
 
 ]
 
@@ -81,8 +83,12 @@ WSGI_APPLICATION = 'APIS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+       'ENGINE': 'django.db.backends.mysql',  # Use 'django.db.backends.postgresql' if using PostgreSQL
+        'NAME': 'sahtek',
+        'USER': 'root',
+        'PASSWORD': 'ranaa987@',
+        'HOST': '127.0.0.1',  # Use your database server's address
+        'PORT': '3306',
     }
 }
 
