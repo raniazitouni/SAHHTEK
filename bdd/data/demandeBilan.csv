@@ -1,0 +1,5 @@
+demandeBilanId,etatDemande,docteurId,patientId,laborantinId,typeBilan
+1,true,6,1,13,"glycémie"
+2,false,7,2,13,"pression"
+3,true,8,3,13,"cholestérol"
+

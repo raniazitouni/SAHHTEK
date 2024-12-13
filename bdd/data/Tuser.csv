@@ -1,0 +1,19 @@
+userId,patientId,nomUser,prenomUser,emailUser,password,hopitalId,role
+1,P001,Terkmani,Aya,mohammed.zahrani@mail.com,password123,1,patient
+2,P002,Benlacheheb ,Yara,fatima.alotaibi@mail.com,password123,2,patient
+3,P003,Azzouz,Aymen,abdullah.alahmadi@mail.com,password123,3,patient
+4,P004,Bouab,Sami,selma.alhashimi@mail.com,password123,1,patient
+5,P005,Soualah,Zakaria,khalid.alfaisal@mail.com,password123,2,patient
+
+6,NULL,Dr hania,Hamid,dr_hania@gmail.com,password123,1,docteur
+7,NULL,Dr Alouane,Moustapha,dr_alouane@gmail.com,password123,2,docteur
+8,NULL,Dr Tayleb,Kareem,dr_tayleb@gmail.com,password123,3,docteur
+
+9,NULL,Ad Koudil,Hamid,ad_koudil@gmail.com,password123,NULL,admin
+10,NULL,Adh Frada ,Kamal,adh_frada@gmail.com,password123,NULL,adminHopital
+11,NULL,Rec Bouache , Amar,rec_bouache@gmail.com,password123,NULL,recepsioniste
+
+12,NULL,Senouci,Fatima , senouci.fatima@gmail.com,password123,NULL,infermier
+13,NULL,Akal,Ahlem,akal.ahlem@gmail.com,password123,NULL,laborantin
+14,NULL,Zitouni,Rania,zitouni.rania@gmail.com,password123,NULL,radiologue
+

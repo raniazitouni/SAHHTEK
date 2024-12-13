@@ -1,0 +1,4 @@
+demandeRadioId,etatDemande,docteurId,patientId,radiologueId,typeRadio
+1,true,6,1,14,"URM"
+2,false,7,2,14,"ecographie"
+3,true,8,3,14,"radiographic"
