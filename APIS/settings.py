@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'MaJ',
     'profil',
     'rech',
+    'bdd',
+    'rest_framework',
 
 ]
 
@@ -78,6 +80,8 @@ WSGI_APPLICATION = 'APIS.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+import pymysql
+pymysql.install_as_MySQLdb()
 
 #DATABASES = {
   #  'default': {
@@ -88,12 +92,12 @@ WSGI_APPLICATION = 'APIS.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
-        'NAME': 'mock_db',  # Your database name (in this case, mock_db)
-        'USER': 'root',  # Your MySQL username
-        'PASSWORD': 'Sarahhsn04',  # Your MySQL password
-        'HOST': 'localhost',  # If you're running MySQL locally
-        'PORT': '3306',  # Default MySQL port
+       'ENGINE': 'django.db.backends.mysql',  # Use 'django.db.backends.postgresql' if using PostgreSQL
+        'NAME': 'sahtek',
+        'USER': 'root',
+        'PASSWORD': 'ranaa987@',
+        'HOST': '127.0.0.1',  # Use your database server's address
+        'PORT': '3306',
     }
 }
 
