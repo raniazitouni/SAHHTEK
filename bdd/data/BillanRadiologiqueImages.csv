@@ -1,0 +1,6 @@
+imageId,billanRadiologiqueId,imageData,description
+1,1,image1.png,Inflammation of the joint
+2,2,image2.png,No abnormal findings
+3,3,image3.png,Fracture in leg bone
+4,4,image4.png,Swelling detected in CT scan
+5,5,image5.png,Ultrasound for abdominal pain

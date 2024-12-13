@@ -10,6 +10,9 @@ from .models import (
     Billanradiologique,
     Billanradiologiqueimages,
     Consultation,
+    Demandebilan,
+    Demanderadio,
+    Demandecertaficat,
     Demande,
     DjangoAdminLog,
     DjangoContentType,
@@ -88,8 +91,22 @@ class ConsultationSerializer(serializers.ModelSerializer):
 class DemandeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demande
-        fields = '__all__'
+        fields = ['demandeid', 'etatdemande', 'userid', 'typedemande', 'contenudemande', 'datedenvoi']
 
+class DemandebilanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Demandebilan
+        fields = ['demandebilanid', 'etatdemande', 'docteurid', 'patientid', 'laborantinid', 'typebilan']
+
+class DemandecertaficatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Demandecertaficat
+        fields = ['demandecertaficatid', 'etatdemande', 'docteurid', 'patientid', 'contenudemande', 'datedenvoi']
+
+class DemanderadioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Demanderadio
+        fields = ['demanderadioid', 'etatdemande', 'docteurid', 'patientid', 'radiologueid', 'typeradio']
 
 class DjangoAdminLogSerializer(serializers.ModelSerializer):
     class Meta:

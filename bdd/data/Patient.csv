@@ -1,0 +1,6 @@
+patientId,userId,nomPatient,prenomPatient,adressePatient,telephonePatient,mutuelle,etatPatent,dateDeNaissancePatient,personneAContacter
+P001,1,Terkmani,Aya,Borj El kiffen Alger,123456789,1,TRUE,1990-01-01,Afnan Terkmani
+P002,2,Benlacheheb ,Yara,Vialart Tissimlsilt,987654321,2,TRUE,1985-02-14,Yasmine Benlacheheb
+P003,3,Azzouz,Aymen,Saida Saida,112233445,1,FALSE,2000-05-30,Diaa Larbi
+P004,4,Bouab,Sami,Djijel el bahia,556677889,3,TRUE,1992-09-25,Omar Hamza
+P005,5,Soualah,Zakaria,Rghaya,998877665,4,TRUE,1988-12-10,Fares Benziada

@@ -1,0 +1,6 @@
+billanRadiologiqueId,RadioType,userId,patientId,compteRendu
+1,URM,1,1,Patient showed signs of inflammation.
+2,ecographie,2,2,Ultrasound shows no abnormalities.
+3,radiographic,3,3,X-ray showed a fracture in the leg.
+4,autre,4,4,CT scan indicates slight swelling.
+5,ecographie,5,5,Ultrasound for abdominal pain,

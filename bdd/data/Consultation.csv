@@ -1,0 +1,5 @@
+patientId,userId,consulationDate,billanBiologiqueId,billanRadiologiqueId,ordononceId
+P001,6,2023-11-01,1,2,1
+P002,7,2023-11-05,2,3,2
+P003,8,2023-11-10,3,4,3
+

@@ -1,0 +1,6 @@
+patientId,userId,compteur,consulationDate,descriptionSoin,observation
+P001,1,1,2023-11-01,Administered pain relief,Patient showed improvement
+P002,2,1,2023-11-05,Administered antibiotics,Patient reported mild pain
+P003,3,1,2023-11-10,Administered fever medicine,Patient had reduced fever
+P004,4,1,2023-11-15,Administered MRI scan,Patient was stable
+P005,5,1,2023-11-20,Administered painkillers,Patient showed minor swelling

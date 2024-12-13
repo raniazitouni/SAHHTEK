@@ -1,0 +1,4 @@
+demandeCertaficatId,etatDemande,docteurId,patientId,contenuDemande,dateDenvoi
+1,true,6,1,"Certificat médical",2024-01-15
+2,false,7,2,"Certificat d'aptitude",2024-02-20
+3,true,8,3,"Certificat de maladie",2024-03-25
