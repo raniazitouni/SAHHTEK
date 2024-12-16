@@ -84,22 +84,22 @@ class ConsultationSerializer(serializers.ModelSerializer):
 class DemandeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demande
-        fields = ['demandeid', 'etatdemande', 'userid', 'typedemande', 'contenudemande', 'datedenvoi']
+        fields = '__all__'
 
 class DemandebilanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demandebilan
-        fields = ['demandebilanid', 'etatdemande', 'docteurid', 'patientid', 'laborantinid', 'typebilan']
+        fields = '__all__'
 
 class DemandecertaficatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demandecertaficat
-        fields = ['demandecertaficatid', 'etatdemande', 'docteurid', 'patientid', 'contenudemande', 'datedenvoi']
+        fields = '__all__'
 
 class DemanderadioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demanderadio
-        fields = ['demanderadioid', 'etatdemande', 'docteurid', 'patientid', 'radiologueid', 'typeradio']
+        fields = '__all__'
 
 class DjangoAdminLogSerializer(serializers.ModelSerializer):
     class Meta:
