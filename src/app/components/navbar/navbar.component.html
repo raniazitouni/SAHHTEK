@@ -1,0 +1,44 @@
+<div class="bg-customBlue flex justify-between items-center px-8 w-full pt-4 h-16 sticky">
+  <div class="flex items-center gap-6">
+    <img src="./logo.svg" alt="Logo" class="h-10 mr-4" />
+
+    <ul class="flex gap-4 items-center text-white">
+      <li
+        class="relative group flex items-center justify-center w-24 bg-transparent py-1"
+        *ngFor="let data of navData"
+        [ngClass]="{
+          'bg-white text-Bluehover rounded-tl-lg rounded-tr-lg': activeLink === data.routeLink,
+          'hover:bg-white hover:text-Bluehover hover:rounded-tl-lg hover:rounded-tr-lg': activeLink !== data.routeLink
+        }"
+        (click)="setActiveLink(data.routeLink)"
+      >
+        <a class="mb-4" [routerLink]="[data.routeLink]">{{ data.routeLink }}</a>
+
+        <!-- Left circle -->
+        <span class="absolute bottom-0 -left-4 w-4 h-4 bg-customBlue rounded-full opacity-0"
+        [ngClass]="{
+          'opacity-100 shadow-[8px_8px_0px_rgba(255,255,255)]': activeLink === data.routeLink,
+          ' group-hover:opacity-100 group-hover:shadow-[8px_8px_0px_rgba(255,255,255)]': activeLink !== data.routeLink
+        }"
+        ></span>
+        <!-- Right circle -->
+        <span class="absolute bottom-0 -right-4 w-4 h-4 bg-customBlue rounded-full opacity-0"
+        [ngClass]="{
+          'opacity-100 shadow-[-8px_8px_0px_rgba(255,255,255)]': activeLink === data.routeLink,
+          ' group-hover:opacity-100 group-hover:shadow-[-8px_8px_0px_rgba(255,255,255)]': activeLink !== data.routeLink
+        }"
+        ></span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex items-center gap-4 text-white mb-4">
+    <div class="text-right">
+      <div class="font-bold text-GreenLite">{{ user.prenomUser+ ' '+user.nomUser }}</div>
+      <div class="text-sm">{{ user.role }}</div>
+    </div>
+    <div class="flex justify-center items-center text-white w-10 h-10 rounded-md bg-transparent-8">
+      {{ user.nomUser.charAt(0) }}
+    </div>
+  </div>
+</div>
