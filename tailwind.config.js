@@ -11,7 +11,8 @@ module.exports = {
       colors: {
         customBlue: "#839FCD", 
         GreenLite : '#F4FFF3',
-        Bluehover : '#3F6CB5'
+        Bluehover : '#3F6CB5' ,
+        Bluebg :'#F3F3F3'
       },
     },
   },

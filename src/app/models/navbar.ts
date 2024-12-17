@@ -1,25 +1,25 @@
 export const Datanavbar = [
-      { routeLink : 'Recherche',
-        role :''
-      },
-      { routeLink : 'Patients',
-        role :'medecin'
-      },
-      { routeLink : 'Notification',
-        role :'tech'
-      },
-      { routeLink : 'Profile',
-        role :''
-      },
-      { routeLink : 'Soins',
-        role :'infermier'
-      },
+  { routeLink : 'Recherche',
+    role :'medecin,receptioniste,patient'
+  },
+  { routeLink : 'Patients',
+    role :'medecin,receptioniste,patient'
+  },
+  { routeLink : 'Notification',
+    role :'laboratin , radiologue'
+  },
+  { routeLink : 'Profile',
+    role :'medecin,receptioniste,laboratin , radiologue,infermier,patient'
+  },
+  { routeLink : 'Soins',
+    role :'infermier'
+  },
 ];
 
 export const user = {
-   prenomUser :'Aya',
-   nomUser :'Terkmani',
-   role : 'Admin'
+prenomUser :'Aya',
+nomUser :'Terkmani',
+role : 'medecin'
 }
 
 
