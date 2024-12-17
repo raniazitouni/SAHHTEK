@@ -2,7 +2,7 @@
 SET FOREIGN_KEY_CHECKS = 0;
 -- DROP TABLE IF EXISTS SoinObservation;
 -- DROP TABLE IF EXISTS billanradiologiqueimages;
--- DROP TABLE IF EXISTS BilanRadiologique;
+DROP TABLE IF EXISTS BilanRadiologique;
 -- DROP TABLE IF EXISTS BilanBiologique;
 -- DROP TABLE IF EXISTS OrdononceMedicament;
 -- DROP TABLE IF EXISTS Medicament;
@@ -14,7 +14,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- DROP TABLE IF EXISTS demande;
 -- DROP TABLE IF EXISTS dpi;
 -- DROP TABLE IF EXISTS tuser;
-DROP TABLE IF EXISTS patient;
+-- DROP TABLE IF EXISTS patient;
 -- DROP TABLE IF EXISTS hopital;
 SET FOREIGN_KEY_CHECKS = 1;
 
@@ -77,7 +77,7 @@ CREATE TABLE IF NOT EXISTS BilanBiologique (
     bilanBiologiqueId  INT PRIMARY KEY AUTO_INCREMENT,
     userId             INT,
     typeBilan          ENUM('glycemie', 'pression','cholesterol') NOT NULL,
-    graphImage         BLOB,
+    graphImage         VARCHAR(255),
     FOREIGN KEY (userId) REFERENCES Tuser(userId)
 );
 
@@ -88,7 +88,6 @@ CREATE TABLE IF NOT EXISTS BilanRadiologique (
     userId              INT,
     compteRendu         VARCHAR(500) NOT NULL,
     image               VARCHAR(500),
-    description         VARCHAR(255),
     FOREIGN KEY (userId) REFERENCES Tuser(userId)
 );
 

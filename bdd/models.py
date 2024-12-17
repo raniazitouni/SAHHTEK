@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from viewflow.fields import CompositeKey
 
 
 class AuthGroup(models.Model):
@@ -90,11 +91,16 @@ class Bilanbiologique(models.Model):
 
 class Bilanradiologique(models.Model):
     bilanradiologiqueid = models.AutoField(db_column='bilanRadiologiqueId', primary_key=True)  # Field name made lowercase.
-    radiotype = models.CharField(db_column='RadioType', max_length=12)  # Field name made lowercase.
     userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
     compterendu = models.CharField(db_column='compteRendu', max_length=500)  # Field name made lowercase.
-    image = models.CharField(max_length=500, blank=True, null=True)
-    description = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(upload_to='uploads/')
+    TYPE_RADIO_CHOICES = [
+        ('IRM', 'IRM'),
+        ('echographie', 'Échographie'),
+        ('radiographic', 'Radiographie'),
+        ('autre', 'Autre')
+    ]
+    radiotype = models.CharField(db_column='Radiotype', max_length=50,choices=TYPE_RADIO_CHOICES)
 
     class Meta:
         managed = False
@@ -102,18 +108,18 @@ class Bilanradiologique(models.Model):
 
 
 class Consultation(models.Model):
-    patientid = models.OneToOneField('Patient', models.DO_NOTHING, db_column='patientId', primary_key=True)  # Field name made lowercase. The composite primary key (patientId, userId, consulationDate) found, that is not supported. The first column is selected.
-    userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId')  # Field name made lowercase.
-    consulationdate = models.DateField(db_column='consulationDate')  # Field name made lowercase.
+    patientid = models.ForeignKey('Patient', on_delete=models.CASCADE, db_column='patientid')  # Field name made lowercase. The composite primary key (patientId, userId, consulationDate) found, that is not supported. The first column is selected.
+    userid = models.ForeignKey('Tuser', on_delete=models.CASCADE, db_column='userid')  # Field name made lowercase.
+    consulationdate = models.DateField(db_column='consulationdate')  # Field name made lowercase.
     resumeconsultation = models.CharField(db_column='resumeconsultation', max_length=1000) 
-    bilanbiologiqueid = models.OneToOneField(Bilanbiologique, models.DO_NOTHING, db_column='bilanBiologiqueId', blank=True, null=True)  # Field name made lowercase.
-    bilanradiologiqueid = models.OneToOneField(Bilanradiologique, models.DO_NOTHING, db_column='bilanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
-    ordonnanceid = models.ForeignKey('Ordonnance', models.DO_NOTHING, db_column='ordonnanceId', blank=True, null=True)  # Field name made lowercase.
-
+    bilanbiologiqueid = models.OneToOneField(Bilanbiologique, on_delete=models.CASCADE, db_column='bilanBiologiqueId', blank=True, null=True)  # Field name made lowercase.
+    bilanradiologiqueid = models.OneToOneField(Bilanradiologique,on_delete=models.CASCADE, db_column='bilanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
+    ordonnanceid = models.ForeignKey('Ordonnance', on_delete=models.CASCADE, db_column='ordonnanceId', blank=True, null=True)  # Field name made lowercase.
+    id = CompositeKey(columns=['patientid','userid','consulationdate'])
+    
     class Meta:
         managed = True
         db_table = 'consultation'
-        unique_together = (('patientid', 'userid', 'consulationdate'),)
 
 
 class Demande(models.Model):
@@ -245,7 +251,7 @@ class Hopital(models.Model):
 
 class Medicament(models.Model):
     medicamentid = models.AutoField(db_column='medicamentId', primary_key=True)  # Field name made lowercase.
-    nommedicament = models.CharField(db_column='nomMedicament', max_length=100)  # Field name made lowercase.
+    nommedicament = models.CharField(db_column='nommedicament', max_length=100)  # Field name made lowercase.
 
     class Meta:
         managed = True
@@ -261,15 +267,16 @@ class Ordonnance(models.Model):
 
 
 class Ordonnancemedicament(models.Model):
-    ordonnanceid = models.OneToOneField(Ordonnance, models.DO_NOTHING, db_column='OrdonnanceId', primary_key=True)  # Field name made lowercase. The composite primary key (OrdonnanceId, medicamentId) found, that is not supported. The first column is selected.
-    medicamentid = models.ForeignKey(Medicament,on_delete=models.CASCADE, db_column='medicamentId')  # Field name made lowercase.
+    Ordonnanceid = models.ForeignKey('Ordonnance',on_delete=models.CASCADE, db_column='Ordonnanceid')  # Field name made lowercase.
+    medicamentid = models.ForeignKey('Medicament',on_delete=models.CASCADE, db_column='medicamentid')  # Field name made lowercase.
     dose = models.CharField(max_length=100)
     duree = models.CharField(max_length=100)
+    id = CompositeKey(columns=['Ordonnanceid','medicamentid'])
 
     class Meta:
         managed = True
         db_table = 'ordonnancemedicament'
-        unique_together = (('ordonnanceid', 'medicamentid'),)
+        # unique_together = (('Ordonnanceid', 'medicamentid'),)
 
 
 class Patient(models.Model):

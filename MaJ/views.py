@@ -1,8 +1,8 @@
 
 from django.shortcuts import render
 from django.http import JsonResponse
-from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament
-from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer
+from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament ,Consultation ,Bilanradiologique
+from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -121,17 +121,129 @@ class AjouterDemandeBilan(APIView):
         serializer_demandebilan = DemandebilanSerializer(data=request.data)
         if serializer_demandebilan.is_valid() : 
             serializer_demandebilan.save()
-            return Response({'message': 'DemandeRadio created successfully', 'demandeRadio': serializer_demandebilan.data}, status=status.HTTP_201_CREATED)
+            return Response({'message': 'Demandbillan created successfully', 'demandeBillan': serializer_demandebilan.data}, status=status.HTTP_201_CREATED)
         else :
-            return Response({'errors': {'demandeRadio': serializer_demandebilan.errors}}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'errors': {'demandeBillan': serializer_demandebilan.errors}}, status=status.HTTP_400_BAD_REQUEST)
         
 
 
 class AjouterOrdonance(APIView):
 
     def post(self, request, *args, **kwargs):
+        
+        with transaction.atomic():
+            #create ordonance
+            serializer_ordonnance = OrdonnanceSerializer(data={})
+            if serializer_ordonnance.is_valid() : 
+                ordonnance = serializer_ordonnance.save()
+                for med_data in request.data:
+                    #recuperer id 
+                    med_data['Ordonnanceid'] = ordonnance.ordonnanceid
+                    #extract nom de med 
+                    nomMed = med_data.get('nommedicament', None)
+                    med = Medicament.objects.filter( nommedicament = nomMed ).first()
+                    if not med:
+                        #create medicament
+                        serializer_med = MedicamentSerializer(data=med_data)
+                        if serializer_med.is_valid() : 
+                            serializer_med.save()
+                            med_data['medicamentid'] = serializer_med.data.get('medicamentid')
+                        else : 
+                            #rolldown transaction
+                            raise transaction.TransactionManagementError(serializer_med.errors)
+                    else :
+                        med_data['medicamentid'] = med.medicamentid
+                    #testing if the ordonance and med already exist 
+                    existing_ordonnance_med = Ordonnancemedicament.objects.filter(
+                        Ordonnanceid=med_data['Ordonnanceid'],
+                        medicamentid=med_data['medicamentid']
+                    ).exists()
+                    #create ordonnance medicament
+                    if not existing_ordonnance_med : 
+                        serializer_ordonnancemed = OrdonnancemedicamentSerializer(data=med_data)
+                        if serializer_ordonnancemed.is_valid() : 
+                            serializer_ordonnancemed.save()
+                        else : 
+                            #rolldown transaction
+                            raise transaction.TransactionManagementError(serializer_ordonnancemed.errors)
+                    else : 
+                        raise transaction.TransactionManagementError({'message' : 'combination already exist'})
+                return Response({'message': 'ordonnance created successfully', 'ordonance' : serializer_ordonnance.data}, status=status.HTTP_201_CREATED)
+            else : 
+               return Response({'errors': {'ordonnance': serializer_ordonnance.errors}}, status=status.HTTP_400_BAD_REQUEST)
 
-        nomMed = request.data.get('', None)
+
+
+class AjouterConsultation(APIView):
+
+    def post(self, request, *args, **kwargs):
+
+        request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
+        docteur = request.user  # Assuming authentication is handled and the user is a doctor
+        if not isinstance(docteur, Tuser):
+            return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
+        
+        patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
+        try:
+            patient = Patient.objects.get(patientid=patient_id)
+        except Patient.DoesNotExist:
+            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        request.data['patientid'] = patient.patientid
+        request.data['userid'] = docteur.userid
+        
+        serializer_consultation = ConsultationSerializer(data=request.data)
+        if serializer_consultation.is_valid() : 
+            serializer_consultation.save()
+            return Response({'message': 'Consultation created successfully'}, status=status.HTTP_201_CREATED)
+        else :
+            return Response({'errors': {'consultation': serializer_consultation.errors}}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class AjouterRadio(APIView):
+
+    def post(self, request, *args, **kwargs):
+
+        request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
+        radiologue= request.user  # Assuming authentication is handled and the user is a doctor
+        if not isinstance(radiologue, Tuser):
+            return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
+        request.data['userid'] = radiologue.userid
+        serializer_radio = BilanradiologiqueSerializer(data=request.data)
+        if serializer_radio.is_valid() : 
+            serializer_radio.save()
+            return Response({'message': 'Radio created successfully'}, status=status.HTTP_201_CREATED)
+        else :
+            return Response({'errors': {'Radio': serializer_radio.errors}}, status=status.HTTP_400_BAD_REQUEST)
+
+        
+        
+
+
+       
+
+
+       
+
+
+
+
+
+        
+
+               
+
+
+
+
+
+
+
+       
+
+
+
+
 
         
 
