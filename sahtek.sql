@@ -1,5 +1,5 @@
 -- -- Supprime toutes les tables si elles existent déjà
--- SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 -- DROP TABLE IF EXISTS SoinObservation;
 -- DROP TABLE IF EXISTS billanradiologiqueimages;
 -- DROP TABLE IF EXISTS BilanRadiologique;
@@ -14,9 +14,9 @@
 -- DROP TABLE IF EXISTS demande;
 -- DROP TABLE IF EXISTS dpi;
 -- DROP TABLE IF EXISTS tuser;
--- DROP TABLE IF EXISTS patient;
+DROP TABLE IF EXISTS patient;
 -- DROP TABLE IF EXISTS hopital;
--- SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
 
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS Hopital (
 CREATE TABLE IF NOT EXISTS Patient (
     patientId         VARCHAR(100) PRIMARY KEY, 
     mutuelle          VARCHAR(100),
-    etatPatient       BOOLEAN NOT NULL, 
+    etatPatient       BOOLEAN , 
     personneAContacter VARCHAR(100)
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS Demande (
 CREATE TABLE IF NOT EXISTS BilanBiologique (
     bilanBiologiqueId  INT PRIMARY KEY AUTO_INCREMENT,
     userId             INT,
-    typeBilan          ENUM('glycémie', 'pression','cholestérol') NOT NULL,
+    typeBilan          ENUM('glycemie', 'pression','cholesterol') NOT NULL,
     graphImage         BLOB,
     FOREIGN KEY (userId) REFERENCES Tuser(userId)
 );
@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS demandeBilan (
     docteurId              INT,
     patientId              VARCHAR(100),
     laborantinId           INT, 
-    typeBilan              ENUM('glycémie', 'pression','cholestérol') NOT NULL,
+    typeBilan              ENUM('glycemie', 'pression','cholesterol') NOT NULL,
     FOREIGN KEY (docteurId) REFERENCES Tuser(userId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId),
     FOREIGN KEY (laborantinId) REFERENCES Tuser(userId)
@@ -174,7 +174,8 @@ CREATE TABLE IF NOT EXISTS SoinObservation (
 CREATE TABLE IF NOT EXISTS Consultation (
     patientId  VARCHAR(100),
     userId     INT,
-    consulationDate DATE,
+    consulationDate DATE NOT ,
+    resumeconsultation VARCHAR(1000) NOT NULL,
     bilanBiologiqueId INT UNIQUE,
     bilanRadiologiqueId INT UNIQUE,
     ordonnanceId INT,
