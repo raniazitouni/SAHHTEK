@@ -97,7 +97,7 @@ class Bilanradiologique(models.Model):
     TYPE_RADIO_CHOICES = [
         ('IRM', 'IRM'),
         ('echographie', 'Échographie'),
-        ('radiographic', 'Radiographie'),
+        ('radiographie', 'Radiographie'),
         ('autre', 'Autre')
     ]
     radiotype = models.CharField(db_column='Radiotype', max_length=50,choices=TYPE_RADIO_CHOICES)
@@ -175,7 +175,7 @@ class Demanderadio(models.Model):
     TYPE_RADIO_CHOICES = [
         ('IRM', 'IRM'),
         ('echographie', 'Échographie'),
-        ('radiographic', 'Radiographie'),
+        ('radiographie', 'Radiographie'),
         ('autre', 'Autre')
     ]
     typeradio = models.CharField(db_column='typeRadio', max_length=50,choices=TYPE_RADIO_CHOICES)  # Field name made lowercase.

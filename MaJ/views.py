@@ -209,12 +209,34 @@ class AjouterRadio(APIView):
         if not isinstance(radiologue, Tuser):
             return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
         request.data['userid'] = radiologue.userid
-        serializer_radio = BilanradiologiqueSerializer(data=request.data)
-        if serializer_radio.is_valid() : 
-            serializer_radio.save()
-            return Response({'message': 'Radio created successfully'}, status=status.HTTP_201_CREATED)
-        else :
-            return Response({'errors': {'Radio': serializer_radio.errors}}, status=status.HTTP_400_BAD_REQUEST)
+        try : 
+            with transaction.atomic() : 
+
+                serializer_radio = BilanradiologiqueSerializer(data=request.data)
+                if serializer_radio.is_valid() : 
+                    serializer_radio.save()
+
+                    demanderadio_id = request.data.get('demanderadioid', None)
+                    if demanderadio_id : 
+                        try : 
+                            demande = Demanderadio.objects.get(demanderadioid=demanderadio_id)
+                            demande.etatdemande = True
+                            demande.radiologueid = radiologue
+                            demande.save()
+                        except Demanderadio.DoesNotExist : 
+                            raise ValueError("DemandeRadio not found")
+                    else : 
+                        raise ValueError("demande id doesn't exists")
+                else : 
+                    raise ValueError(serializer_radio.errors)
+                
+                return Response({'message': 'Radio created successfully'}, status=status.HTTP_201_CREATED)
+        except ValueError as e:
+            # Handle rollback on failure
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+        
 
         
         
