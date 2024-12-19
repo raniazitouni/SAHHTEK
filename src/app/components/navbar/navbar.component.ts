@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {Datanavbar , user} from '../../models/navbar' ;
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -14,10 +15,16 @@ export class NavbarComponent {
    navData = Datanavbar ; 
    user = user ;
 
-   activeLink: string = ''; 
-   setActiveLink(routeLink: string): void {
-     this.activeLink = routeLink;
-   }
+   activeLink: string = 'Recherche';
+ 
+
+  setActiveLink(routeLink: string): void {
+    this.activeLink =  routeLink;
+  }
+  
   
   
 }
+
+
+

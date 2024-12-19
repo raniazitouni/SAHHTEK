@@ -1,1 +1,54 @@
-<p>recherche works!</p>
+<div class="flex flex-col items-center justify-center h-[calc(100vh-4rem)] w-full bg-Bluebg">
+  <!-- Header Title -->
+  <h1 class="text-7xl font-bold text-Bluehover pb-4">Recherche De DPI</h1>
+
+  <!-- Search Bar Container -->
+  <div class="flex items-center justify-center gap-3 w-full max-w-3xl">
+    <!-- Input Field -->
+    <div class="relative w-full max-w-3xl">
+      <input
+        [(ngModel)]="nss"
+        type="text"
+        placeholder="Recherche NSS"
+        (keydown.enter)="searchNSS()"
+        class="w-full px-4 py-3 border-2 border-Bluehover rounded-full shadow-sm focus:outline-none  bg-Bluebg"
+      />
+      <!-- Search Icon -->
+      <button (click)="searchNSS()" class="absolute inset-y-0 right-4 flex items-center  "  > 
+        <svg viewBox="-2.4 -2.4 28.80 28.80" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-11 h-11 " >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+           stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 20L15.8033 15.8033M18 10.5C18 
+            6.35786 14.6421 3 10.5 3C6.35786 3 3 6.35786 3 10.5C3 14.6421 6.35786 18 10.5 18C14.6421 18 18 14.6421 18 10.5Z" 
+            stroke="#3F6CB5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> 
+          </g>
+        </svg>
+
+      </button>
+    </div>
+
+    <!-- QR Code Button -->
+    <button (click)="onQrScan()">
+      <!-- Scanner SVG Icon -->
+      <svg fill="#3F6CB5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" >
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" 
+        stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+        <path d="M4,4h6v6H4V4M20,4v6H14V4h6M14,15h2V13H14V11h2v2h2V11h2v2H18v2h2v3H18v2H16V18H13v2H11V16h3V15m2,
+        0v3h2V15H16M4,20V14h6v6H4M6,6V8H8V6H6M16,6V8h2V6H16M6,16v2H8V16H6M4,11H6v2H4V11m5,
+        0h4v4H11V13H9V11m2-5h2v4H11V6M2,2V6H0V2A2,2,0,0,1,2,0H6V2H2M22,0a2,2,0,0,1,2,2V6H22V2H18V0h4M2,
+        18v4H6v2H2a2,2,0,0,1-2-2V18H2m20,4V18h2v4a2,2,0,0,1-2,2H18V22Z"></path>
+         </g></svg>
+    </button>
+  </div>
+  <div *ngIf="errorMessage" class=" flex justify-between  items-center gap-6  fixed top-20 mt-5 py-2 px-4 rounded-md border-2 border-red-400  bg-red-100 text-red-500 text-center font-medium">
+    <svg fill="#f87171" height="200px" width="200px" version="1.1" class="w-10 h-10"  id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+       xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 310.806 310.806" xml:space="preserve" stroke="#f87171">
+       <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" 
+       stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M305.095,229.104L186.055,42.579c-6.713
+        -10.52-18.172-16.801-30.652-16.801c-12.481,0-23.94,6.281-30.651,16.801 L5.711,229.103c-7.145,11.197-7.619,25.39
+        -1.233,37.042c6.386,11.647,18.604,18.883,31.886,18.883h238.079 c13.282,0,25.5-7.235,31.888-18.886C312.714,254.493,312.24,240.301,305.095,229.104z M155.403,253.631 c-10.947,0-19.82-8.874-19.82-19.82c0-10.947,8.874-19.821,19.82-19.821c10.947,0,19.82,8.874,19.82,19.821 C175.223,244.757,166.349,253.631,155.403,253.631z M182.875,115.9l-9.762,65.727c-1.437,9.675-10.445,16.353-20.119,14.916 c-7.816-1.161-13.676-7.289-14.881-14.692l-10.601-65.597c-2.468-15.273,7.912-29.655,23.185-32.123 c15.273-2.468,29.655,7.912,32.123,23.185C183.284,110.192,183.268,113.161,182.875,115.9z"></path> 
+       </g>
+     </svg> 
+    {{ errorMessage }}
+    
+  </div>
+</div>
