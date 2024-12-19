@@ -81,8 +81,16 @@ class AuthUserUserPermissions(models.Model):
 class Bilanbiologique(models.Model):
     bilanbiologiqueid = models.AutoField(db_column='bilanBiologiqueId', primary_key=True)  # Field name made lowercase.
     userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    typebilan = models.CharField(db_column='typeBilan', max_length=12)  # Field name made lowercase.
-    graphimage = models.TextField(db_column='graphImage', blank=True, null=True)  # Field name made lowercase.
+    glycemievalue = models.FloatField(null=True, blank=True, default=None)
+    pressionvalue = models.FloatField(null=True, blank=True, default=None)
+    cholesterolvalue = models.FloatField(null=True, blank=True, default=None)
+    resultdate = models.DateField(null=True, blank=True, default=None)  
+    # TYPE_BILAN_CHOICES = [
+    #     ('glycemie', 'glycémie'),
+    #     ('pression', 'pression'),
+    #     ('cholesterol','cholestérol')
+    # ]
+    # typebilan = models.CharField(db_column='typebilan', max_length=50,choices=TYPE_BILAN_CHOICES,null=True)  
 
     class Meta:
         managed = False
@@ -115,6 +123,8 @@ class Consultation(models.Model):
     bilanbiologiqueid = models.OneToOneField(Bilanbiologique, on_delete=models.CASCADE, db_column='bilanBiologiqueId', blank=True, null=True)  # Field name made lowercase.
     bilanradiologiqueid = models.OneToOneField(Bilanradiologique,on_delete=models.CASCADE, db_column='bilanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
     ordonnanceid = models.ForeignKey('Ordonnance', on_delete=models.CASCADE, db_column='ordonnanceId', blank=True, null=True)  # Field name made lowercase.
+    demanderadioid = models.ForeignKey('demanderadio', on_delete=models.CASCADE, db_column='demanderadioid', blank=True, null=True) 
+    demandebilanid = models.ForeignKey('demandebilan', on_delete=models.CASCADE, db_column='demandebilanid', blank=True, null=True) 
     id = CompositeKey(columns=['patientid','userid','consulationdate'])
     
     class Meta:
@@ -141,12 +151,12 @@ class Demandebilan(models.Model):
     docteurid = models.ForeignKey('Tuser', on_delete=models.SET_NULL, db_column='docteurId', blank=True, null=True)  # Field name made lowercase.
     patientid = models.ForeignKey('Patient', on_delete=models.SET_NULL, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
     laborantinid = models.ForeignKey('Tuser',on_delete=models.SET_NULL, db_column='laborantinId', related_name='demandebilan_laborantinid_set', blank=True, null=True)  # Field name made lowercase.
-    TYPE_BILAN_CHOICES = [
-        ('glycemie', 'glycémie'),
-        ('pression', 'pression'),
-        ('cholesterol','cholestérol')
-    ]
-    typebilan = models.CharField(db_column='typebilan', max_length=50,choices=TYPE_BILAN_CHOICES)   # Field name made lowercase.
+    # TYPE_BILAN_CHOICES = [
+    #     ('glycemie', 'glycémie'),
+    #     ('pression', 'pression'),
+    #     ('cholesterol','cholestérol')
+    # ]
+    # typebilan = models.CharField(db_column='typebilan', max_length=50,choices=TYPE_BILAN_CHOICES ,null=True)   # Field name made lowercase.
 
     class Meta:
         managed = True

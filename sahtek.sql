@@ -1,8 +1,8 @@
 -- -- Supprime toutes les tables si elles existent déjà
-SET FOREIGN_KEY_CHECKS = 0;
+-- SET FOREIGN_KEY_CHECKS = 0;
 -- DROP TABLE IF EXISTS SoinObservation;
 -- DROP TABLE IF EXISTS billanradiologiqueimages;
-DROP TABLE IF EXISTS BilanRadiologique;
+-- DROP TABLE IF EXISTS BilanRadiologique;
 -- DROP TABLE IF EXISTS BilanBiologique;
 -- DROP TABLE IF EXISTS OrdononceMedicament;
 -- DROP TABLE IF EXISTS Medicament;
@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS BilanRadiologique;
 -- DROP TABLE IF EXISTS tuser;
 -- DROP TABLE IF EXISTS patient;
 -- DROP TABLE IF EXISTS hopital;
-SET FOREIGN_KEY_CHECKS = 1;
+-- SET FOREIGN_KEY_CHECKS = 1;
 
 
 
@@ -76,8 +76,11 @@ CREATE TABLE IF NOT EXISTS Demande (
 CREATE TABLE IF NOT EXISTS BilanBiologique (
     bilanBiologiqueId  INT PRIMARY KEY AUTO_INCREMENT,
     userId             INT,
-    typeBilan          ENUM('glycemie', 'pression','cholesterol') NOT NULL,
-    graphImage         VARCHAR(255),
+    -- typeBilan          ENUM('glycemie', 'pression','cholesterol') NULL,
+    glycemieValue      FLOAT DEFAULT NULL, 
+    pressionValue      FLOAT DEFAULT NULL,
+    cholesterolValue   FLOAT DEFAULT NULL,
+    resultDate         DATE DEFAULT NULL,
     FOREIGN KEY (userId) REFERENCES Tuser(userId)
 );
 
@@ -123,7 +126,7 @@ CREATE TABLE IF NOT EXISTS demandeBilan (
     docteurId              INT,
     patientId              VARCHAR(100),
     laborantinId           INT, 
-    typeBilan              ENUM('glycemie', 'pression','cholesterol') NOT NULL,
+    -- typeBilan              ENUM('glycemie', 'pression','cholesterol') NULL,
     FOREIGN KEY (docteurId) REFERENCES Tuser(userId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId),
     FOREIGN KEY (laborantinId) REFERENCES Tuser(userId)
@@ -171,19 +174,23 @@ CREATE TABLE IF NOT EXISTS SoinObservation (
 
 -- TABLEAU DE CONSULTATION (Table d'association)
 CREATE TABLE IF NOT EXISTS Consultation (
-    patientId  VARCHAR(100),
-    userId     INT,
-    consulationDate DATE NOT ,
-    resumeconsultation VARCHAR(1000) NOT NULL,
-    bilanBiologiqueId INT UNIQUE,
+    patientId           VARCHAR(100),
+    userId              INT,
+    consulationDate     DATE NOT NULL,
+    resumeconsultation  VARCHAR(1000) NOT NULL,
+    bilanBiologiqueId   INT UNIQUE,
     bilanRadiologiqueId INT UNIQUE,
-    ordonnanceId INT,
+    ordonnanceId        INT,
+    demandeRadioId      INT UNIQUE,
+    demandeBilanId      INT UNIQUE,
     PRIMARY KEY (patientId, userId, consulationDate),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId),
     FOREIGN KEY (userId) REFERENCES Tuser(userId),
     FOREIGN KEY (bilanBiologiqueId) REFERENCES BilanBiologique(bilanBiologiqueId),
     FOREIGN KEY (bilanRadiologiqueId) REFERENCES BilanRadiologique(bilanRadiologiqueId),
-    FOREIGN KEY (ordonnanceId) REFERENCES Ordonnance(ordonnanceId)
+    FOREIGN KEY (ordonnanceId) REFERENCES Ordonnance(ordonnanceId),
+    FOREIGN KEY (demandeBilanId) REFERENCES DemandeBilan(demandeBilanId),
+    FOREIGN KEY (demandeRadioId) REFERENCES demandeRadio(demandeRadioId)
 );
 
 

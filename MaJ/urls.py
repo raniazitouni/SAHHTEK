@@ -8,7 +8,8 @@ urlpatterns = [
       path('AjouterOrdonance/', views.AjouterOrdonance.as_view(), name='AjouterOrdonance'),
       path('AjouterConsultation/<str:patientid>/', views.AjouterConsultation.as_view(), name='AjouterConsultation'),
       path('AjouterRadio/', views.AjouterRadio.as_view(), name='AjouterRadio'),
-
+      path('AjouterBillan/<str:patientid>/', views.AjouterBillan.as_view(), name='AjouterBillan'),
+      
 
     
 ]

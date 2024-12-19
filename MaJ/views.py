@@ -1,8 +1,8 @@
 
 from django.shortcuts import render
 from django.http import JsonResponse
-from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament ,Consultation ,Bilanradiologique
-from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer
+from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament ,Consultation ,Bilanradiologique , Bilanbiologique
+from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer , BilanbiologiqueSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,6 +11,7 @@ import secrets
 import string
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
+from django.db.models import Q
 # Create your views here.
 
 
@@ -204,6 +205,7 @@ class AjouterRadio(APIView):
 
     def post(self, request, *args, **kwargs):
 
+        #step 1 : create the radio record 
         request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
         radiologue= request.user  # Assuming authentication is handled and the user is a doctor
         if not isinstance(radiologue, Tuser):
@@ -214,8 +216,8 @@ class AjouterRadio(APIView):
 
                 serializer_radio = BilanradiologiqueSerializer(data=request.data)
                 if serializer_radio.is_valid() : 
-                    serializer_radio.save()
-
+                    radio_instance = serializer_radio.save()
+                     #step 2: update the demand 
                     demanderadio_id = request.data.get('demanderadioid', None)
                     if demanderadio_id : 
                         try : 
@@ -225,6 +227,13 @@ class AjouterRadio(APIView):
                             demande.save()
                         except Demanderadio.DoesNotExist : 
                             raise ValueError("DemandeRadio not found")
+                        #step 3 : update the consultation 
+                        consultation = Consultation.objects.filter(demanderadioid=demanderadio_id).first()
+                        if consultation:
+                            consultation.bilanradiologiqueid = radio_instance
+                            consultation.save()
+                        else : 
+                            raise ValueError("No consultation found for the provided DemandeRadio ID")
                     else : 
                         raise ValueError("demande id doesn't exists")
                 else : 
@@ -237,7 +246,87 @@ class AjouterRadio(APIView):
         
 
         
+class AjouterBillan(APIView):
 
+    def post(self, request, *args, **kwargs):
+
+        request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
+        laborantin= request.user  # Assuming authentication is handled and the user is a doctor
+        if not isinstance(laborantin, Tuser):
+            return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
+        request.data['userid'] = laborantin.userid
+        try : 
+            with transaction.atomic() : 
+
+                serializer_bilan = BilanbiologiqueSerializer(data=request.data)
+                if serializer_bilan.is_valid() : 
+                    bilan_instance = serializer_bilan.save()
+
+                    demandebilan_id = request.data.get('demandebilanid', None)
+                    if demandebilan_id : 
+                        try : 
+                            demande = Demandebilan.objects.get(demandebilanid=demandebilan_id)
+                            demande.etatdemande = True
+                            demande.laborantinid = laborantin
+                            demande.save()
+                        except Demandebilan.DoesNotExist : 
+                            raise ValueError("Demandebilan not found")
+                        #step 3 : update the consultation 
+                        consultation = Consultation.objects.filter(demandebilanid=demandebilan_id).first()
+                        if consultation:
+                            consultation.bilanbiologiqueid = bilan_instance 
+                            consultation.save()
+                        else : 
+                            raise ValueError("No consultation found for the provided DemandeRadio ID")
+                    else : 
+                        raise ValueError("demande id doesn't exists")
+                    
+                    #step 4 : find the previous bilan results 
+                    patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
+                    if not patient_id:
+                        raise ValueError("Patient ID is required")
+                    consultations = Consultation.objects.filter(patientid=patient_id).values_list(
+                        'bilanbiologiqueid', flat=True
+                    )  
+                    print(consultations)
+
+
+                    related_bilan_records = Bilanbiologique.objects.filter(
+                        Q(bilanbiologiqueid__in=consultations)
+                    ).exclude(bilanbiologiqueid=bilan_instance.bilanbiologiqueid).order_by('resultdate')
+                    
+                    previous_results = [
+                        {
+                            'resultdate': bilan.resultdate,
+                            'glycemievalue': bilan.glycemievalue,
+                            'pressionvalue': bilan.pressionvalue,
+                            'cholesterolvalue': bilan.cholesterolvalue,
+                        }
+                        for bilan in related_bilan_records
+                    ]
+
+                    current_result = {
+                        'resultdate': bilan_instance.resultdate,
+                        'glycemievalue': bilan_instance.glycemievalue,
+                        'pressionvalue': bilan_instance.pressionvalue,
+                        'cholesterolvalue': bilan_instance.cholesterolvalue,
+                    }
+
+                    return Response({
+                        'message': 'Bilan created successfully',
+                        'current_result': current_result,
+                        'previous_results': previous_results,
+                    }, status=status.HTTP_201_CREATED)
+
+                else : 
+                    raise ValueError(serializer_bilan.errors)
+        except ValueError as e:
+            # Handle rollback on failure
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+
+       
         
         
 
