@@ -80,7 +80,6 @@ class AuthUserUserPermissions(models.Model):
 class Bilanbiologique(models.Model):
     bilanbiologiqueid = models.AutoField(db_column='bilanBiologiqueId', primary_key=True)  # Field name made lowercase.
     userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    patientid = models.ForeignKey('Patient', models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
     typebilan = models.CharField(db_column='typeBilan', max_length=12)  # Field name made lowercase.
     graphimage = models.TextField(db_column='graphImage', blank=True, null=True)  # Field name made lowercase.
 
@@ -93,70 +92,28 @@ class Bilanradiologique(models.Model):
     bilanradiologiqueid = models.AutoField(db_column='bilanRadiologiqueId', primary_key=True)  # Field name made lowercase.
     radiotype = models.CharField(db_column='RadioType', max_length=12)  # Field name made lowercase.
     userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    patientid = models.ForeignKey('Patient', models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
     compterendu = models.CharField(db_column='compteRendu', max_length=500)  # Field name made lowercase.
+    image = models.CharField(max_length=500, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'bilanradiologique'
 
 
-class Bilanradiologiqueimages(models.Model):
-    imageid = models.AutoField(db_column='imageId', primary_key=True)  # Field name made lowercase.
-    bilanradiologiqueid = models.ForeignKey(Bilanradiologique, models.DO_NOTHING, db_column='bilanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
-    imagedata = models.TextField(db_column='imageData')  # Field name made lowercase.
-    description = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'bilanradiologiqueimages'
-
-
-class Billanbiologique(models.Model):
-    billanbiologiqueid = models.AutoField(db_column='billanBiologiqueId', primary_key=True)  # Field name made lowercase.
-    userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    typebilan = models.CharField(db_column='typeBilan', max_length=12)  # Field name made lowercase.
-    graphimage = models.TextField(db_column='graphImage', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'billanbiologique'
-
-
-class Billanradiologique(models.Model):
-    billanradiologiqueid = models.AutoField(db_column='billanRadiologiqueId', primary_key=True)  # Field name made lowercase.
-    radiotype = models.CharField(db_column='RadioType', max_length=12)  # Field name made lowercase.
-    userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    compterendu = models.CharField(db_column='compteRendu', max_length=500)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'billanradiologique'
-
-
-class Billanradiologiqueimages(models.Model):
-    imageid = models.AutoField(db_column='imageId', primary_key=True)  # Field name made lowercase.
-    billanradiologiqueid = models.ForeignKey(Billanradiologique, models.DO_NOTHING, db_column='billanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
-    imagedata = models.TextField(db_column='imageData')  # Field name made lowercase.
-    description = models.CharField(max_length=255, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'billanradiologiqueimages'
-
-
 class Consultation(models.Model):
-    patientid = models.OneToOneField('Patient', models.DO_NOTHING, db_column='patientId', primary_key=True)  # Field name made lowercase. The composite primary key (patientId, userId, consultationDate) found, that is not supported. The first column is selected.
+    patientid = models.OneToOneField('Patient', models.DO_NOTHING, db_column='patientId', primary_key=True)  # Field name made lowercase. The composite primary key (patientId, userId, consulationDate) found, that is not supported. The first column is selected.
     userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId')  # Field name made lowercase.
-    consultationdate = models.DateField(db_column='consultationDate')  # Field name made lowercase.
-    billanbiologiqueid = models.ForeignKey(Billanbiologique, models.DO_NOTHING, db_column='billanBiologiqueId', blank=True, null=True)  # Field name made lowercase.
-    billanradiologiqueid = models.ForeignKey(Billanradiologique, models.DO_NOTHING, db_column='billanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
-    ordononceid = models.ForeignKey('Ordononce', models.DO_NOTHING, db_column='ordononceId', blank=True, null=True)  # Field name made lowercase.
+    consulationdate = models.DateField(db_column='consulationDate')  # Field name made lowercase.
+    resumeconsultation = models.CharField(db_column='resumeconsultation', max_length=1000) 
+    bilanbiologiqueid = models.OneToOneField(Bilanbiologique, models.DO_NOTHING, db_column='bilanBiologiqueId', blank=True, null=True)  # Field name made lowercase.
+    bilanradiologiqueid = models.OneToOneField(Bilanradiologique, models.DO_NOTHING, db_column='bilanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
+    ordonnanceid = models.ForeignKey('Ordonnance', models.DO_NOTHING, db_column='ordonnanceId', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'consultation'
-        unique_together = (('patientid', 'userid', 'consultationdate'),)
+        unique_together = (('patientid', 'userid', 'consulationdate'),)
 
 
 class Demande(models.Model):
@@ -173,15 +130,20 @@ class Demande(models.Model):
 
 
 class Demandebilan(models.Model):
-    demandebilanid = models.AutoField(db_column='demandeBilanId', primary_key=True)  # Field name made lowercase.
-    etatdemande = models.IntegerField(db_column='etatDemande')  # Field name made lowercase.
-    docteurid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='docteurId', blank=True, null=True)  # Field name made lowercase.
-    patientid = models.ForeignKey('Patient', models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
-    laborantinid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='laborantinId', related_name='demandebilan_laborantinid_set', blank=True, null=True)  # Field name made lowercase.
-    typebilan = models.CharField(db_column='typeBilan', max_length=12)  # Field name made lowercase.
+    demandebilanid = models.AutoField(db_column='demandebilanid', primary_key=True)  # Field name made lowercase.
+    etatdemande = models.BooleanField(db_column='etatdemande',default=False) # Field name made lowercase.
+    docteurid = models.ForeignKey('Tuser', on_delete=models.SET_NULL, db_column='docteurId', blank=True, null=True)  # Field name made lowercase.
+    patientid = models.ForeignKey('Patient', on_delete=models.SET_NULL, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
+    laborantinid = models.ForeignKey('Tuser',on_delete=models.SET_NULL, db_column='laborantinId', related_name='demandebilan_laborantinid_set', blank=True, null=True)  # Field name made lowercase.
+    TYPE_BILAN_CHOICES = [
+        ('glycemie', 'glycémie'),
+        ('pression', 'pression'),
+        ('cholesterol','cholestérol')
+    ]
+    typebilan = models.CharField(db_column='typebilan', max_length=50,choices=TYPE_BILAN_CHOICES)   # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'demandebilan'
 
 
@@ -199,15 +161,21 @@ class Demandecertaficat(models.Model):
 
 
 class Demanderadio(models.Model):
-    demanderadioid = models.AutoField(db_column='demandeRadioId', primary_key=True)  # Field name made lowercase.
-    etatdemande = models.IntegerField(db_column='etatDemande')  # Field name made lowercase.
-    docteurid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='docteurId', blank=True, null=True)  # Field name made lowercase.
-    patientid = models.ForeignKey('Patient', models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
-    radiologueid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='radiologueId', related_name='demanderadio_radiologueid_set', blank=True, null=True)  # Field name made lowercase.
-    typeradio = models.CharField(db_column='typeRadio', max_length=12)  # Field name made lowercase.
+    demanderadioid = models.AutoField(db_column='demanderadioid', primary_key=True)  # Field name made lowercase.
+    etatdemande = models.BooleanField(db_column='etatdemande',default=False)  # Field name made lowercase.
+    docteurid = models.ForeignKey('Tuser', on_delete=models.SET_NULL, db_column='docteurId', blank=True, null=True)  # Field name made lowercase.
+    patientid = models.ForeignKey('Patient', on_delete=models.SET_NULL, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
+    radiologueid = models.ForeignKey('Tuser', on_delete=models.SET_NULL, db_column='radiologueId', related_name='demanderadio_radiologueid_set', blank=True, null=True)  # Field name made lowercase.
+    TYPE_RADIO_CHOICES = [
+        ('IRM', 'IRM'),
+        ('echographie', 'Échographie'),
+        ('radiographic', 'Radiographie'),
+        ('autre', 'Autre')
+    ]
+    typeradio = models.CharField(db_column='typeRadio', max_length=50,choices=TYPE_RADIO_CHOICES)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'demanderadio'
 
 
@@ -258,10 +226,10 @@ class DjangoSession(models.Model):
 
 class Dpi(models.Model):
     patientid = models.OneToOneField('Patient', models.DO_NOTHING, db_column='patientId', primary_key=True)  # Field name made lowercase.
-    qr = models.CharField(db_column='QR', max_length=100)  # Field name made lowercase.
+    qr = models.CharField(db_column='qr', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'dpi'
 
 
@@ -280,7 +248,7 @@ class Medicament(models.Model):
     nommedicament = models.CharField(db_column='nomMedicament', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'medicament'
 
 
@@ -288,56 +256,30 @@ class Ordonnance(models.Model):
     ordonnanceid = models.AutoField(db_column='ordonnanceId', primary_key=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'ordonnance'
 
 
 class Ordonnancemedicament(models.Model):
-    ordonnanceid = models.OneToOneField(Ordonnance, models.DO_NOTHING, db_column='ordonnanceId', primary_key=True)  # Field name made lowercase. The composite primary key (ordonnanceId, medicamentId) found, that is not supported. The first column is selected.
-    medicamentid = models.ForeignKey(Medicament, models.DO_NOTHING, db_column='medicamentId')  # Field name made lowercase.
+    ordonnanceid = models.OneToOneField(Ordonnance, models.DO_NOTHING, db_column='OrdonnanceId', primary_key=True)  # Field name made lowercase. The composite primary key (OrdonnanceId, medicamentId) found, that is not supported. The first column is selected.
+    medicamentid = models.ForeignKey(Medicament,on_delete=models.CASCADE, db_column='medicamentId')  # Field name made lowercase.
     dose = models.CharField(max_length=100)
     duree = models.CharField(max_length=100)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'ordonnancemedicament'
         unique_together = (('ordonnanceid', 'medicamentid'),)
 
 
-class Ordononce(models.Model):
-    ordononceid = models.AutoField(db_column='ordononceId', primary_key=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'ordononce'
-
-
-class Ordononcemedicament(models.Model):
-    ordononceid = models.OneToOneField(Ordononce, models.DO_NOTHING, db_column='ordononceId', primary_key=True)  # Field name made lowercase. The composite primary key (ordononceId, medicamentId) found, that is not supported. The first column is selected.
-    medicamentid = models.ForeignKey(Medicament, models.DO_NOTHING, db_column='medicamentId')  # Field name made lowercase.
-    dose = models.CharField(max_length=100)
-    duree = models.CharField(max_length=100)
-
-    class Meta:
-        managed = False
-        db_table = 'ordononcemedicament'
-        unique_together = (('ordononceid', 'medicamentid'),)
-
-
 class Patient(models.Model):
-    patientid = models.CharField(db_column='patientId', primary_key=True, max_length=100)  # Field name made lowercase.
-    userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    nompatient = models.CharField(db_column='nomPatient', max_length=100)  # Field name made lowercase.
-    prenompatient = models.CharField(db_column='prenomPatient', max_length=100)  # Field name made lowercase.
-    adressepatient = models.CharField(db_column='adressePatient', max_length=100)  # Field name made lowercase.
-    telephonepatient = models.CharField(db_column='telephonePatient', max_length=15)  # Field name made lowercase.
-    mutuelle = models.IntegerField(blank=True, null=True)
-    etatpatient = models.IntegerField(db_column='etatPatient')  # Field name made lowercase.
-    datedenaissancepatient = models.DateField(db_column='dateDeNaissancePatient', blank=True, null=True)  # Field name made lowercase.
-    personneacontacter = models.CharField(db_column='personneAContacter', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    patientid = models.CharField(db_column='patientid', primary_key=True, max_length=100)  # Field name made lowercase.
+    mutuelle = models.CharField(max_length=100, blank=True, null=True)
+    etatpatient = models.IntegerField(db_column='etatpatient',null=True)  # Field name made lowercase.
+    personneacontacter = models.CharField(db_column='personneacontacter', max_length=100, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'patient'
 
 
@@ -356,15 +298,18 @@ class Soinobservation(models.Model):
 
 
 class Tuser(models.Model):
-    userid = models.AutoField(db_column='userId', primary_key=True)  # Field name made lowercase.
-    patientid = models.ForeignKey(Patient, models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
-    nomuser = models.CharField(db_column='nomUser', max_length=100)  # Field name made lowercase.
-    prenomuser = models.CharField(db_column='prenomUser', max_length=100)  # Field name made lowercase.
-    emailuser = models.CharField(db_column='emailUser', max_length=100)  # Field name made lowercase.
-    password = models.CharField(max_length=255)
-    hopitalid = models.ForeignKey(Hopital, models.DO_NOTHING, db_column='hopitalId', blank=True, null=True)  # Field name made lowercase.
+    userid = models.AutoField(db_column='userid', primary_key=True)  # Field name made lowercase.
+    patientid = models.ForeignKey(Patient,  db_column='patientid', blank=True, null=True , on_delete=models.SET_NULL)  # Field name made lowercase.
+    nomuser = models.CharField(db_column='nomuser', max_length=100)  # Field name made lowercase.
+    prenomuser = models.CharField(db_column='prenomuser', max_length=100)  # Field name made lowercase.
+    telephone = models.CharField(db_column='telephone',max_length=100)
+    datedenaissance = models.DateField(db_column='datedenaissance')  # Field name made lowercase.
+    adresse = models.CharField(db_column='adresse',max_length=100)
+    emailuser = models.CharField(db_column='emailuser', max_length=100)  # Field name made lowercase.
+    password = models.CharField(db_column='password', max_length=255)
+    hopitalid = models.ForeignKey(Hopital,  db_column='hopitalid', blank=True, null=True , on_delete=models.SET_NULL)  # Field name made lowercase.
     role = models.CharField(max_length=13)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'tuser'

@@ -6,9 +6,8 @@ from .models import (
     AuthUser,
     AuthUserGroups,
     AuthUserUserPermissions,
-    Billanbiologique,
-    Billanradiologique,
-    Billanradiologiqueimages,
+    Bilanbiologique,
+    Bilanradiologique,
     Consultation,
     Demandebilan,
     Demanderadio,
@@ -21,11 +20,11 @@ from .models import (
     Dpi,
     Hopital,
     Medicament,
-    Ordononce,
-    Ordononcemedicament,
+    Ordonnance,
+    Ordonnancemedicament,
     Patient,
     Soinobservation,
-    Tuser
+    Tuser,
 )
 
 class AuthGroupSerializer(serializers.ModelSerializer):
@@ -64,21 +63,15 @@ class AuthUserUserPermissionsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class BillanbiologiqueSerializer(serializers.ModelSerializer):
+class BilanbiologiqueSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Billanbiologique
+        model = Bilanbiologique
         fields = '__all__'
 
 
-class BillanradiologiqueSerializer(serializers.ModelSerializer):
+class BilanradiologiqueSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Billanradiologique
-        fields = '__all__'
-
-
-class BillanradiologiqueimagesSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Billanradiologiqueimages
+        model = Bilanradiologique
         fields = '__all__'
 
 
@@ -91,22 +84,22 @@ class ConsultationSerializer(serializers.ModelSerializer):
 class DemandeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demande
-        fields = ['demandeid', 'etatdemande', 'userid', 'typedemande', 'contenudemande', 'datedenvoi']
+        fields = '__all__'
 
 class DemandebilanSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demandebilan
-        fields = ['demandebilanid', 'etatdemande', 'docteurid', 'patientid', 'laborantinid', 'typebilan']
+        fields = '__all__'
 
 class DemandecertaficatSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demandecertaficat
-        fields = ['demandecertaficatid', 'etatdemande', 'docteurid', 'patientid', 'contenudemande', 'datedenvoi']
+        fields = '__all__'
 
 class DemanderadioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demanderadio
-        fields = ['demanderadioid', 'etatdemande', 'docteurid', 'patientid', 'radiologueid', 'typeradio']
+        fields = '__all__'
 
 class DjangoAdminLogSerializer(serializers.ModelSerializer):
     class Meta:
@@ -150,15 +143,15 @@ class MedicamentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class OrdononceSerializer(serializers.ModelSerializer):
+class OrdonnanceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ordononce
+        model = Ordonnance
         fields = '__all__'
 
 
-class OrdononcemedicamentSerializer(serializers.ModelSerializer):
+class OrdonnancemedicamentSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Ordononcemedicament
+        model = Ordonnancemedicament
         fields = '__all__'
 
 

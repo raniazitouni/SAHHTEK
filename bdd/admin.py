@@ -6,9 +6,8 @@ from .models import (
     AuthUser,
     AuthUserGroups,
     AuthUserUserPermissions,
-    Billanbiologique,
-    Billanradiologique,
-    Billanradiologiqueimages,
+    Bilanbiologique,
+    Bilanradiologique,
     Consultation,
     Demande,
     DjangoAdminLog,
@@ -18,11 +17,14 @@ from .models import (
     Dpi,
     Hopital,
     Medicament,
-    Ordononce,
-    Ordononcemedicament,
+    Ordonnance,
+    Ordonnancemedicament,
     Patient,
     Soinobservation,
-    Tuser
+    Tuser,
+    Demandecertaficat,
+    Demanderadio,
+    Demandebilan
 )
 
 # Register your models here.
@@ -33,9 +35,8 @@ admin.site.register(AuthPermission)
 admin.site.register(AuthUser)
 admin.site.register(AuthUserGroups)
 admin.site.register(AuthUserUserPermissions)
-admin.site.register(Billanbiologique)
-admin.site.register(Billanradiologique)
-admin.site.register(Billanradiologiqueimages)
+admin.site.register(Bilanbiologique)
+admin.site.register(Bilanradiologique)
 admin.site.register(Consultation)
 admin.site.register(Demande)
 admin.site.register(DjangoAdminLog)
@@ -45,8 +46,11 @@ admin.site.register(DjangoSession)
 admin.site.register(Dpi)
 admin.site.register(Hopital)
 admin.site.register(Medicament)
-admin.site.register(Ordononce)
-admin.site.register(Ordononcemedicament)
+admin.site.register(Ordonnance)
+admin.site.register(Ordonnancemedicament)
 admin.site.register(Patient)
 admin.site.register(Soinobservation)
 admin.site.register(Tuser)
+admin.site.register(Demandebilan)
+admin.site.register(Demanderadio)
+admin.site.register(Demandecertaficat)
