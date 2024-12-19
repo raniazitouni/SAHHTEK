@@ -16,6 +16,10 @@ from datetime import date
 from xhtml2pdf import pisa
 from django.core.files.base import ContentFile
 from django.template.loader import render_to_string
+from cryptography.fernet import Fernet
+from decouple import config
+import base64
+from APIS.services import SGPHService
 # Create your views here.
 
 
@@ -47,9 +51,13 @@ class CreateDpi(APIView):
                 request.data['role'] = 'patient'
                 request.data['qr'] = userid
                 
-                # Generate a random password
+                # Generate a random password and encrypt it 
                 plain_password = generate_password()
-                request.data['password'] = make_password(plain_password)
+                key = config('ENCRYPTION_KEY')
+                cipher_suite = Fernet(key)
+                psw = plain_password.encode()
+                encrypted = cipher_suite.encrypt(psw)
+                request.data['password'] = base64.b64encode(encrypted).decode('utf-8')
 
                 #if one of the serializers is not valid , the transation would roollback
                 with transaction.atomic():
@@ -135,6 +143,7 @@ class AjouterDemandeBilan(APIView):
 class AjouterOrdonance(APIView):
 
     def post(self, request, *args, **kwargs):
+        medication_data_list = []
         
         with transaction.atomic():
             #create ordonance
@@ -142,6 +151,21 @@ class AjouterOrdonance(APIView):
             if serializer_ordonnance.is_valid() : 
                 ordonnance = serializer_ordonnance.save()
                 for med_data in request.data:
+                    # Extract data for each medication
+                    nomMed = med_data.get('nommedicament', None)
+                    dose = med_data.get('dose', None)  # Assuming 'dose' is in request data
+                    duree = med_data.get('duree', None)  # Assuming 'duree' is in request data
+        
+                    # Create a dictionary with the medication data
+                    medication_data = {
+                        'nommedicament': nomMed,
+                        'dose': dose,
+                        'duree': duree,
+                    }
+        
+                    # Add this dictionary to the list
+                    medication_data_list.append(medication_data)
+
                     #recuperer id 
                     med_data['Ordonnanceid'] = ordonnance.ordonnanceid
                     #extract nom de med 
@@ -173,6 +197,13 @@ class AjouterOrdonance(APIView):
                             raise transaction.TransactionManagementError(serializer_ordonnancemed.errors)
                     else : 
                         raise transaction.TransactionManagementError({'message' : 'combination already exist'})
+                     
+                # Interact with the SGPH (mocked)
+                sgph_validation_result = SGPHService.send_ordonnance_for_validation(medication_data_list)
+                if sgph_validation_result['is_valid']:
+                    ordonnance.validated = True
+                    ordonnance.save()
+
                 return Response({'message': 'ordonnance created successfully', 'ordonance' : serializer_ordonnance.data}, status=status.HTTP_201_CREATED)
             else : 
                return Response({'errors': {'ordonnance': serializer_ordonnance.errors}}, status=status.HTTP_400_BAD_REQUEST)

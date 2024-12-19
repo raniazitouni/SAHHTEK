@@ -315,6 +315,7 @@ class Medicament(models.Model):
 
 class Ordonnance(models.Model):
     ordonnanceid = models.AutoField(db_column='ordonnanceId', primary_key=True)  # Field name made lowercase.
+    validated = models.BooleanField(db_column='validated',default=False)  # Field name made lowercase.
 
     class Meta:
         managed = True
