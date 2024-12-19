@@ -56,7 +56,9 @@ CREATE TABLE IF NOT EXISTS Tuser (
 CREATE TABLE IF NOT EXISTS DPI (
     patientId  VARCHAR(100),
     QR         VARCHAR(100) NOT NULL,
+    demandeCertaficatId INT,
     PRIMARY KEY (patientId),
+    FOREIGN KEY (demandeCertaficatId) REFERENCES demandeCertaficat(demandeCertaficatId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -100,7 +102,7 @@ CREATE TABLE IF NOT EXISTS demandeCertaficat (
     etatDemande            BOOLEAN NOT NULL, 
     docteurId              INT,
     patientId              VARCHAR(100),
-    contenuDemande         VARCHAR(100) NOT NULL,
+    contenuDemande         TEXT,
     dateDenvoi             DATE,
     FOREIGN KEY (docteurId) REFERENCES Tuser(userId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId)
@@ -183,6 +185,7 @@ CREATE TABLE IF NOT EXISTS Consultation (
     ordonnanceId        INT,
     demandeRadioId      INT UNIQUE,
     demandeBilanId      INT UNIQUE,
+   
     PRIMARY KEY (patientId, userId, consulationDate),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId),
     FOREIGN KEY (userId) REFERENCES Tuser(userId),
@@ -191,6 +194,7 @@ CREATE TABLE IF NOT EXISTS Consultation (
     FOREIGN KEY (ordonnanceId) REFERENCES Ordonnance(ordonnanceId),
     FOREIGN KEY (demandeBilanId) REFERENCES DemandeBilan(demandeBilanId),
     FOREIGN KEY (demandeRadioId) REFERENCES demandeRadio(demandeRadioId)
+
 );
 
 

@@ -117,9 +117,9 @@ class Bilanradiologique(models.Model):
 
 class Consultation(models.Model):
     patientid = models.ForeignKey('Patient', on_delete=models.CASCADE, db_column='patientid')  # Field name made lowercase. The composite primary key (patientId, userId, consulationDate) found, that is not supported. The first column is selected.
-    userid = models.ForeignKey('Tuser', on_delete=models.CASCADE, db_column='userid')  # Field name made lowercase.
-    consulationdate = models.DateField(db_column='consulationdate')  # Field name made lowercase.
-    resumeconsultation = models.CharField(db_column='resumeconsultation', max_length=1000) 
+    userid = models.ForeignKey('Tuser', on_delete=models.CASCADE, db_column='userid',default="")  # Field name made lowercase.
+    consulationdate = models.DateField(db_column='consulationdate' , default="0000-00-00")  # Field name made lowercase.
+    resumeconsultation = models.CharField(db_column='resumeconsultation', max_length=1000 ,default="") 
     bilanbiologiqueid = models.OneToOneField(Bilanbiologique, on_delete=models.CASCADE, db_column='bilanBiologiqueId', blank=True, null=True)  # Field name made lowercase.
     bilanradiologiqueid = models.OneToOneField(Bilanradiologique,on_delete=models.CASCADE, db_column='bilanRadiologiqueId', blank=True, null=True)  # Field name made lowercase.
     ordonnanceid = models.ForeignKey('Ordonnance', on_delete=models.CASCADE, db_column='ordonnanceId', blank=True, null=True)  # Field name made lowercase.
@@ -164,16 +164,60 @@ class Demandebilan(models.Model):
 
 
 class Demandecertaficat(models.Model):
-    demandecertaficatid = models.AutoField(db_column='demandeCertaficatId', primary_key=True)  # Field name made lowercase.
-    etatdemande = models.IntegerField(db_column='etatDemande')  # Field name made lowercase.
-    docteurid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='docteurId', blank=True, null=True)  # Field name made lowercase.
-    patientid = models.ForeignKey('Patient', models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
-    contenudemande = models.CharField(db_column='contenuDemande', max_length=100)  # Field name made lowercase.
-    datedenvoi = models.DateField(db_column='dateDenvoi', blank=True, null=True)  # Field name made lowercase.
+    demandecertaficatid = models.AutoField(db_column='demandecertaficatid', primary_key=True)
+    etatdemande = models.BooleanField(db_column='etatdemande',default=False) # Field name made lowercase.
+    docteurid = models.ForeignKey('Tuser', on_delete=models.CASCADE, db_column='docteurid', blank=True, null=True)
+    patientid = models.ForeignKey('Patient', on_delete=models.CASCADE, db_column='patientid', blank=True, null=True)
+    contenudemande = models.TextField(db_column='contenudemande',null=True)
+    datedenvoi = models.DateField(db_column='datedenvoi', blank=True, null=True)
+    certificatpdf = models.FileField(upload_to='certificats/', null=True, blank=True)
+
+    def generate_certificat(self):
+        # Extract relevant data from the 'Tuser' (for the patient) and 'Tuser' (for the doctor) models
+        if self.patientid and self.docteurid:
+
+            patient_user = Tuser.objects.filter(patientid=self.patientid).first()
+            if patient_user:
+                # Patient's data
+                patient_name = f"{patient_user.nomuser} {patient_user.prenomuser}"  # Assuming patient info is in Tuser model
+                patient_birthdate = patient_user.datedenaissance  # You may need to use another field in Patient for the birthdate
+
+                # Doctor's name
+                doctor_name = f"Dr. {self.docteurid.nomuser} {self.docteurid.prenomuser}"
+
+                # Date of certificate issue
+                current_date = self.datedenvoi
+
+                # Constructing the certificate content
+                certificat_text = f"""
+                CERTIFICAT MÉDICAL
+
+                Je soussigné(e), {doctor_name}, médecin traitant, certifie avoir examiné ce jour,
+                Mme/M. {patient_name}, né(e) le {patient_birthdate},
+                et atteste que cette personne est dans l'incapacité de travailler pour des raisons médicales.
+
+                Je recommande un repos complet pour permettre une guérison optimale.
+
+                Signature et cachet du médecin
+                {current_date}
+                """
+
+                return certificat_text
+            else:
+                return "Patient non trouvé dans le système."
+        else:
+            return "Les informations nécessaires pour générer le certificat sont manquantes."
+   
+
+    def save(self, *args, **kwargs):
+        # Automatically generate the content when saving the record
+        self.contenudemande = self.generate_certificat()
+        super(Demandecertaficat, self).save(*args, **kwargs)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'demandecertaficat'
+
 
 
 class Demanderadio(models.Model):
@@ -243,6 +287,7 @@ class DjangoSession(models.Model):
 class Dpi(models.Model):
     patientid = models.OneToOneField('Patient', models.DO_NOTHING, db_column='patientId', primary_key=True)  # Field name made lowercase.
     qr = models.CharField(db_column='qr', max_length=100)  # Field name made lowercase.
+    demandecertaficatid = models.ForeignKey('Demandecertaficat',on_delete=models.CASCADE, db_column='demandecertaficatid' , null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True
@@ -277,8 +322,8 @@ class Ordonnance(models.Model):
 
 
 class Ordonnancemedicament(models.Model):
-    Ordonnanceid = models.ForeignKey('Ordonnance',on_delete=models.CASCADE, db_column='Ordonnanceid')  # Field name made lowercase.
-    medicamentid = models.ForeignKey('Medicament',on_delete=models.CASCADE, db_column='medicamentid')  # Field name made lowercase.
+    Ordonnanceid = models.ForeignKey('Ordonnance',on_delete=models.CASCADE, db_column='Ordonnanceid',default="")  # Field name made lowercase.
+    medicamentid = models.ForeignKey('Medicament',on_delete=models.CASCADE, db_column='medicamentid',default="")  # Field name made lowercase.
     dose = models.CharField(max_length=100)
     duree = models.CharField(max_length=100)
     id = CompositeKey(columns=['Ordonnanceid','medicamentid'])
@@ -319,9 +364,9 @@ class Tuser(models.Model):
     patientid = models.ForeignKey(Patient,  db_column='patientid', blank=True, null=True , on_delete=models.SET_NULL)  # Field name made lowercase.
     nomuser = models.CharField(db_column='nomuser', max_length=100)  # Field name made lowercase.
     prenomuser = models.CharField(db_column='prenomuser', max_length=100)  # Field name made lowercase.
-    telephone = models.CharField(db_column='telephone',max_length=100)
-    datedenaissance = models.DateField(db_column='datedenaissance')  # Field name made lowercase.
-    adresse = models.CharField(db_column='adresse',max_length=100)
+    telephone = models.CharField(db_column='telephone',max_length=100,default="")
+    datedenaissance = models.DateField(db_column='datedenaissance',default="0000-00-00")  # Field name made lowercase.
+    adresse = models.CharField(db_column='adresse',max_length=100,default="")
     emailuser = models.CharField(db_column='emailuser', max_length=100)  # Field name made lowercase.
     password = models.CharField(db_column='password', max_length=255)
     hopitalid = models.ForeignKey(Hopital,  db_column='hopitalid', blank=True, null=True , on_delete=models.SET_NULL)  # Field name made lowercase.

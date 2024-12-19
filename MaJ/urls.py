@@ -9,6 +9,7 @@ urlpatterns = [
       path('AjouterConsultation/<str:patientid>/', views.AjouterConsultation.as_view(), name='AjouterConsultation'),
       path('AjouterRadio/', views.AjouterRadio.as_view(), name='AjouterRadio'),
       path('AjouterBillan/<str:patientid>/', views.AjouterBillan.as_view(), name='AjouterBillan'),
+      path('AjouterDemandeCertaficat/<str:patientid>/', views.AjouterDemandeCertaficat.as_view(), name='AjouterDemandeCertaficat'),
       
 
     

@@ -1,8 +1,8 @@
 
 from django.shortcuts import render
 from django.http import JsonResponse
-from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament ,Consultation ,Bilanradiologique , Bilanbiologique
-from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer , BilanbiologiqueSerializer
+from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament ,Consultation ,Bilanradiologique , Bilanbiologique , Demandecertaficat
+from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer , BilanbiologiqueSerializer , DemandecertaficatSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,6 +12,10 @@ import string
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.db.models import Q
+from datetime import date
+from xhtml2pdf import pisa
+from django.core.files.base import ContentFile
+from django.template.loader import render_to_string
 # Create your views here.
 
 
@@ -288,9 +292,6 @@ class AjouterBillan(APIView):
                     consultations = Consultation.objects.filter(patientid=patient_id).values_list(
                         'bilanbiologiqueid', flat=True
                     )  
-                    print(consultations)
-
-
                     related_bilan_records = Bilanbiologique.objects.filter(
                         Q(bilanbiologiqueid__in=consultations)
                     ).exclude(bilanbiologiqueid=bilan_instance.bilanbiologiqueid).order_by('resultdate')
@@ -324,6 +325,82 @@ class AjouterBillan(APIView):
             # Handle rollback on failure
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
+
+class AjouterDemandeCertaficat(APIView):
+
+    def post(self, request, *args, **kwargs):
+
+        request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
+        docteur = request.user  # Assuming authentication is handled and the user is a doctor
+        if not isinstance(docteur, Tuser):
+            return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
+        
+        patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
+        try:
+            patient = Patient.objects.get(patientid=patient_id)
+        except Patient.DoesNotExist:
+            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+        request.data['etatdemande'] = False
+        request.data['patientid'] = patient.patientid
+        request.data['docteurid'] = docteur.userid
+        request.data['datedenvoi'] = date.today()
+
+        try : 
+            with transaction.atomic() : 
+
+                serializer_demandebcertaficat = DemandecertaficatSerializer(data=request.data)
+                if serializer_demandebcertaficat.is_valid() : 
+                    certaficat = serializer_demandebcertaficat.save()
+                    dpi= Dpi.objects.filter(patientid=patient_id).first()
+                    if dpi:
+                        dpi.demandecertaficatid = certaficat
+                        dpi.save()
+                        #generate pdf 
+                        patient_user = Tuser.objects.filter(patientid=patient_id).first()
+                        if patient_user : 
+                            context={
+                              "patientnom" : patient_user.nomuser,
+                              "patientprenom" : patient_user.prenomuser,
+                              "datedenaissance" : patient_user.datedenaissance,
+                              "docteurnom" : docteur.nomuser,
+                              "docteurprenom" : docteur.prenomuser,
+                              "datedenvoi" : certaficat.datedenvoi,
+                            }
+                             # Render HTML content using a template
+                            html_content = render_to_string('certificat_template.html', context)
+                             # Generate the PDF from the HTML content
+                            pdf_file = ContentFile(b'')  # Placeholder for the PDF content
+                            pisa_status = pisa.CreatePDF(html_content, dest=pdf_file)
+                            # Check if PDF generation was successful
+                            if not pisa_status.err:
+                                # Store the PDF in the FileField
+                                certaficat.certificatpdf.save(f'certificat_{certaficat.demandecertaficatid}.pdf', pdf_file, save=True)
+                            else :
+                                return JsonResponse({'message': 'We had some errors while generating the PDF.'}, status=500)           
+                        else :
+                            return Response({'error': 'pdf: no useer with this patient id ' },  status=status.HTTP_400_BAD_REQUEST)
+                        return Response({'message': 'Demandecertaficat created successfully',
+                                'demandecertaficat': {
+                                'id': certaficat.demandecertaficatid,
+                                'etatdemande': certaficat.etatdemande,
+                                'contenudemande': certaficat.contenudemande,
+                                'datedenvoi': certaficat.datedenvoi,
+                                'certificatpdf': certaficat.certificatpdf.url,
+                                }}, status=status.HTTP_201_CREATED)
+                    else : 
+                        raise ValueError("No dpi found for the provided patient ID")
+                else :
+                    raise ValueError({'demandecertaficat': serializer_demandebcertaficat.errors})
+                
+        except ValueError as e:
+            # Handle rollback on failure
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+        
+        
+
 
 
        
