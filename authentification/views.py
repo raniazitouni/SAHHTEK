@@ -12,60 +12,14 @@ from APIS.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 import hashlib
 from datetime import datetime
- 
-#fix the part tae when they click on the link it takes them to the form that they can fill 
-@csrf_exempt
-@require_http_methods(["POST"])
-def reset_password(request, reset_token):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        new_password = data.get('new_password')
 
-        # Check if the token exists and is not expired
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                SELECT userId, expiresAt 
-                FROM PasswordResetTokens 
-                WHERE token = %s
-            """, [reset_token])
-            token_record = cursor.fetchone()
-
-        if token_record:
-            user_id, expires_at = token_record
-            
-            if datetime.now() > expires_at:
-                return JsonResponse({"error": "Reset token has expired"}, status=400)
-
-            
-            hashed_password = hashlib.sha256(new_password.encode()).hexdigest()  # Example, you should use Django's hashers in production
-
-            
-            with connection.cursor() as cursor:
-                cursor.execute("""
-                    UPDATE Tuser 
-                    SET password = %s 
-                    WHERE userId = %s
-                """, [hashed_password, user_id])
-
-            
-            with connection.cursor() as cursor:
-                cursor.execute("""
-                    DELETE FROM PasswordResetTokens 
-                    WHERE token = %s
-                """, [reset_token])
-
-            return JsonResponse({"message": "Password successfully reset"}, status=200)
-
-        return JsonResponse({"error": "Invalid or expired reset token"}, status=400)
-
-    return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
 def send_reset_email(email, reset_token):
     from_email = "salimhasnaoui903@gmail.com"  # Replace with your actual email
     to_email = email
     subject = "Password Reset Request"
-    body = f"frr ackliki hna hhhhhh : http://yourfrontendurl/reset_password/{reset_token}"
+    body = f"LOGIN WITH THIS PASSWORD : "
 
     # Set up the email server and send email (example using Gmail)
     msg = MIMEMultipart()
