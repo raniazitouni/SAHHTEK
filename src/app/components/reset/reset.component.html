@@ -1,0 +1,86 @@
+<!-- General Success and Error Messages -->
+<div class="fixed top-48 font-semibold">
+  <div *ngIf="successMessage" class="text-green-500 mb-4">
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="text-red-500 mb-4">
+    {{ errorMessage }}
+  </div>
+</div>
+
+<h2 class="text-2xl text-Bluehover font-bold mb-16">Modifier mot de passe</h2>
+
+<!-- Form -->
+<form class="flex-grow" [formGroup]="resetForm" (ngSubmit)="resetPassword()">
+  <div class="space-y-5 font-medium">
+    <!-- Current Password -->
+    <div class="relative">
+      <label class="block text-customgris text-xs font-medium">mot de passe actuel:</label>
+      <input 
+        [type]="showCurrentPassword ? 'text' : 'password'" 
+        formControlName="currentPassword" 
+        class="w-full focus:outline-none bg-Bluebg py-1 border-b border-customgris" 
+      />
+      <button 
+        type="button" 
+        class="absolute right-2 top-3"
+        (click)="togglePasswordVisibility('currentPassword')">
+        <!-- Eye Icon -->
+        <i class="fas" [ngClass]="showCurrentPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+      </button>
+      <div *ngIf="resetForm.get('currentPassword')?.errors?.['serverError']" class="text-red-500 text-xs font-normal mt-1">
+        {{ resetForm.get('currentPassword')?.errors?.['serverError'] }}
+      </div>
+    </div>
+
+    <!-- New Password -->
+    <div class="relative">
+      <label class="block text-customgris text-xs font-medium">Nouveau mot de passe:</label>
+      <input 
+        [type]="showNewPassword ? 'text' : 'password'" 
+        formControlName="newPassword" 
+        class="w-full focus:outline-none bg-Bluebg py-1 border-b border-customgris" 
+      />
+      <button 
+        type="button" 
+        class="absolute right-2 top-3"
+        (click)="togglePasswordVisibility('newPassword')">
+        <!-- Eye Icon -->
+        <i class="fas" [ngClass]="showNewPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+      </button>
+      <div *ngIf="resetForm.get('newPassword')?.errors?.['minlength']" class="text-red-500 text-xs font-normal mt-1">
+        Le nouveau mot de passe doit contenir au moins 6 caractères.
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="relative">
+      <label class="block text-customgris text-xs font-medium">Confirme mot de passe:</label>
+      <input 
+        [type]="showConfirmPassword ? 'text' : 'password'"  
+        formControlName="confirmPassword" 
+        class="w-full focus:outline-none bg-Bluebg py-1 border-b border-customgris" 
+      />
+      <button 
+        type="button" 
+        class="absolute right-2 top-3"
+        (click)="togglePasswordVisibility('confirmPassword')">
+        <!-- Eye Icon -->
+        <i class="fas" [ngClass]="showConfirmPassword ? 'fa-eye' : 'fa-eye-slash'"></i>
+      </button>
+      <div *ngIf="resetForm.hasError('passwordMismatch')" class="text-red-500 text-xs font-normal mt-1">
+        Le nouveau mot de passe et la confirmation du mot de passe ne correspond pas.      
+      </div>
+    </div>
+  </div>
+
+  <!-- Save Button -->
+  <div class="mt-20">
+    <button 
+      [disabled]="isSubmitting" 
+      class="bg-Bluehover font-medium text-white px-10 py-2 rounded hover:bg-[#2E699B]" 
+      type="submit">
+      Enregistrer
+    </button>
+  </div>
+</form>
