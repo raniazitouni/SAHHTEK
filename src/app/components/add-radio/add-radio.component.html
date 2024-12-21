@@ -1,18 +1,84 @@
+<div *ngIf="isPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4 sm:px-6">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg lg:max-w-xl p-6 relative">
+    <!-- Popup Header -->
+    <h2 class="text-Bluehover text-lg sm:text-xl lg:text-2xl font-bold mb-4">
+      Imagerie Médicale
+    </h2>
+    <button 
+      class="absolute top-4 right-4 text-xl sm:text-2xl lg:text-3xl text-red-600"
+      (click)="closePopup()">
+      &times;
+    </button>
+
+    <!-- Metadata -->
+    <div class="mb-4 text-xs sm:text-sm  font-medium text-[#4F5E71]">
+      <p>Reçu le : {{ Imagerie.consulationDate }}</p>
+      <p>Type : {{ Imagerie.typeRadio }}</p>
+    </div>
+
+    <!-- Textarea for "Compte Rendu" -->
+    <textarea 
+      class="w-full border-2 text-xs sm:text-sm focus:outline-none rounded-md p-2 mb-4 resize-none"
+      rows="6"
+      placeholder="Compte rendu"
+      [(ngModel)]="compteRendu">
+    </textarea>
+
+    <!-- File Upload Section -->
+    <div class="relative mb-4">
+      <!-- Custom Input for File Upload -->
+      <p *ngIf="!icludeImage" class="text-red-500 font-semibold text-xs sm:text-sm">Une imagerie médicale est obligatoire</p>
+      <input
+        type="text"
+        class="border-2 w-full rounded-md px-2 py-2 pr-10 focus:outline-none cursor-pointer text-xs sm:text-sm"
+        placeholder="Upload image"
+        readonly
+        [value]="selectedFileName || ''"
+        (click)="fileInput.click()"
+      />
+      <!-- Icon for Upload -->
+      <button
+        class="absolute top-0 right-0 h-full px-2 text-[#4F5E71]"
+        (click)="fileInput.click()">
+        <i class="fas fa-paperclip"></i>
+      </button>
+      <!-- Hidden File Input -->
+      <input
+        type="file"
+        #fileInput
+        class="hidden"
+        (change)="onFileSelected($event)"
+        accept="image/*"
+      />
+    </div>
+
+    <!-- Submit Button -->
+    <button 
+      class="bg-Bluehover font-bold text-white text-xs sm:text-sm lg:text-base px-6 sm:px-8 py-2 rounded-md hover:bg-blue-900"
+      (click)="sendData()">
+      Envoyer
+    </button>
+  </div>
+</div>
+
+
+
+
+
+<!--
+
 <div *ngIf="isPopupVisible" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white rounded-lg shadow-lg w-[500px] p-6 relative">
-      <!-- Popup Header -->
+    
       <h2 class="text-Bluehover text-2xl font-bold mb-4">Imagerie Médicale</h2>
       <button class="absolute top-4 right-4 text-3xl text-red-600" (click)="closePopup()">&times;</button>
       
-      <!-- Metadata -->
       <div class="mb-4 text-xs font-medium text-[#4F5E71]">
         <p>reçu le : {{Imagerie.consulationDate}}</p>
         <p>Type : {{Imagerie.typeRadio}}</p>
       </div>
       
-      
-      <!-- Textarea for "Compte Rendu" -->
-     
+    
       <textarea 
         class="w-full border-2  text-sm focus:outline-none rounded-md p-2 mb-2 resize-none"
         rows="6"
@@ -20,10 +86,9 @@
         [(ngModel)]="compteRendu">
       </textarea>
 
-    
-      <!-- File Upload Section -->
+
       <div class="relative mb-4">
-        <!-- Custom Input for File Upload -->
+
         <p *ngIf="!icludeImage" class="text-red-500 font-semibold text-sm"> Une imagerie medicale est obligatoire</p>
         <input
           type="text"
@@ -33,14 +98,14 @@
           [value]="selectedFileName || ''"
           (click)="fileInput.click()"
         />
-        <!-- Icon for Upload -->
+
         <button
           class="absolute top-0 right-0 h-full px-2 text-[#4F5E71]"
           (click)="fileInput.click()">
           <i class="fas fa-paperclip"></i>
         </button>
         
-        <!-- Hidden File Input -->
+
         <input
           type="file"
           #fileInput
@@ -50,7 +115,7 @@
         />
       </div>
   
-      <!-- Submit Button -->
+
       <button 
         class="bg-Bluehover font-bold text-white px-8 py-2 rounded-md hover:bg-blue-900"
         (click)="sendData()">
@@ -58,4 +123,4 @@
       </button>
     </div>
   </div>
-  
+--> 

@@ -1,6 +1,6 @@
 import { Component , OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
-import { PopupService } from '../../Services/Popup.service';
+import { PopupService } from '../../Services/PopupRadio.service';
 import { HttpClient } from '@angular/common/http';
 import { Imagerie } from '../../models/Bilan' ;
 import { FormsModule } from '@angular/forms';

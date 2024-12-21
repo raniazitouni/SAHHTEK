@@ -1,33 +1,71 @@
+<div class="flex flex-col lg:flex-row h-auto lg:h-[calc(100vh-4rem)] bg-Bluebg py-8 lg:py-16">
+ 
+  <aside class="w-full lg:w-1/3 px-4 lg:px-0">
+    <div class="text-center mb-6 flex flex-col items-center gap-8 lg:gap-16">
+      <div class="bg-customBlue text-Bluebg rounded-full font-bold text-4xl lg:text-6xl w-24 lg:w-40 h-24 lg:h-40 flex items-center justify-center mx-auto">
+        {{ username.charAt(0) }}
+      </div>
+      <ul class="font-bold text-lg lg:text-xl ">
+        <li class="mb-2"
+            (click)="setActiveLink('personnel-info')"
+            [ngClass]="{
+              'text-Bluehover': activeLink === 'personnel-info',
+              'text-[#16273B]': activeLink !== 'personnel-info'
+            }">
+          <a routerLink="personnel-info">Info Personnelle</a>
+        </li>
+        <li class="mb-2"
+            (click)="setActiveLink('login')"
+            [ngClass]="{
+              'text-Bluehover': activeLink === 'login',
+              'text-[#16273B]': activeLink !== 'login'
+            }">
+          <a routerLink="login">Login & Mot de Passe</a>
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+
+  <main class="w-full lg:w-2/3 mx-auto px-4 lg:px-0 pr-0 lg:pr-40 flex flex-col justify-between h-auto lg:h-full">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+
+<!--
+
 <div class="flex h-[calc(100vh-4rem)] bg-Bluebg py-16">
-    <!-- Sidebar -->
+  
     <aside class="w-1/3  ">
-        <div class="text-center mb-6 flex flex-col items-center gap-16 ">
-            <div class="bg-customBlue text-Bluebg rounded-full font-bold text-6xl w-40 h-40 text-50 flex items-center justify-center mx-auto">
-                 {{ username.charAt(0) }}
-            </div>
-            <ul  class=" font-bold  text-xl ">
-                <li class="mb-2"  (click)="setActiveLink('personnel-info')"
-                    [ngClass]="{'text-Bluehover': activeLink === 'personnel-info' ,
-                                'text-[#16273B] ': activeLink !== 'personnel-info'}"
-                >
-                  <a routerLink="personnel-info">Info Personnelle</a>
-                </li>
-                <li class="mb-2"   (click)="setActiveLink('login')"
-                    [ngClass]="{'text-Bluehover': activeLink === 'login' ,
-                                'text-[#16273B] ': activeLink !== 'login' }"
-                >
-                  <a routerLink="login" >Login & Mot de Passe</a>
-                </li>
-              </ul>
-        </div>
-    </aside>
-  
-    <!-- Main Content -->
-    <main class="w-2/3 mx-auto pr-40  flex flex-col justify-between h-full">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
-  
+      <div class="text-center mb-6 flex flex-col items-center gap-16 ">
+          <div class="bg-customBlue text-Bluebg rounded-full font-bold text-6xl w-40 h-40 text-50 flex items-center justify-center mx-auto">
+               {{ username.charAt(0) }}
+          </div>
+          <ul  class=" font-bold  text-xl ">
+              <li class="mb-2"  (click)="setActiveLink('personnel-info')"
+                  [ngClass]="{'text-Bluehover': activeLink === 'personnel-info' ,
+                              'text-[#16273B] ': activeLink !== 'personnel-info'}"
+              >
+                <a routerLink="personnel-info">Info Personnelle</a>
+              </li>
+              <li class="mb-2"   (click)="setActiveLink('login')"
+                  [ngClass]="{'text-Bluehover': activeLink === 'login' ,
+                              'text-[#16273B] ': activeLink !== 'login' }"
+              >
+                <a routerLink="login" >Login & Mot de Passe</a>
+              </li>
+            </ul>
+      </div>
+  </aside>
 
 
+  <main class="w-2/3 mx-auto pr-40  flex flex-col justify-between h-full">
+    <router-outlet></router-outlet>
+  </main>
+</div>
+
+
+
+-->
   

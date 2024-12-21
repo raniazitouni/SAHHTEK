@@ -1,1 +1,107 @@
-<p>soins works!</p>
+<!-- app.component.html -->
+<div class="bg-Bluebg h-[calc(100vh-4rem)] w-full py-6 sm:py-8 lg:py-10">
+  <h1 class="text-lg sm:text-xl lg:text-2xl text-Bluehover font-bold mb-6 px-4 sm:px-6 lg:px-10">
+    Les Soins
+  </h1>            
+  <!-- Scrollable box -->   
+  <div
+    class="bg-Bluebg rounded-lg h-96 overflow-y-auto px-4 sm:px-6 lg:px-10"
+  >
+    <div                            
+      *ngFor="let soin of soins"
+      class="border bg-white rounded-lg mb-1 p-2 "
+    >
+      <div class="flex justify-between items-center">
+        <p class="text-black font-normal text-xs sm:text-sm lg:text-sm">
+          Fait le : {{ soin.consultationDate }}
+        </p>
+        <button
+          class="text-green-600"
+          (click)="toggleDetails(soin)"
+        >
+          <ng-container *ngIf="soin.showDetails">
+            <!-- Up Arrow SVG -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-5 h-5 sm:w-6 sm:h-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+            </svg>
+          </ng-container>
+          <ng-container *ngIf="!soin.showDetails">
+            <!-- Down Arrow SVG -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke="currentColor"
+              class="w-5 h-5 sm:w-6 sm:h-6"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </ng-container>
+        </button>
+      </div>
+      <p
+        class="mt-2 text-gray-700 text-xs sm:text-sm lg:text-sm"
+        *ngIf="soin.showDetails"
+      >
+        {{ soin.descriptionSoin }}
+      </p>
+      <p
+        *ngIf="soin.showDetails && soin.observation"
+        class="mt-2 font-semibold text-green-600 text-xs sm:text-sm lg:text-sm"
+      >
+        Observations:
+      </p>
+      <p
+        *ngIf="soin.showDetails && soin.observation"
+        class="mt-2 text-gray-700 text-xs sm:text-sm lg:text-sm"
+      >
+        {{ soin.observation }}
+      </p>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- 
+<div class="bg-Bluebg h-[calc(100vh-4rem)] w-full py-10">
+    <h1 class="text-2xl  text-Bluehover font-bold mb-6 px-10">Les Soins</h1>
+    <div class="bg-Bluebg rounded-lg h-96 overflow-y-auto px-10">
+      <div *ngFor="let soin of soins" class="border bg-white rounded-lg mb-1 p-2">
+        <div class="flex justify-between items-center">
+          <p class="text-black font-normal text-sm">Fait le : {{ soin.consultationDate }}</p>
+          <button 
+            class="text-green-600" 
+            (click)="toggleDetails(soin)">
+            <ng-container *ngIf="soin.showDetails">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+                </svg>
+              </ng-container>
+              <ng-container *ngIf="!soin.showDetails">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </ng-container>
+          </button>
+        </div>
+        <p class="mt-2 text-gray-700 text-sm" *ngIf="soin.showDetails">{{ soin.descriptionSoin }}</p>
+        <p *ngIf="soin.showDetails && soin.observation" class="mt-2 font-semibold text-green-600 text-sm">
+           Observations:
+        </p>
+        <p *ngIf="soin.showDetails && soin.observation" class="mt-2 text-gray-700 text-sm">
+           {{ soin.observation }}
+        </p>
+      </div>
+    </div>
+</div>
+  
+-->

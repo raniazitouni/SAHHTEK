@@ -26,7 +26,7 @@ export const routes: Routes = [
   { path: 'Notification', component: NotificationComponent },
   { path: 'Recherche', component: RechercheComponent },
   { path: 'Soins', component: SoinsComponent },
-  { path: '**', redirectTo: 'Recherche' }, // Default fallback
+  { path: '**', redirectTo: 'Profile' }, // Default fallback
 ];
 
 

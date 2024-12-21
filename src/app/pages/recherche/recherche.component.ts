@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common'; // For *ngIf
-import { FormsModule } from '@angular/forms'; // For [(ngModel)]
+import { CommonModule } from '@angular/common'; 
+import { FormsModule } from '@angular/forms'; 
 import { BrowserQRCodeReader } from '@zxing/browser';
 
 
@@ -10,7 +10,7 @@ import { BrowserQRCodeReader } from '@zxing/browser';
 @Component({
   selector: 'app-recherche',
   standalone: true,
-  imports: [[CommonModule,FormsModule]],
+  imports: [CommonModule,FormsModule],
   templateUrl: './recherche.component.html',
   styleUrl: './recherche.component.css'
 })
@@ -59,7 +59,7 @@ export class RechercheComponent {
     return regex.test(nss);
   }
 
-  // Simulate Database Check
+  // hna request 
   checkNSSInDatabase(nss: string): boolean {
     const mockDatabase = ['123456789012345', '987654321098765'];
     return mockDatabase.includes(nss);
@@ -85,7 +85,6 @@ export class RechercheComponent {
           const decodedText = await this.decodeQrCodeFromFile(file);
           console.log('QR Code décodé :', decodedText);
 
-          // Simulate an API call to check if NSS exists
           const QrExists = this.checkNSSInDatabase(decodedText);
 
           if (QrExists) {

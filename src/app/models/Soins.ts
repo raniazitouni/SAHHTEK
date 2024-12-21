@@ -8,3 +8,23 @@ PRIMARY KEY (compteur),
 UNIQUE KEY (patientId, userId, consultationDate),
 FOREIGN KEY (userId) REFERENCES Tuser(userId),
 FOREIGN KEY (patientId) REFERENCES Patient(patientId)*/
+
+
+export const soins = [
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+    { consultationDate: '12/12/2024', descriptionSoin: 'Details about soin 1', observation: 'Observation 1' },
+  ];

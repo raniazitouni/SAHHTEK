@@ -1,3 +1,46 @@
+<div
+  *ngIf="isPopupVisible"
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4 sm:px-6"
+>
+  <div
+    class="bg-Bluebg rounded-lg shadow-lg w-full max-w-md sm:max-w-lg md:max-w-xl lg:w-[600px] p-6 relative"
+  >
+    <!-- Popup Header -->
+    <h2 class="text-Bluehover text-lg sm:text-xl md:text-2xl font-bold mb-6 text-center">
+      Imagerie Medicale
+    </h2>
+    <button
+      class="absolute top-4 right-4 text-red-600 text-xl sm:text-2xl md:text-3xl"
+      (click)="closePopup()"
+    >
+      &times;
+    </button>
+
+    <!-- Popup Content -->
+    <div class="mb-6">
+      <p class="font-bold text-xs sm:text-sm text-black">Compte rendu :</p>
+      <p class="text-[#4F5E71] text-xs sm:text-sm mb-4">
+        {{ radio.compteRendu }}
+      </p>
+      <p class="text-[#4F5E71] text-xs sm:text-sm">
+        Type : {{ radio.RadioType }}
+      </p>
+      <p class="text-[#4F5E71] text-xs sm:text-sm">
+        Fait par : {{ radio.nomUser }} {{ radio.prenomUser }}
+      </p>
+    </div>
+
+    <!-- Image Section -->
+    <img
+      src="{{radio.image}}"
+      class="w-full h-40 sm:h-48 md:h-52 lg:h-60 rounded-md object-cover"
+    />
+  </div>
+</div>
+
+
+<!--
+
 <div *ngIf="isPopupVisible"  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-Bluebg rounded-lg shadow-lg w-[600px]  p-6 relative">
       <h2 class="text-Bluehover text-2xl font-bold mb-6">Imagerie Medicale</h2>
@@ -16,4 +59,5 @@
       <img src="{{radio.image}}"  class="w-full h-52 rounded-md">
     </div>
   </div>
-  
+
+--> 
