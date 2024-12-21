@@ -8,6 +8,7 @@ import {SoinsComponent} from "./pages/soins/soins.component";
 import { PersonalInfoComponent } from './components/personal-info/personal-info.component';
 import { LoginInfoComponent } from './components/login-info/login-info.component';
 import { ResetComponent } from './components/reset/reset.component';
+import { PopupRadioComponent } from './components/popup-radio/popup-radio.component'; 
 
 
 export const routes: Routes = [

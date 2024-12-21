@@ -1,0 +1,10 @@
+/*compteur        INT AUTO_INCREMENT, 
+patientId       VARCHAR(100),
+userId          INT,
+consultationDate DATE,
+descriptionSoin VARCHAR(200),
+observation     VARCHAR(200),
+PRIMARY KEY (compteur),
+UNIQUE KEY (patientId, userId, consultationDate),
+FOREIGN KEY (userId) REFERENCES Tuser(userId),
+FOREIGN KEY (patientId) REFERENCES Patient(patientId)*/

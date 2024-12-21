@@ -1,25 +1,27 @@
 export const Datanavbar = [
   { routeLink : 'Recherche',
-    role :'medecin,receptioniste,patient'
+    role :'docteur,recepcioniste,patient'
   },
   { routeLink : 'Patients',
-    role :'medecin,receptioniste,patient'
+    role :'docteur,recepcioniste,patient'
   },
   { routeLink : 'Notification',
-    role :'laboratin , radiologue'
+    role :'laborantin , radiologue'
   },
   { routeLink : 'Profile',
-    role :'medecin,receptioniste,laboratin , radiologue,infermier,patient'
+    role :'docteur,receptioniste,laborantin , radiologue,infermier,patient'
   },
   { routeLink : 'Soins',
     role :'infermier'
   },
 ];
 
+   
+
 export const user = {
 prenomUser :'Aya',
 nomUser :'Terkmani',
-role : 'medecin' ,
+role : 'docteur' ,
 emailUser :'user@gmail.com'    ,
 password  :'hiiii'  ,
 telephone  : '0556368382',
