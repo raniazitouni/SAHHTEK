@@ -57,7 +57,9 @@ class CreateDpi(APIView):
                 cipher_suite = Fernet(key)
                 psw = plain_password.encode()
                 encrypted = cipher_suite.encrypt(psw)
-                request.data['password'] = base64.b64encode(encrypted).decode('utf-8')
+                psw_tostore = base64.b64encode(encrypted).decode('utf-8')
+                request.data['password'] = psw_tostore
+                request.data['oldpassword'] = psw_tostore
 
                 #if one of the serializers is not valid , the transation would roollback
                 with transaction.atomic():
@@ -245,15 +247,17 @@ class AjouterRadio(APIView):
         radiologue= request.user  # Assuming authentication is handled and the user is a doctor
         if not isinstance(radiologue, Tuser):
             return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
-        request.data['userid'] = radiologue.userid
+        data = request.data.copy()
+        data['userid'] = radiologue.userid
+        # request.data['userid'] = radiologue.userid
         try : 
             with transaction.atomic() : 
 
-                serializer_radio = BilanradiologiqueSerializer(data=request.data)
+                serializer_radio = BilanradiologiqueSerializer(data=data)
                 if serializer_radio.is_valid() : 
                     radio_instance = serializer_radio.save()
                      #step 2: update the demand 
-                    demanderadio_id = request.data.get('demanderadioid', None)
+                    demanderadio_id = data.get('demanderadioid', None)
                     if demanderadio_id : 
                         try : 
                             demande = Demanderadio.objects.get(demanderadioid=demanderadio_id)
@@ -312,7 +316,7 @@ class AjouterBillan(APIView):
                             consultation.bilanbiologiqueid = bilan_instance 
                             consultation.save()
                         else : 
-                            raise ValueError("No consultation found for the provided DemandeRadio ID")
+                            raise ValueError("No consultation found for the provided DemandeBilan ID")
                     else : 
                         raise ValueError("demande id doesn't exists")
                     

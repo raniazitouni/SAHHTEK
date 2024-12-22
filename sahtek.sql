@@ -1,5 +1,5 @@
 -- -- Supprime toutes les tables si elles existent déjà
--- SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 -- DROP TABLE IF EXISTS SoinObservation;
 -- DROP TABLE IF EXISTS billanradiologiqueimages;
 -- DROP TABLE IF EXISTS BilanRadiologique;
@@ -7,8 +7,8 @@
 -- DROP TABLE IF EXISTS OrdononceMedicament;
 -- DROP TABLE IF EXISTS Medicament;
 -- DROP TABLE IF EXISTS Ordononce;
--- DROP TABLE IF EXISTS demandeBilan;
--- DROP TABLE IF EXISTS demandeRadio;
+DROP TABLE IF EXISTS demandeBilan;
+DROP TABLE IF EXISTS demandeRadio;
 -- DROP TABLE IF EXISTS demandeCertaficat;
 -- DROP TABLE IF EXISTS Consultation;
 -- DROP TABLE IF EXISTS demande;
@@ -16,7 +16,7 @@
 -- DROP TABLE IF EXISTS tuser;
 -- DROP TABLE IF EXISTS patient;
 -- DROP TABLE IF EXISTS hopital;
--- SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
 
 
@@ -96,16 +96,18 @@ CREATE TABLE IF NOT EXISTS BilanRadiologique (
     FOREIGN KEY (userId) REFERENCES Tuser(userId)
 );
 
--- TABLEAU demandeCertaficat
+
+-- TABLE demandeCertaficat
 CREATE TABLE IF NOT EXISTS demandeCertaficat (
-    demandeCertaficatId    INT PRIMARY KEY AUTO_INCREMENT,
-    etatDemande            BOOLEAN NOT NULL, 
-    docteurId              INT,
-    patientId              VARCHAR(100),
-    contenuDemande         TEXT,
-    dateDenvoi             DATE,
-    FOREIGN KEY (docteurId) REFERENCES Tuser(userId),
-    FOREIGN KEY (patientId) REFERENCES Patient(patientId)
+    demandeCertaficatId    INT PRIMARY KEY AUTO_INCREMENT,  
+    etatDemande            BOOLEAN NOT NULL,  
+    docteurId              INT, 
+    patientId              VARCHAR(100),  
+    contenuDemande         TEXT,  
+    dateDenvoi             DATE, 
+    certificatPdf          VARCHAR(255),  
+    FOREIGN KEY (docteurId) REFERENCES Tuser(userId), 
+    FOREIGN KEY (patientId) REFERENCES Patient(patientId)  
 );
 
 -- TABLEAU demandeRadio
@@ -115,6 +117,7 @@ CREATE TABLE IF NOT EXISTS demandeRadio (
     docteurId              INT,
     patientId              VARCHAR(100),
     radiologueId           INT, 
+    dateDenvoi             DATE, 
     typeRadio              ENUM('IRM', 'echographie', 'radiographic', 'autre') NOT NULL,
     FOREIGN KEY (docteurId) REFERENCES Tuser(userId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId),
@@ -128,6 +131,7 @@ CREATE TABLE IF NOT EXISTS demandeBilan (
     docteurId              INT,
     patientId              VARCHAR(100),
     laborantinId           INT, 
+    dateDenvoi             DATE, 
     -- typeBilan              ENUM('glycemie', 'pression','cholesterol') NULL,
     FOREIGN KEY (docteurId) REFERENCES Tuser(userId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId),

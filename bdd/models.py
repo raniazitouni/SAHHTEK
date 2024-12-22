@@ -101,7 +101,7 @@ class Bilanradiologique(models.Model):
     bilanradiologiqueid = models.AutoField(db_column='bilanRadiologiqueId', primary_key=True)  # Field name made lowercase.
     userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
     compterendu = models.CharField(db_column='compteRendu', max_length=500)  # Field name made lowercase.
-    image = models.ImageField(upload_to='uploads/')
+    image = models.ImageField(upload_to='uploads/images')
     TYPE_RADIO_CHOICES = [
         ('IRM', 'IRM'),
         ('echographie', 'Échographie'),
@@ -157,7 +157,8 @@ class Demandebilan(models.Model):
     #     ('cholesterol','cholestérol')
     # ]
     # typebilan = models.CharField(db_column='typebilan', max_length=50,choices=TYPE_BILAN_CHOICES ,null=True)   # Field name made lowercase.
-
+    datedenvoi = models.DateField(db_column='datedenvoi', blank=True, null=True)
+    
     class Meta:
         managed = True
         db_table = 'demandebilan'
@@ -170,7 +171,7 @@ class Demandecertaficat(models.Model):
     patientid = models.ForeignKey('Patient', on_delete=models.CASCADE, db_column='patientid', blank=True, null=True)
     contenudemande = models.TextField(db_column='contenudemande',null=True)
     datedenvoi = models.DateField(db_column='datedenvoi', blank=True, null=True)
-    certificatpdf = models.FileField(upload_to='certificats/', null=True, blank=True)
+    certificatpdf = models.FileField(upload_to='uploads/certificats/', null=True, blank=True)
 
     def generate_certificat(self):
         # Extract relevant data from the 'Tuser' (for the patient) and 'Tuser' (for the doctor) models
@@ -233,7 +234,8 @@ class Demanderadio(models.Model):
         ('autre', 'Autre')
     ]
     typeradio = models.CharField(db_column='typeRadio', max_length=50,choices=TYPE_RADIO_CHOICES)  # Field name made lowercase.
-
+    datedenvoi = models.DateField(db_column='datedenvoi', blank=True, null=True)
+    
     class Meta:
         managed = True
         db_table = 'demanderadio'
@@ -370,6 +372,7 @@ class Tuser(models.Model):
     adresse = models.CharField(db_column='adresse',max_length=100,default="")
     emailuser = models.CharField(db_column='emailuser', max_length=100)  # Field name made lowercase.
     password = models.CharField(db_column='password', max_length=255)
+    oldpassword = models.CharField(db_column='oldpassword', max_length=255 , null = True)
     hopitalid = models.ForeignKey(Hopital,  db_column='hopitalid', blank=True, null=True , on_delete=models.SET_NULL)  # Field name made lowercase.
     role = models.CharField(max_length=13)
 

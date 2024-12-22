@@ -98,21 +98,14 @@ pymysql.install_as_MySQLdb()
 
 DATABASES = {
     'default': {
-<<<<<<< Updated upstream
+
        'ENGINE': 'django.db.backends.mysql',  # Use 'django.db.backends.postgresql' if using PostgreSQL
         'NAME': 'sahtek',
         'USER': 'root',
         'PASSWORD': 'ranaa987@',
         'HOST': '127.0.0.1',  # Use your database server's address
         'PORT': '3306',
-=======
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'SAHTEK',  # Your database name
-        'USER': 'root',  # Your database user
-        'PASSWORD': 'ranaa987@',  # Your database password
-        'HOST': 'localhost',  # Or the IP/hostname of your database server
-        'PORT': '3306',  # Default MySQL port
->>>>>>> Stashed changes
+
     }
 }
 
@@ -159,3 +152,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.Emailbackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER ="salimhasnaoui903@gmail.com"
+EMAIL_HOST_PASSWORD = 'xodoqusrazyblwco'
+EMAIL_USE_TLS = True 
+EMAIL_USE_SSL = False 
+
