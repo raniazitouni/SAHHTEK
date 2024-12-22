@@ -350,16 +350,17 @@ class Patient(models.Model):
 
 class Soinobservation(models.Model):
     compteur = models.AutoField(primary_key=True)
-    patientid = models.ForeignKey(Patient, models.DO_NOTHING, db_column='patientId', blank=True, null=True)  # Field name made lowercase.
-    userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    consultationdate = models.DateField(db_column='consultationDate', blank=True, null=True)  # Field name made lowercase.
-    descriptionsoin = models.CharField(db_column='descriptionSoin', max_length=200, blank=True, null=True)  # Field name made lowercase.
+    patientid = models.ForeignKey(Patient,  on_delete=models.CASCADE, db_column='patientid', blank=True, null=True)  # Field name made lowercase.
+    userid = models.ForeignKey('Tuser',  on_delete=models.CASCADE, db_column='userid', blank=True, null=True)  # Field name made lowercase.
+    consultationdate = models.DateField(db_column='consultationdate', blank=True, null=True)  # Field name made lowercase.
+    descriptionsoin = models.CharField(db_column='descriptionsoin', max_length=200, blank=True, null=True)  # Field name made lowercase.
     observation = models.CharField(max_length=200, blank=True, null=True)
+    id = CompositeKey(columns=['patientid','userid','consultationdate'])
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'soinobservation'
-        unique_together = (('patientid', 'userid', 'consultationdate'),)
+       
 
 
 class Tuser(models.Model):

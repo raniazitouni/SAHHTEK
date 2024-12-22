@@ -172,3 +172,15 @@ class TuserSerializer(serializers.ModelSerializer):
         model = Tuser
         fields = '__all__'
 
+
+class TuserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tuser
+        fields = ['nomuser' , 'prenomuser','datedenaissance','adresse']
+
+
+class  PasswordResetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tuser
+        fields = ['password' , 'oldpassword']
+

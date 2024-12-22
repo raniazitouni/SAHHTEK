@@ -10,6 +10,11 @@ urlpatterns = [
       path('AjouterRadio/', views.AjouterRadio.as_view(), name='AjouterRadio'),
       path('AjouterBillan/<str:patientid>/', views.AjouterBillan.as_view(), name='AjouterBillan'),
       path('AjouterDemandeCertaficat/<str:patientid>/', views.AjouterDemandeCertaficat.as_view(), name='AjouterDemandeCertaficat'),
+      path('AjouterSoin/', views.AjouterSoin.as_view(), name='AjouterSoin'),
+      path('AjouterObservation/', views.AjouterObservation.as_view(), name='AjouterObservation'),
+      path('UpdateUserInfo/', views.UpdateUserInfo.as_view(), name='UpdateUserInfo'),
+      path('ResetPassword/', views.ResetPassword.as_view(), name='ResetPassword'),
+    
       
 
     
