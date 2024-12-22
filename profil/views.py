@@ -62,7 +62,7 @@ class UserPersonalInfo(APIView):
 class PatientSoins(APIView):
     def get_soins_for_patient(self, patientId):
         """
-        Récupérer les soins d'un patient : date, userId, nom, prénom et description.
+        Récupérer les soins d'un patient : date, userId, nom, prénom, description et observation.
         """
         try:
             query = """
@@ -71,7 +71,9 @@ class PatientSoins(APIView):
                     so.userId,
                     t.nomUser,
                     t.prenomUser,
-                    so.descriptionSoin
+                    so.descriptionSoin,
+                    so.observation
+
                 FROM 
                     SoinObservation so
                 LEFT JOIN Tuser t ON so.userId = t.userId
@@ -94,6 +96,7 @@ class PatientSoins(APIView):
                         "nomUser": soin[2],
                         "prenomUser": soin[3],
                         "descriptionSoin": soin[4],
+                        "observation": soin[5],  
                     }
                     for soin in soins
                 ]
@@ -123,7 +126,6 @@ class PatientSoins(APIView):
             return Response({"message": "Aucun soin trouvé pour ce patient."}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(soins, status=status.HTTP_200_OK)
-
 
 #####################################################################################################################################
 class PatientConsultations(APIView):

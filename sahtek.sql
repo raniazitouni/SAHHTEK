@@ -202,4 +202,5 @@ CREATE TABLE IF NOT EXISTS Consultation (
 
 );
 
+ALTER TABLE Tuser ADD COLUMN oldPassword VARCHAR(255);
 
