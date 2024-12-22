@@ -1,1 +1,76 @@
-<p>patients works!</p>
+<div class="px-24 pt-7">
+  
+  <div class="w-full flex items-center justify-between gap-4">
+    <div class="text-[#3F6CB5] text-2xl font-bold font-['Poppins']">Liste de patients</div>
+    <button
+      class="flex items-center px-5 py-2.5 bg-[#3F6CB5] hover:bg-[#839FCD] rounded-md gap-2"
+      (click)="openModal()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+      </svg>
+      <span class="text-white text-[14px] font-semibold font-['Poppins']">Ajouter patient</span>
+    </button>
+  </div>
+
+  <!-- Liste des patients -->
+  <div class="mt-6">
+    <table class="w-full border-collapse bg-white text-left text-sm font-['Poppins'] rounded-sm">
+      <thead class="h-10 bg-[#839FCD] text-[#ffffff] rounded-sm">
+        <tr>
+          <th class="px-6 py-4 font-medium">Nom</th>
+          <th class="px-6 py-4 font-medium">Prénom</th>
+          <th class="px-4 py-4 font-medium">Date de Naissance</th>
+          <th class="px-6 py-4 font-medium">NSS</th>
+          <th class="px-6 py-4 font-medium">Téléphone</th>
+          <th class="px-6 py-4 font-medium">Adresse</th>
+        </tr>
+      </thead>
+      
+    </table>
+  </div>
+
+  <!-- ajouter dpi -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-all font-['Poppins']"
+       [class.hidden]="!isModalOpen">
+    <div class="w-96 h-auto p-6 bg-white rounded-lg flex flex-col gap-6">
+      <h2 class="text-neutral-900 text-2xl font-semibold font-['Poppins']">Créer DPI</h2>
+      <form (submit)="addPatient()">
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-row gap-4">
+          <div>
+            <label class="block text-neutral-900 text-base font-medium">Nom</label>
+            <input type="text"  placeholder="Nom" class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-neutral-900 text-base font-medium">Prénom</label>
+            <input type="text"  placeholder="Prénom" class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none" />
+          </div>
+        </div>
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">NSS</label>
+          <input type="number" placeholder="0000000000" class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none" />
+        </div>
+          <div>
+            <label class="block text-neutral-900 text-base font-medium">Date de naissance</label>
+            <input type="date"  class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-neutral-900 text-base font-medium">Téléphone</label>
+            <input type="number"  placeholder="0000000000" class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-neutral-900 text-base font-medium">Adresse</label>
+            <input type="text"  placeholder="Algeria, Alger, Hydra" class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none" />
+          </div>
+        </div>
+        <div class="w-full flex justify-end mt-4">
+          <button type="button" class="px-4 py-2 mr-2 bg-[#ECF1F7] hover:bg-[#839FCD] rounded-md" (click)="closeModal()">Annuler</button>
+          <button type="submit" class="px-5 py-2 bg-[#3F6CB5] hover:bg-[#839FCD] text-white rounded-md ">
+            Ajouter le patient
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

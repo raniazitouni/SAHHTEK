@@ -1,0 +1,12 @@
+<div class="px-24 pt-7 flex-col">
+  <div class="text-[#3F6CB5] text-2xl font-bold font-['Poppins'] mb-4">
+    Notifications - Radiologue
+  </div>
+
+  <div *ngFor="let demande of demandes" class="w-full">
+    <app-notification-cardd
+      [demande]="demande"
+      (cardClicked)="onCardClick(demande)"
+    ></app-notification-cardd>
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<div
+  class="h-12 mt-6 rounded-lg flex flex-col justify-center items-center px-4 w-full"
+  [ngClass]="isProcessed ? 'bg-[#ECF1F7]' : 'bg-[#FAD4C7]'"
+  (click)="handleClick()"
+>
+  <div class="self-stretch justify-between items-center flex">
+    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+      {{ demande.patient }}
+    </div>
+    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+      Par {{ demande.doctor }}
+    </div>
+    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+      {{ demande.type }}
+    </div>
+    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+      {{ demande.date }}
+    </div>
+  </div>
+</div>

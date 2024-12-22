@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CommonModule } from '@angular/common';
 import { NotificationComponent } from './notification.component';
+import { NotificationRadiologueComponent } from './radiologue/notification-radiologue.component';
+import { LaboratinNotificationsComponent } from './laborantin/notification-laborantin.component';
+import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts'; 
+
 
 describe('NotificationComponent', () => {
   let component: NotificationComponent;
@@ -8,9 +12,13 @@ describe('NotificationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationComponent]
-    })
-    .compileComponents();
+      imports: [
+        CommonModule,
+        NotificationComponent,
+        NotificationRadiologueComponent,
+        LaboratinNotificationsComponent,
+      ],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(NotificationComponent);
     component = fixture.componentInstance;
