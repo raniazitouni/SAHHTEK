@@ -21,6 +21,7 @@ export class ResetComponent {
   isSubmitting: boolean = false; // To prevent multiple submissions
   errorMessage: string = ''; // To show error messages
   successMessage: string = ''; // To show success messages
+  userId: string = '1'; // You can modify this to be dynamic based on your use case
 
 
   // Booleans to manage the visibility of the passwords
@@ -91,26 +92,29 @@ export class ResetComponent {
     this.successMessage = '';
   
     const data = { currentPassword, newPassword };
+    const userData = { ...data , userid: this.userId };
+    console.log(userData)
   
     // Call the service to reset password
-    this.profileService.ressetpassword(data).subscribe(
+    this.profileService.resetPassword(userData).subscribe(
       (response) => {
         this.isSubmitting = false;
         this.successMessage = 'Password updated successfully!';
         //this.resetForm.reset();
-
         setTimeout(() => {
           this.router.navigate(['Profile/login']);
         }, 1000);
       },
       (error) => {
         this.isSubmitting = false;
-  
         // Handle specific error for current password
-        if (error?.error?.message === 'Incorrect current password') {
-          this.resetForm.get('currentPassword')?.setErrors({ serverError: 'Incorrect current password' });
+        if (error.error?.error === 'Old password is incorrect') {
+          // Set a server error on the currentPassword control
+          this.resetForm.get('currentPassword')?.setErrors({ serverError: true });
+          this.errorMessage = 'Your current password is incorrect. Please try again.';
         } else {
-          this.errorMessage = 'Failed to update password. Please try again.';
+          // Handle other errors
+          this.errorMessage = 'Failed to update password. Please try again later.';
         }
       }
     );

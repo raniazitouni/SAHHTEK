@@ -1,4 +1,4 @@
-import { Component , OnInit } from '@angular/core';
+import { Component , OnInit , Input } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { PopupService } from '../../Services/PopupRadio.service';
 import { HttpClient } from '@angular/common/http';
@@ -18,27 +18,18 @@ export class AddRadioComponent implements OnInit {
   compteRendu: string = ''; 
   selectedFile: File | null = null; 
   selectedFileName: string = '';
-  Imagerie : any ;
+  @Input() Imagerie : any ;
   icludeImage : boolean = true ;
-  backendUrl: string = 'https://your-backend-api.com/upload'; // Replace with your backend API endpoint
+  bilanDemandeId: string = '2' ;
+  backendUrl: string = 'http://127.0.0.1:8000/maj/AjouterRadio/'; // Replace with your backend API endpoint
 
 
   constructor(private popupService: PopupService , private http: HttpClient) {}
 
   ngOnInit(): void {
     this.popupService.isPopupVisible$.subscribe((visible) => {
-      this.isPopupVisible = visible;
-      
+      this.isPopupVisible = visible;     
     });
-    this.popupService.getDemandeRadio().subscribe(
-      (data) => {
-        this.Imagerie = data;
-        console.log('Iamgerie:', this.Imagerie); // Log the fetched data
-      },
-      (error) => {
-        console.error('Error fetching radio :', error); // Handle errors
-      }
-    );
   }
 
   closePopup(): void {
@@ -71,21 +62,28 @@ export class AddRadioComponent implements OnInit {
       return;
     }
     this.icludeImage=true ;
+  
 
     // Create FormData object
     const formData = new FormData();
-    formData.append('compteRendu', this.compteRendu); // Append "compte rendu"
+    formData.append('compterendu', this.compteRendu); // Append "compte rendu"
+    formData.append('radiotype', this.Imagerie.typeRadio); 
+    formData.append('demanderadioid', this.Imagerie.demandeRadioId);
+    formData.append('userid', '1');  // remplace 1 b user.id m local storage 
+
   
     if (this.selectedFile) {
-      formData.append('file', this.selectedFile, this.selectedFile.name); // Append the file
+      formData.append('image', this.selectedFile); // Append the file
+      console.log(this.selectedFile)
     }
   
-    // Debugging: log formData keys and values
-    for (const pair of formData.entries()) {
-      console.log(pair[0] + ':', pair[1]);
-    }
+    const formDataObject: any = {};
+    formData.forEach((value, key) => {
+    formDataObject[key] = value;
+    });
+    console.log('FormData to be sent:', formDataObject);
   
-    /*/ Send the data to the backend/*
+    /* Send the data to the backend*/
     this.http.post(this.backendUrl, formData).subscribe(
       (response) => {
         console.log('Data sent successfully:', response);
@@ -95,7 +93,7 @@ export class AddRadioComponent implements OnInit {
         console.error('Error sending data:', error);
         console.log('Failed to send data. Please try again.');
       }
-    );*/
+    );
   }
   
 
@@ -104,12 +102,14 @@ export class AddRadioComponent implements OnInit {
 
 
 /*
-import { Component } from '@angular/core';
-import { PopupService } from '../../Services/Popup.service';
+import { Component,Input, OnChanges } from '@angular/core';
+import { PopupService } from '../../Services/PopupRadio.service';
 import {PopupRadioComponent} from '../../components/popup-radio/popup-radio.component'
 import {AddRadioComponent} from '../../components/add-radio/add-radio.component'
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
+import { CommonModule } from '@angular/common'; 
+
 
 
 @Component({
@@ -122,20 +122,38 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class PatientsComponent {
+  
+  selectedRadioData: any;
+
+  // hady tro7 omb3d remplaciha b demande ml for f html 
+  demande =  {
+    "demandeRadioId":"1" ,
+    "patient": {
+        "nom": "aa",
+        "prenom": "aa"
+    },
+    "docteur": {
+        "nom": "aaa",
+        "prenom": "aaa"
+    },
+    "typeRadio": "IRM"
+}
 
   constructor(private popupService: PopupService) {}
 
-  openPopup(): void {
+  openPopup(demande : any ): void {
     this.popupService.showPopup();
+    this.selectedRadioData = demande;  // Set the selected item data
+    console.log('Item passed to popup:', demande);
   }
 }
  --------------------------------------- html ------------------------------
 <button 
   class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700" 
-  (click)="openPopup()">
+  (click)="openPopup(demande)"> <!--  send the object of the demande object aya declarato f boucle for   -->
   Ouvrir Imagerie Médicale
 </button>
-<app-add-radio></app-add-radio>
+<app-add-radio [Imagerie]="selectedRadioData" ></app-add-radio>
 
 
 */

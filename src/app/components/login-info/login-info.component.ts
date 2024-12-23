@@ -15,15 +15,17 @@ import { HttpClientModule } from '@angular/common/http';
 
 export class  LoginInfoComponent implements  OnInit {
     userProfile: any; // Variable to hold the fetched user profile data
+    userId: string = '1'; // You can modify this to be dynamic based on your use case
+
   
     constructor(private profileService: ProfileService) {}
   
     ngOnInit(): void {
       // Call the service method to fetch user profile
-      this.profileService.getUserProfile().subscribe(
+      this.profileService.getUserProfile(this.userId).subscribe(
         (data) => {
           this.userProfile = data;
-          console.log('User Profile:', this.userProfile); // Log the fetched data
+          console.log('login User Profile:', this.userProfile); // Log the fetched data
         },
         (error) => {
           console.error('Error fetching user profile:', error); // Handle errors

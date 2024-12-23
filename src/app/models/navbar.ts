@@ -12,7 +12,7 @@ export const Datanavbar = [
     role :'docteur,receptioniste,laborantin , radiologue,infermier,patient'
   },
   { routeLink : 'Soins',
-    role :'infermier'
+    role :'docteur'
   },
 ];
 
@@ -21,7 +21,7 @@ export const Datanavbar = [
 export const user = {
 prenomUser :'Aya',
 nomUser :'Terkmani',
-role : 'infermier' ,
+role : 'docteur' ,
 emailUser :'user@gmail.com'    ,
 password  :'hiiii'  ,
 telephone  : '0556368382',

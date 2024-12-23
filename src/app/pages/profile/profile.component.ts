@@ -19,6 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
   activeLink: string = 'personnel-info';
   username: string = ''; // Property to store the username
+  userId: string = '1'; // You can modify this to be dynamic based on your use case
+
 
   setActiveLink(routeLink: string): void {
    this.activeLink =  routeLink;
@@ -32,8 +34,9 @@ export class ProfileComponent implements OnInit {
  
    // Fetch user data from backend
   fetchUserData() {
-     this.profileService.getUserProfile().subscribe(
+    this.profileService.getUserProfile(this.userId).subscribe(
        (data) => {
+         console.log('hiiiiiii');
          this.username = data.nomUser;
        },
        (error) => {
@@ -44,6 +47,35 @@ export class ProfileComponent implements OnInit {
 
 
 }
+
+/*
+
+ updateProfile(): void {
+    const updatedData = {  };
+    this.profileService.updateUserProfile('1', updatedData).subscribe(
+      (response) => {
+        console.log('Profile updated:', response);
+      },
+      (error) => {
+        console.error('Error updating profile:', error);
+      }
+    );
+  }
+
+  resetPassword(): void {
+    const passwordData = {  Populate with password reset fields  };
+    this.profileService.resetPassword('1', passwordData).subscribe(
+      (response) => {
+        console.log('Password reset:', response);
+      },
+      (error) => {
+        console.error('Error resetting password:', error);
+      }
+    );
+  }
+
+*/
+
 
 
 

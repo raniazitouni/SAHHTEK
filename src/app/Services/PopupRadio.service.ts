@@ -12,20 +12,25 @@ export class PopupService {
   isPopupVisible$ = this.popupVisibility.asObservable();
 
   Radio = Imagerie ;
-  radio = radio  ;  
-  private apiUrl = 'https://your-backend-url/api/radio'; 
+
+  private apiUrl = 'http://127.0.0.1:8000/profil/detail_bilan_radio/'; 
+  private apiUrlBilan = 'http://127.0.0.1:8000/profil/demandes_radio/';
   
   constructor(private http: HttpClient) {}
-  // Fetch user profile
-  getImagerie(): Observable<any> {
-     // return this.http.get(`${this.apiUrl}/get`);
-    return of(this.radio);
-  }
+
+ // Fetch user profile
+ getImagerie(bilanRadiologiqueId: string): Observable<any> {
+  const body = { bilanRadiologiqueId };
+  console.log(body) ;
+  return this.http.post(this.apiUrl, body);  // Add return statement here
+}
+
   
-  getDemandeRadio(): Observable<any> {
-    // return this.http.get(`${this.apiUrl}/get`);
-   return of(this.Radio);
- }
+  getDemandeRadio(bilanDemandeId: string): Observable<any> {
+    const body = { bilanDemandeId };
+    console.log(body) ;
+    return this.http.post(this.apiUrl, body);  // Add return statement here
+  }
 
 
   showPopup(): void {

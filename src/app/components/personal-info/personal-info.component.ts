@@ -13,13 +13,11 @@ import { FormBuilder, FormGroup, ReactiveFormsModule,Validators } from '@angular
   styleUrl: './personal-info.component.css',
   providers: [ProfileService]
 })
-
-
-
 export class PersonalInfoComponent implements OnInit {
 
   profileForm: FormGroup;
   serverErrors: { [key: string]: string } = {}; // To store validation errors
+  userId: string = '1'; // You can modify this to be dynamic based on your use case
 
   constructor(private fb: FormBuilder, private profileService: ProfileService) {
     // Initialize the form
@@ -38,7 +36,7 @@ export class PersonalInfoComponent implements OnInit {
 
   // Fetch user data from backend
   fetchUserData() {
-    this.profileService.getUserProfile().subscribe(
+    this.profileService.getUserProfile(this.userId).subscribe(
       (data) => {
         this.profileForm.patchValue(data);
       },
@@ -52,12 +50,17 @@ export class PersonalInfoComponent implements OnInit {
 
   // Save profile changes
   saveProfile() {
-    this.serverErrors = {} ;
+    this.serverErrors = {}; 
     if (this.profileForm.valid) {
-      this.profileService.updateUserProfile(this.profileForm.value).subscribe(
+      const profileData: Record<string, any> = { ...this.profileForm.value, userId: this.userId };
+      const lowercaseProfileData = Object.keys(profileData).reduce((acc, key) => {
+      acc[key.toLowerCase()] = profileData[key];
+      return acc;
+    }, {} as Record<string, any>); // Add type assertion here
+
+      this.profileService.updateUserProfile(lowercaseProfileData).subscribe(
         (response) => {
-          console.log('Profile updated successfully:', response);
-           
+          console.log('Profile updated successfully:', lowercaseProfileData);   
         },
         (error) => {
           if (error.status === 400) {

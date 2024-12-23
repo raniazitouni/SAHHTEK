@@ -1,12 +1,12 @@
 <div
   *ngIf="isPopupVisible"
-  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 px-4 sm:px-6"
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 "
 >
   <div
     class="bg-Bluebg rounded-lg shadow-lg w-full max-w-md sm:max-w-lg md:max-w-xl lg:w-[600px] p-6 relative"
   >
     <!-- Popup Header -->
-    <h2 class="text-Bluehover text-lg sm:text-xl md:text-2xl font-bold mb-6 text-center">
+    <h2 class="text-Bluehover text-lg sm:text-xl md:text-2xl font-bold mb-6 ">
       Imagerie Medicale
     </h2>
     <button
@@ -23,16 +23,16 @@
         {{ radio.compteRendu }}
       </p>
       <p class="text-[#4F5E71] text-xs sm:text-sm">
-        Type : {{ radio.RadioType }}
+        Type : {{ radio.radioType }}
       </p>
       <p class="text-[#4F5E71] text-xs sm:text-sm">
-        Fait par : {{ radio.nomUser }} {{ radio.prenomUser }}
+        Fait par : {{ radio.radiologue.nom }} {{ radio.radiologue.prenom }}
       </p>
     </div>
 
     <!-- Image Section -->
     <img
-      src="{{radio.image}}"
+      src="{{imageUrl}}"
       class="w-full h-40 sm:h-48 md:h-52 lg:h-60 rounded-md object-cover"
     />
   </div>
