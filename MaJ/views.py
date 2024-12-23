@@ -34,17 +34,7 @@ class CreateDpi(APIView):
         # Extract the patient id 
         userid = request.data.get('patientid', None)
         if userid :
-             personneacontacter = request.data.get('personneacontacter', None)
-             mutuelle = request.data.get('mutuelle', None)
-             etatpatient = request.data.get('etatpatient', None)
-
-            #  if not personneacontacter : 
-            #    personneacontacter = request.data.pop('personneAContacter')
-            #  if not mutuelle : 
-            #    mutuelle = request.data.pop('mutuelle')
-            #  if not etatpatient  : 
-            #    etatpatient  = request.data.pop('etatPatient')
-
+             
              # Check if a patient with the same details already exists
              patient = Patient.objects.filter( patientid = userid ).first()
              if not patient:
@@ -91,20 +81,8 @@ class AjouterDemandeRadio(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        # request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
-        # docteur = request.user  # Assuming authentication is handled and the user is a doctor
-        # if not isinstance(docteur, Tuser):
-        #     return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
-        
-        patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
-        try:
-            patient = Patient.objects.get(patientid=patient_id)
-        except Patient.DoesNotExist:
-            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
-        
         request.data['etatdemande'] = False
-        request.data['patientid'] = patient.patientid
-        # request.data['docteurid'] = docteur.userid
+        request.data['datedenvoi'] = date.today()
 
         serializer_demanderadio = DemanderadioSerializer(data=request.data)
         if serializer_demanderadio.is_valid() : 
@@ -118,20 +96,8 @@ class AjouterDemandeBilan(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        # request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
-        # docteur = request.user  # Assuming authentication is handled and the user is a doctor
-        # if not isinstance(docteur, Tuser):
-        #     return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
-        
-        patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
-        try:
-            patient = Patient.objects.get(patientid=patient_id)
-        except Patient.DoesNotExist:
-            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
-        
         request.data['etatdemande'] = False
-        request.data['patientid'] = patient.patientid
-        # request.data['docteurid'] = docteur.userid
+        request.data['datedenvoi'] = date.today()
 
         serializer_demandebilan = DemandebilanSerializer(data=request.data)
         if serializer_demandebilan.is_valid() : 
@@ -215,20 +181,6 @@ class AjouterOrdonance(APIView):
 class AjouterConsultation(APIView):
 
     def post(self, request, *args, **kwargs):
-
-        # request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
-        # docteur = request.user  # Assuming authentication is handled and the user is a doctor
-        # if not isinstance(docteur, Tuser):
-        #     return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
-        
-        patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
-        try:
-            patient = Patient.objects.get(patientid=patient_id)
-        except Patient.DoesNotExist:
-            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-        request.data['patientid'] = patient.patientid
-        # request.data['userid'] = docteur.userid
         
         serializer_consultation = ConsultationSerializer(data=request.data)
         if serializer_consultation.is_valid() : 
@@ -242,14 +194,8 @@ class AjouterRadio(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        #step 1 : create the radio record 
-        # request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
-        # radiologue= request.user  # Assuming authentication is handled and the user is a doctor
-        # if not isinstance(radiologue, Tuser):
-        #     return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
+        
         data = request.data.copy()
-        # data['userid'] = radiologue.userid
-     
         try : 
             with transaction.atomic() : 
 
@@ -293,11 +239,6 @@ class AjouterBillan(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        # request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
-        # laborantin= request.user  # Assuming authentication is handled and the user is a doctor
-        # if not isinstance(laborantin, Tuser):
-        #     return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
-        # request.data['userid'] = laborantin.userid
         try : 
             with transaction.atomic() : 
 
@@ -329,7 +270,7 @@ class AjouterBillan(APIView):
                         raise ValueError("demande id doesn't exists")
                     
                     #step 4 : find the previous bilan results 
-                    patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
+                    patient_id = request.data.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
                     if not patient_id:
                         raise ValueError("Patient ID is required")
                     consultations = Consultation.objects.filter(patientid=patient_id).values_list(
@@ -373,20 +314,8 @@ class AjouterDemandeCertaficat(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        # request.user = Tuser.objects.get(userid=4) #remove that when u add auth 
-        # docteur = request.user  # Assuming authentication is handled and the user is a doctor
-        # if not isinstance(docteur, Tuser):
-        #     return Response({'error': 'Invalid doctor'}, status=status.HTTP_403_FORBIDDEN)
-        
-        patient_id = kwargs.get('patientid')  # Extract patient_id from the URL AjouterDemandeRadio/<str:patient_id>/
-        try:
-            patient = Patient.objects.get(patientid=patient_id)
-        except Patient.DoesNotExist:
-            return Response({'error': 'Patient not found'}, status=status.HTTP_404_NOT_FOUND)
-        
+        patient_id = request.data.get('patientid') 
         request.data['etatdemande'] = False
-        request.data['patientid'] = patient.patientid
-        # request.data['docteurid'] = docteur.userid
         request.data['datedenvoi'] = date.today()
 
         try : 
