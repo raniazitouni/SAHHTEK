@@ -473,18 +473,6 @@ class AjouterObservation(APIView):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class UpdateUserInfo(APIView):
 
     def put(self, request, *args, **kwargs):
@@ -508,7 +496,7 @@ class ResetPassword(APIView):
         user_id= request.data.get('userid', None)
         user = Tuser.objects.filter(userid=user_id).first()
         if user : 
-            oldpsw = request.data.get('oldpassword',None)
+            oldpsw = request.data.get('currentPassword',None)
 
             key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
             cipher_suite = Fernet(key)
@@ -519,7 +507,7 @@ class ResetPassword(APIView):
             decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
 
             if decrypted_password == oldpsw :  
-                  new_psw = request.data.get('password',None)
+                  new_psw = request.data.get('newPassword',None)
                   psw = new_psw.encode()
                   encrypted = cipher_suite.encrypt(psw)
                   psw_tostore = base64.b64encode(encrypted).decode('utf-8')
