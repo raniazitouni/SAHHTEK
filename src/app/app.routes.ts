@@ -6,8 +6,7 @@ import { NotificationComponent } from "./pages/notification/notification.compone
 import { RechercheComponent } from "./pages/recherche/recherche.component";
 import { SoinsComponent } from "./pages/soins/soins.component";
 import { LoginPageComponent } from "./pages/login/login.component";
-
-
+import { provideHttpClient } from '@angular/common/http';
 
 export const routes: Routes = [
   { path: 'login', component: LoginPageComponent }, 
@@ -20,6 +19,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
+  providers: [provideHttpClient()],
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })

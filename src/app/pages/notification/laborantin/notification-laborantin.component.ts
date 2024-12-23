@@ -1,8 +1,28 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { Chart } from 'chart.js';  // Ensure chart.js is installed and imported properly
-import { NotificationCardComponent } from "./card/notification-card/notification-card.component"; // Import NotificationCardComponent
+import { NotificationCardComponent } from "./card/notification-card/notification-card.component"; 
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import {
+  Chart,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  BarController,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+
+Chart.register(
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  BarController,
+  Title,
+  Tooltip,
+  Legend
+);
 
 @Component({
   selector: 'app-laboratin-notifications',
@@ -40,7 +60,7 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
     cholesterol: ''
   };
 
-  // Chart reference
+ 
   chart: any;
 
   constructor() {}
