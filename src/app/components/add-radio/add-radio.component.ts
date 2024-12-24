@@ -20,7 +20,6 @@ export class AddRadioComponent implements OnInit {
   selectedFileName: string = '';
   @Input() Imagerie : any ;
   icludeImage : boolean = true ;
-  bilanDemandeId: string = '2' ;
   backendUrl: string = 'http://127.0.0.1:8000/maj/AjouterRadio/'; // Replace with your backend API endpoint
 
 
@@ -66,9 +65,10 @@ export class AddRadioComponent implements OnInit {
 
     // Create FormData object
     const formData = new FormData();
+    console.log('hoollaaa : '+this.Imagerie)
     formData.append('compterendu', this.compteRendu); // Append "compte rendu"
     formData.append('radiotype', this.Imagerie.typeRadio); 
-    formData.append('demanderadioid', this.Imagerie.demandeRadioId);
+    formData.append('demanderadioid', this.Imagerie.demandeId);
     formData.append('userid', '1');  // remplace 1 b user.id m local storage 
 
   
@@ -82,6 +82,7 @@ export class AddRadioComponent implements OnInit {
     formDataObject[key] = value;
     });
     console.log('FormData to be sent:', formDataObject);
+    console.log('hiiiiiiiiiiiiiiiiiii zmar +' + this.Imagerie)
   
     /* Send the data to the backend*/
     this.http.post(this.backendUrl, formData).subscribe(

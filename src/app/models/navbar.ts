@@ -6,10 +6,10 @@ export const Datanavbar = [
     role :'docteur,recepcioniste,patient'
   },
   { routeLink : 'Notification',
-    role :'laborantin , radiologue'
+    role :'laborantin,radiologue'
   },
   { routeLink : 'Profile',
-    role :'docteur,receptioniste,laborantin , radiologue,infermier,patient'
+    role :'docteur,receptioniste,laborantin,radiologue,infermier,patient'
   },
   { routeLink : 'Soins',
     role :'docteur'

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RadiologueComponent } from './radiologue.component';
+import { NotificationRadiologueComponent } from './notification-radiologue.component';
 
 describe('RadiologueComponent', () => {
-  let component: RadiologueComponent;
-  let fixture: ComponentFixture<RadiologueComponent>;
+  let component: NotificationRadiologueComponent;
+  let fixture: ComponentFixture<NotificationRadiologueComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RadiologueComponent]
+      imports: [NotificationRadiologueComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RadiologueComponent);
+    fixture = TestBed.createComponent(NotificationRadiologueComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
