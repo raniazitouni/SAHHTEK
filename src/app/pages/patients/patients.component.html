@@ -1,4 +1,4 @@
-<div class="px-24 pt-7">
+<div class="px-24 pt-7  lg:h-[calc(100vh-4rem)] bg-Bluebg">
   
   <div class="w-full flex items-center justify-between gap-4">
     <div class="text-[#3F6CB5] text-2xl font-bold font-['Poppins']">Liste de patients</div>
@@ -14,7 +14,7 @@
   </div>
 
    <!-- Liste des patients -->
-   <div class="mt-6">
+  <div class="mt-6">
     <table class="w-full border-collapse bg-white text-left text-sm font-['Poppins'] rounded-sm">
       <thead class="h-10 bg-[#839FCD] text-[#ffffff] rounded-sm">
         <tr>
@@ -30,7 +30,7 @@
       </thead>
       <tbody>
         <!-- Dynamic patient list -->
-        <tr *ngFor="let patient of patients; let i = index" [ngClass]="{'bg-[#ffffff]': i % 2 === 0, 'bg-[#ECF1F7]': i % 2 !== 0}">
+        <tr *ngFor="let patient of patients; let i = index" [ngClass]="{'bg-[#ffffff]': i % 2 === 0, 'bg-Bluebg': i % 2 !== 0}">
           
           <td class="px-6 py-4">{{ patient.name }}</td>
           <td class="px-6 py-4">{{ patient.surname }}</td>
@@ -53,10 +53,11 @@
 
  <!-- Ajouter DPI -->
  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-all font-['Poppins']" [class.hidden]="!isModalOpen">
-  <div class="w-3/4 md:w-2/3 lg:w-1/2 bg-white rounded-lg p-4 flex flex-col gap-6 max-h-[90vh] overflow-y-auto">
+  <div class="w-3/4 md:w-2/3 lg:w-1/2 bg-Bluebg rounded-lg p-4 flex flex-col gap-y-2 max-h-[90vh] overflow-y-auto">
     <h2 class="text-neutral-900 text-2xl font-semibold">Créer DPI</h2>
     <form  (ngSubmit)="addPatient()" #dpiForm="ngForm">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div class=" flex flex-col gap-y-1">
+      <div class="grid grid-cols-2 gap-x-6 gap-y-1 ">
        
         <div>
           <label class="block text-neutral-900 text-base font-medium">Nom</label>
@@ -169,7 +170,7 @@
       </div>
 
      
-      <div class="mt-6">
+      <div >
         <label class="block text-neutral-900 text-base font-medium">Personne à contacter</label>
         <input 
           type="text" 
@@ -182,7 +183,7 @@
           required
         />
       </div>
-
+    </div>
      
       <div class="w-full flex justify-end mt-6 gap-4">
         <button type="button" class="px-4 py-2 bg-[#ECF1F7] hover:bg-[#839FCD] rounded-md" (click)="closeModal()">Annuler</button>
@@ -196,5 +197,7 @@
        </button>
       </div>
     </form>
+   </div>
   </div>
-</div>
+
+</div>  
