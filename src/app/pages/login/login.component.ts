@@ -2,20 +2,23 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html', 
   styleUrls: ['./login.component.css'] ,
   imports: [ FormsModule, CommonModule,HttpClientModule],
+  providers: [AuthService]
 })
 export class LoginPageComponent {
   email: string = '';
   password: string = '';
   forgotEmail: string = ''; 
-  Islogin : boolean = false ;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient , private router: Router, private authService: AuthService) {}
+
 
   onSubmit() {
     const loginData = {
@@ -24,13 +27,15 @@ export class LoginPageComponent {
     };
 
     this.http.post('http://127.0.0.1:8000/login/', loginData).subscribe(
+      
       (response: any) => {
+       
         if (response.message === 'Login successful') {
-          alert('Connexion réussie');
-          console.log(response);
           localStorage.setItem('user_id', response.user_id);
           localStorage.setItem('role', response.role);
-
+          this.authService.login(); 
+          this.router.navigate(['Profile']); 
+          console.log(response)
         } else {
           alert('E-mail ou mot de passe invalide');
         }

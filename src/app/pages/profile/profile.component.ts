@@ -19,7 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
 export class ProfileComponent implements OnInit {
   activeLink: string = 'personnel-info';
   username: string = ''; // Property to store the username
-  userId: string = '1'; // You can modify this to be dynamic based on your use case
+  userId: string = localStorage.getItem('user_id') || ''
 
 
   setActiveLink(routeLink: string): void {

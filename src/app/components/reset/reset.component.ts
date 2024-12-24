@@ -21,7 +21,7 @@ export class ResetComponent {
   isSubmitting: boolean = false; // To prevent multiple submissions
   errorMessage: string = ''; // To show error messages
   successMessage: string = ''; // To show success messages
-  userId: string = '1'; // You can modify this to be dynamic based on your use case
+  userId: string = localStorage.getItem('user_id') || ''
 
 
   // Booleans to manage the visibility of the passwords

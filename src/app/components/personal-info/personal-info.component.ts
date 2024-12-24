@@ -17,7 +17,7 @@ export class PersonalInfoComponent implements OnInit {
 
   profileForm: FormGroup;
   serverErrors: { [key: string]: string } = {}; // To store validation errors
-  userId: string = '1'; // You can modify this to be dynamic based on your use case
+  userId: string = localStorage.getItem('user_id') || ''
 
   constructor(private fb: FormBuilder, private profileService: ProfileService) {
     // Initialize the form

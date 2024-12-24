@@ -15,7 +15,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 export class  LoginInfoComponent implements  OnInit {
     userProfile: any; // Variable to hold the fetched user profile data
-    userId: string = '1'; // You can modify this to be dynamic based on your use case
+    userId: string = localStorage.getItem('user_id') || ''
 
   
     constructor(private profileService: ProfileService) {}

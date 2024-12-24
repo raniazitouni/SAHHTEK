@@ -1,4 +1,4 @@
-<div class="bg-customBlue flex justify-between items-center px-4 lg:px-8 w-full pt-4 h-16 sticky top-0">
+<div  class="bg-customBlue flex justify-between items-center px-4 lg:px-8 w-full pt-4 h-16 sticky top-0">
   <!-- Logo and Hamburger Icon -->
   <div class="flex items-center gap-4">
     <!-- Logo -->
@@ -64,9 +64,10 @@
       <div class="font-bold text-GreenLite">{{ user.prenomUser + ' ' + user.nomUser }}</div>
       <div class="text-sm">{{ user.role }}</div>
     </div>
-    <div class="flex justify-center items-center font-semibold text-white w-10 h-10 rounded-md bg-transparent-8">
+    <button class="flex justify-center items-center font-semibold text-white w-10 h-10 rounded-md bg-transparent-8"
+            (click)="authService.logout()" >
       {{ user.nomUser.charAt(0) }}
-    </div>
+    </button>
   </div>
 </div>
 

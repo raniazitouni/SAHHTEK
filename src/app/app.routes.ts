@@ -9,12 +9,17 @@ import { PersonalInfoComponent } from './components/personal-info/personal-info.
 import { LoginInfoComponent } from './components/login-info/login-info.component';
 import { ResetComponent } from './components/reset/reset.component';
 import { PopupRadioComponent } from './components/popup-radio/popup-radio.component'; 
+import { LoginPageComponent } from "./pages/login/login.component";
+import { provideHttpClient } from '@angular/common/http';
+import { AuthGuard } from './Services/auth.guard';
 
+
+  
 
 export const routes: Routes = [
   { 
     path: 'Profile',
-    component: ProfileComponent,
+    component: ProfileComponent , canActivate: [AuthGuard] ,
     children: [
       { path: '', redirectTo: 'personnel-info', pathMatch: 'full' }, // Default child
       { path: 'personnel-info', component: PersonalInfoComponent },
@@ -22,11 +27,12 @@ export const routes: Routes = [
       { path: 'reset-password', component: ResetComponent },
     ],
   },
-  { path: 'Patients', component: PatientsComponent },
-  { path: 'Notification', component: NotificationComponent },
-  { path: 'Recherche', component: RechercheComponent },
-  { path: 'Soins', component: SoinsComponent },
-  { path: '**', redirectTo: 'Profile' }, // Default fallback
+  { path: 'login', component: LoginPageComponent }, 
+  { path: 'Patients', component: PatientsComponent , canActivate: [AuthGuard]  },
+  { path: 'Notification', component: NotificationComponent , canActivate: [AuthGuard] },
+  { path: 'Recherche', component: RechercheComponent , canActivate: [AuthGuard] },
+  { path: 'Soins', component: SoinsComponent , canActivate: [AuthGuard] },
+  { path: '**', redirectTo: 'login' }, // Default fallback
 ];
 
 

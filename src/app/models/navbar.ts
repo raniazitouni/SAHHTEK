@@ -21,7 +21,7 @@ export const Datanavbar = [
 export const user = {
 prenomUser :'Aya',
 nomUser :'Terkmani',
-role : 'docteur' ,
+role : 'safa' ,
 emailUser :'user@gmail.com'    ,
 password  :'hiiii'  ,
 telephone  : '0556368382',
