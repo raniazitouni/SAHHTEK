@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { NotificationCardComponent } from "./card/notification-card/notification-card.component"; 
+import { HttpClient } from '@angular/common/http';
+import { NotificationCardComponent } from './card/notification-card/notification-card.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import {
@@ -31,29 +32,12 @@ Chart.register(
   imports: [NotificationCardComponent, FormsModule, CommonModule],
 })
 export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
-  notifications = [
-    {
-      patient: 'az',
-      doctor: 'Alouane',
-      date: '7-12-2024',
-      etatdemande: false,
-      testResults: [],
-    },
-    {
-      patient: 'zzzz',
-      doctor: 'Karim',
-      date: '6-12-2024',
-      etatdemande: true,
-      testResults: [
-        { name: 'Cholesterol', value: 190 },
-        { name: 'Blood Pressure', value: 125 },
-        { name: 'Glucose', value: 95 },
-      ],
-    },
-  ];
-
+  notifications: any[] = [];
+  user_id: any;
   isModalOpen = false;
+
   selectedNotification: any = null;
+
   inputValues: any = {
     glycemie: '',
     pression: '',
@@ -63,11 +47,41 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
  
   chart: any;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.fetchNotifications();
+  }
 
   ngAfterViewInit(): void {}
+
+
+  fetchNotifications(): void {
+    const apiUrl = 'http://127.0.0.1:8000/profil/demandes_bilan/';
+    this.user_id = localStorage.getItem('user_id');
+    const payload = { user_id: this.user_id };
+  
+    this.http.post<any[]>(apiUrl, payload).subscribe(
+      (data) => {
+        if (Array.isArray(data)) {
+          
+          this.notifications = data.map((item) => ({
+            patient: `${item.patient.nom} ${item.patient.prenom}`,
+            doctor: `${item.docteur.nom} ${item.docteur.prenom}`,
+            date: new Date().toLocaleDateString(), 
+            etatdemande: false, 
+          }));
+        } else {
+          console.error('Unexpected response format:', data);
+        }
+      },
+      (error) => {
+        console.error('Failed to fetch notifications', error);
+      }
+    );
+  }
+  
+
 
   onCardClick(notification: any): void {
     this.selectedNotification = notification;

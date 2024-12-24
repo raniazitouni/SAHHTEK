@@ -10,20 +10,20 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class NotificationCardComponent {
   @Input() demande!: {
-    patient: string;
-    doctor: string;
+    patientName: string;
+    doctorName: string;
     date: string;
-    type: string;
-    etatdemande: boolean;}
+    typeRadio: string;
+    etatDemande: boolean;
+  };
 
   @Output() cardClicked = new EventEmitter<void>();
 
   get isProcessed(): boolean {
-    return this.demande.etatdemande;
+    return this.demande.etatDemande;
   }
 
   handleClick(): void {
     this.cardClicked.emit();
   }
 }
-

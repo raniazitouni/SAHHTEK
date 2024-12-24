@@ -1,19 +1,22 @@
-<div
-  class="h-12 mt-6 rounded-lg flex flex-col justify-center items-center px-4 w-full"
-  [ngClass]="isProcessed ? 'bg-[#ECF1F7]' : 'bg-[#FAD4C7]'"
+<div class="h-12 mt-6 rounded-lg flex justify-center items-center px-4 w-full"
+  [ngClass]="{'bg-[#ECF1F7] ': isProcessed, 'bg-[#FAD4C7] hover:bg-[#f3beac]': !isProcessed}"
   (click)="handleClick()"
 >
-  <div class="self-stretch justify-between items-center flex">
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
-      {{ demande.patient }}
+  
+  <div class="flex justify-between items-center w-full">
+    <div class="w-1/4 text-[#697D95] text-[16px] font-medium font-['Poppins'] text-center">
+      {{ demande.patientName }}
     </div>
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
-      Par {{ demande.doctor }}
+    
+    <div class="w-1/4 text-[#697D95] text-[16px] font-medium font-['Poppins'] text-center">
+      Par {{ demande.doctorName }}
     </div>
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
-      {{ demande.type }}
+    
+    <div class="w-1/4 text-[#697D95] text-[16px] font-medium font-['Poppins'] text-center">
+      {{ demande.typeRadio }}
     </div>
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+    
+    <div class="w-1/4 text-[#697D95] text-[16px] font-medium font-['Poppins'] text-center">
       {{ demande.date }}
     </div>
   </div>

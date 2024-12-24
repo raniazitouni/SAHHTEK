@@ -66,7 +66,7 @@ export class LoginPageComponent {
 
     this.http.post('http://127.0.0.1:8000/forgot-password/', resetData).subscribe(
       (response: any) => {
-        if (response.message === 'Password reset email sent') {
+        if (response.message === 'Password reset email sent successfully.') {
           alert('Un email de réinitialisation a été envoyé.');
           this.closeModal();  
         } else {
@@ -80,5 +80,3 @@ export class LoginPageComponent {
     );
   }
 }
-
-

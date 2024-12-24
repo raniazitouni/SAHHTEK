@@ -10,7 +10,7 @@ import { LaboratinNotificationsComponent } from './laborantin/notification-labor
   standalone: true,
   imports: [
     CommonModule,
-    LaboratinNotificationsComponent
+    NotificationRadiologueComponent
 ],
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css'], 

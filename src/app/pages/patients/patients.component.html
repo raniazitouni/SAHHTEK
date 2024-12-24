@@ -15,30 +15,30 @@
 
    <!-- Liste des patients -->
    <div class="mt-6">
-    <table class="w-full border-collapse bg-white text-left text-sm font-['Poppins'] rounded-sm">
+    <table class="w-full border-collapse bg-white text-center text-sm font-['Poppins'] rounded-sm">
       <thead class="h-10 bg-[#839FCD] text-[#ffffff] rounded-sm">
         <tr>
          
-          <th class="px-6 py-4 font-medium">Nom</th>
-          <th class="px-6 py-4 font-medium">Prénom</th>
-          <th class="px-4 py-4 font-medium">Date de Naissance</th>
-          <th class="px-6 py-4 font-medium">NSS</th>
-          <th class="px-6 py-4 font-medium">Téléphone</th>
-          <th class="px-6 py-4 font-medium">Adresse</th>
-          <th class="px-6 py-4 font-medium">Statut</th>
+          <th class="w-1/7 py-2 font-medium">Nom</th>
+          <th class="w-1/7 py-2 font-medium">Prénom</th>
+          <th class="w-1/7 py-2 font-medium">Date de Naissance</th>
+          <th class="w-1/7 py-2 font-medium">NSS</th>
+          <th class="w-1/7 py-2 font-medium">Téléphone</th>
+          <th class="w-1/7 py-2 font-medium">Adresse</th>
+          <th class="w-1/7 py-2 font-medium">Statut</th>
         </tr>
       </thead>
       <tbody>
-        <!-- Dynamic patient list -->
+        
         <tr *ngFor="let patient of patients; let i = index" [ngClass]="{'bg-[#ffffff]': i % 2 === 0, 'bg-[#ECF1F7]': i % 2 !== 0}">
           
-          <td class="px-6 py-4">{{ patient.name }}</td>
-          <td class="px-6 py-4">{{ patient.surname }}</td>
-          <td class="px-4 py-4">{{ patient.birthdate }}</td>
-          <td class="px-6 py-4">{{ patient.nss }}</td>
-          <td class="px-6 py-4">{{ patient.phone }}</td>
-          <td class="px-6 py-4">{{ patient.address }}</td>
-          <td class="px-6 py-4">
+          <td class="w-1/7 py-2">{{ patient.name }}</td>
+          <td class="w-1/7 py-2">{{ patient.surname }}</td>
+          <td class="w-1/7 py-2">{{ patient.birthdate }}</td>
+          <td class="w-1/7 py-2">{{ patient.nss }}</td>
+          <td class="w-1/7 py-2">{{ patient.phone }}</td>
+          <td class="w-1/7 py-2">{{ patient.address }}</td>
+          <td class="w-1/7 py-2">
             <select [(ngModel)]="patient.etatpatient" 
                     (change)="updatePatientStatus(patient)" 
                     class="bg-transparent rounded-xl px-2 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]">
@@ -55,7 +55,7 @@
  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-all font-['Poppins']" [class.hidden]="!isModalOpen">
   <div class="w-3/4 md:w-2/3 lg:w-1/2 bg-white rounded-lg p-4 flex flex-col gap-6 max-h-[90vh] overflow-y-auto">
     <h2 class="text-neutral-900 text-2xl font-semibold">Créer DPI</h2>
-    <form (submit)="addPatient()" #dpiForm="ngForm">
+    <form  (ngSubmit)="addPatient()" #dpiForm="ngForm">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
        
         <div>
@@ -189,9 +189,11 @@
         <button 
           type="submit" 
           class="px-5 py-2 bg-[#3F6CB5] hover:bg-[#839FCD] text-white rounded-md" 
-          [disabled]="!dpiForm.form.valid">
+          [disabled]="dpiForm.form.valid"
+        >
           Ajouter le patient
-        </button>
+          
+       </button>
       </div>
     </form>
   </div>

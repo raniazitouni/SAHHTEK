@@ -1,58 +1,62 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { NotificationCardComponent } from '../radiologue/card/notification-card/notification-cardd.component';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-notification-radiologue',
   standalone: true,
-  imports: [CommonModule, NotificationCardComponent], // Ensure this is included
+  imports: [NotificationCardComponent, FormsModule, CommonModule],
   templateUrl: './notification-radiologue.component.html',
   styleUrls: ['./notification-radiologue.component.css'],
 })
-export class NotificationRadiologueComponent {
-  demandes = [
-    {
-      patient: 'belkis',
-      type: 'Radiologie',
-      doctor: 'Dr Alouane',
-      date: '7-12-2024',
-      etatdemande: false,
-    },
-    {
-      patient: 'aya',
-      type: 'Radiologie',
-      doctor: 'Dr Karim',
-      date: '6-12-2024',
-      etatdemande: true,
-    },
-  ];
-
+export class NotificationRadiologueComponent implements OnInit {
+  selectedDemande: any = null;
+  demandes: any[] = [];
   isModalOpen = false;
-  selectedNotification: any = null;
+  user_id: string | null | undefined;
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.user_id = localStorage.getItem('user_id');
+    if (this.user_id) {
+      this.fetchDemandes(this.user_id);
+    }
+  }
+
+  fetchDemandes(user_id: string | null): void {
+    this.http
+      .post<any[]>('http://127.0.0.1:8000/profil/demandes_radio/', { userId: user_id })
+      .subscribe(
+        (data) => {
+          // Map the response to the desired format
+          this.demandes = data.map((demande: any) => ({
+            patientName: `${demande.patient.nom} ${demande.patient.prenom}`,
+            doctorName: `${demande.docteur.nom} ${demande.docteur.prenom}`,
+            typeRadio: demande.typeRadio,
+            date: demande.dateDenvoi,
+            etatDemande: demande.etatDemande,
+          }));
+        },
+        (error) => {
+          console.error('Error fetching data', error);
+        }
+      );
+  }
 
   onCardClick(demande: any): void {
-    this.selectedNotification = demande;
+    this.selectedDemande = demande;
     this.openModal();
   }
 
   openModal(): void {
     this.isModalOpen = true;
-    setTimeout(() => this.generateGraph(), 500);
   }
 
   closeModal(): void {
     this.isModalOpen = false;
-    this.selectedNotification = null;
-  }
-
-  generateGraph(): void {
-    const chartContainer = document.getElementById('chart-container');
-    if (chartContainer) {
-      chartContainer.innerHTML = `
-        <div class="h-full flex items-center justify-center text-[#697D95]">
-          Graphique ici
-        </div>`;
-    }
+    this.selectedDemande = null;
   }
 }

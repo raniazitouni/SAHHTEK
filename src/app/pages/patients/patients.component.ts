@@ -16,21 +16,19 @@ interface Patient {
   etatpatient: number; 
 }
 
-
-
-
 @Component({
+  standalone: true,
   selector: 'app-patients',
   templateUrl: './patients.component.html',
   styleUrls: ['./patients.component.css'],
-  imports: [ FormsModule, CommonModule,HttpClientModule],
+  imports: [CommonModule, HttpClientModule, FormsModule],
 })
 export class PatientsComponent implements OnInit {
   patients: Patient[] = [];
   isModalOpen = false;
-  
+
   today: string = new Date().toISOString().split('T')[0];
-  
+
   newPatient: Patient = {
     nss: '',
     name: '',
@@ -43,38 +41,51 @@ export class PatientsComponent implements OnInit {
     personne: '',
     etatpatient: 0, // hospitalisé
   };
+  user_id: any;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    const hospitalId = 1;  
-    this.fetchPatients(hospitalId); 
-}
+    this.user_id = localStorage.getItem('user_id'); 
+    this.fetchPatients(this.user_id);
+  }
 
-  
-  fetchPatients(hospitalId: number) {
-    this.http.get<Patient[]>(`http://127.0.0.1:8000/profil/patients_by_hospital/${hospitalId}`).subscribe(
+  fetchPatients(user_id : number) {
+    const url = 'http://127.0.0.1:8000/profil/docteur_patients/';
+    
+    this.http.post<Patient[]>(url, { userId: user_id }).subscribe(
       (data) => {
-        this.patients = data; 
+        this.patients = data.map((patient: any) => ({
+          nss: patient.patientId || '',
+          name: patient.nomUser || '',
+          surname: patient.prenomUser || '',
+          phone: patient.telephone || '',
+          birthdate: patient.dateDeNaissance || '',
+          address: patient.adresse || '',
+          mail: patient.emailUser || '',
+          mutuelle: patient.mutuelle || '',
+          personne: patient.personneAContacter || '',
+          etatpatient: patient.etatPatient || 0,
+        }));
       },
       (error) => {
-        console.error('Error fetching patients:', error); 
+        console.error('Error fetching patients:', error);
       }
     );
-}
+  }
 
-  
   openModal() {
     this.isModalOpen = true;
   }
 
-  
   closeModal() {
     this.isModalOpen = false;
   }
 
   // Add a new patient
   addPatient() {
+    console.log("Adding new patient:", this.newPatient);
+
     const patientData = {
       patientid: this.newPatient.nss,
       nomuser: this.newPatient.name,
@@ -86,16 +97,21 @@ export class PatientsComponent implements OnInit {
       etatpatient: this.newPatient.etatpatient,
       mutuelle: this.newPatient.mutuelle,
       personneacontacter: this.newPatient.personne,
-      hopitalid: 1,
+      hopitalid: 1,  // Assuming you are passing the hospital ID here
     };
 
-    this.http.post('http://127.0.0.1:8000/maj/CreateDpi', patientData).subscribe(
+    console.log("Sending patient data:", patientData);
+
+    this.http.post('http://127.0.0.1:8000/maj/CreateDpi/', patientData).subscribe(
       (response) => {
         console.log('Patient added:', response);
-        if (response  === 'Object created successfully') {
-          
+
+        // Check if the response is successful
+        if (response === 'Object created successfully') {
+          // Add the new patient to the patients list
           this.patients.push({ ...this.newPatient });
-          
+
+          // Reset the form after successful addition
           this.newPatient = {
             nss: '',
             name: '',
@@ -106,10 +122,13 @@ export class PatientsComponent implements OnInit {
             mail: '',
             mutuelle: '',
             personne: '',
-            etatpatient: 0, 
+            etatpatient: 0,  // Reset status
           };
-          
+
+          // Close the modal
           this.closeModal();
+        } else {
+          console.error('Failed to add patient');
         }
       },
       (error) => {
@@ -118,14 +137,12 @@ export class PatientsComponent implements OnInit {
     );
   }
 
-  
   updatePatientStatus(patient: Patient) {
     const updatedPatientData = {
       nss: patient.nss, 
       etatpatient: patient.etatpatient
     };
 
-    
     this.http.put(`http://127.0.0.1:8000/profil/patients_by_hospital/${patient.nss}`, updatedPatientData).subscribe(
       (response) => {
         console.log('Patient status updated:', response);

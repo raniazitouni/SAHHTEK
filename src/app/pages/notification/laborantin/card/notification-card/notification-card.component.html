@@ -1,16 +1,16 @@
 <div
   class="h-12 mt-6 rounded-lg flex-col justify-center items-center px-4 inline-flex w-full"
-  [ngClass]="{'bg-[#ECF1F7]': isProcessed, 'bg-[#FAD4C7]': !isProcessed}"
+  [ngClass]="{'bg-[#ECF1F7] ': isProcessed, 'bg-[#FAD4C7] hover:bg-[#f3beac]': !isProcessed}"
   (click)="handleClick()"
 >
-  <div class="self-stretch justify-between items-center inline-flex">
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+  <div class="flex justify-between items-center w-full">
+    <div class="w-1/3 text-[#697D95] text-[16px] font-medium font-['Poppins']">
       {{ notification.patient }}
     </div>
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+    <div class="w-1/3 text-[#697D95] text-[16px] font-medium font-['Poppins']">
       Par {{ notification.doctor }}
     </div>
-    <div class="text-[#697D95] text-[16px] font-medium font-['Poppins']">
+    <div class="w-1/3 text-[#697D95] text-[16px] font-medium font-['Poppins']">
       {{ notification.date }}
     </div>
   </div>
