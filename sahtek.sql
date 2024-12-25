@@ -1,21 +1,21 @@
 -- -- Supprime toutes les tables si elles existent déjà
 SET FOREIGN_KEY_CHECKS = 0;
--- DROP TABLE IF EXISTS SoinObservation;
--- DROP TABLE IF EXISTS billanradiologiqueimages;
--- DROP TABLE IF EXISTS BilanRadiologique;
--- DROP TABLE IF EXISTS BilanBiologique;
--- DROP TABLE IF EXISTS OrdononceMedicament;
--- DROP TABLE IF EXISTS Medicament;
--- DROP TABLE IF EXISTS Ordononce;
+DROP TABLE IF EXISTS SoinObservation;
+DROP TABLE IF EXISTS billanradiologiqueimages;
+DROP TABLE IF EXISTS BilanRadiologique;
+DROP TABLE IF EXISTS BilanBiologique;
+DROP TABLE IF EXISTS OrdononceMedicament;
+DROP TABLE IF EXISTS Medicament;
+DROP TABLE IF EXISTS Ordononce;
 DROP TABLE IF EXISTS demandeBilan;
 DROP TABLE IF EXISTS demandeRadio;
--- DROP TABLE IF EXISTS demandeCertaficat;
--- DROP TABLE IF EXISTS Consultation;
--- DROP TABLE IF EXISTS demande;
--- DROP TABLE IF EXISTS dpi;
--- DROP TABLE IF EXISTS tuser;
--- DROP TABLE IF EXISTS patient;
--- DROP TABLE IF EXISTS hopital;
+DROP TABLE IF EXISTS demandeCertaficat;
+DROP TABLE IF EXISTS Consultation;
+DROP TABLE IF EXISTS demande;
+DROP TABLE IF EXISTS dpi;
+DROP TABLE IF EXISTS tuser;
+DROP TABLE IF EXISTS patient;
+DROP TABLE IF EXISTS hopital;
 SET FOREIGN_KEY_CHECKS = 1;
 
 
@@ -46,22 +46,14 @@ CREATE TABLE IF NOT EXISTS Tuser (
     adresse        VARCHAR(100) NOT NULL,
     emailUser      VARCHAR(100) NOT NULL,
     password       VARCHAR(255) NOT NULL, 
+    oldPassword    VARCHAR(255),
     hopitalId      INT,
     role           ENUM('admin', 'adminHopital', 'recepcioniste', 'docteur', 'patient', 'infermier', 'laborantin', 'radiologue') NOT NULL,
     FOREIGN KEY (hopitalId) REFERENCES Hopital(hopitalId),
     FOREIGN KEY (patientId) REFERENCES Patient(patientId)
 );
 
--- TABLEAU DPI (Dossier Patient Informatisé)
-CREATE TABLE IF NOT EXISTS DPI (
-    patientId  VARCHAR(100),
-    QR         VARCHAR(100) NOT NULL,
-    demandeCertaficatId INT,
-    PRIMARY KEY (patientId),
-    FOREIGN KEY (demandeCertaficatId) REFERENCES demandeCertaficat(demandeCertaficatId),
-    FOREIGN KEY (patientId) REFERENCES Patient(patientId)
-        ON DELETE CASCADE ON UPDATE CASCADE
-);
+
 
 -- TABLEAU DEMANDE
 CREATE TABLE IF NOT EXISTS Demande (
@@ -83,13 +75,14 @@ CREATE TABLE IF NOT EXISTS BilanBiologique (
     pressionValue      FLOAT DEFAULT NULL,
     cholesterolValue   FLOAT DEFAULT NULL,
     resultDate         DATE DEFAULT NULL,
+    etatbilan       BOOLEAN NOT NULL  DEFAULT FALSE,
     FOREIGN KEY (userId) REFERENCES Tuser(userId)
 );
 
 -- TABLEAU BilanRadiologique
 CREATE TABLE IF NOT EXISTS BilanRadiologique (
     bilanRadiologiqueId INT PRIMARY KEY AUTO_INCREMENT,
-    RadioType           ENUM('IRM', 'ecographie', 'radiographic', 'autre') NOT NULL,
+    RadioType           ENUM('IRM', 'echographie', 'radiographic', 'autre') NOT NULL,
     userId              INT,
     compteRendu         VARCHAR(500) NOT NULL,
     image               VARCHAR(500),
@@ -202,5 +195,16 @@ CREATE TABLE IF NOT EXISTS Consultation (
 
 );
 
-ALTER TABLE Tuser ADD COLUMN oldPassword VARCHAR(255);
+-- TABLEAU DPI (Dossier Patient Informatisé)
+CREATE TABLE IF NOT EXISTS DPI (
+    patientId  VARCHAR(100),
+    QR         VARCHAR(100) NOT NULL,
+    demandeCertaficatId INT,
+    PRIMARY KEY (patientId),
+    FOREIGN KEY (demandeCertaficatId) REFERENCES demandeCertaficat(demandeCertaficatId),
+    FOREIGN KEY (patientId) REFERENCES Patient(patientId)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
 
