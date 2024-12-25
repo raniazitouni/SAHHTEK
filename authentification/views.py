@@ -104,8 +104,16 @@ def login_user(request):
         if user:
             user_id, email_db, password_db, role = user
 
+            key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
+            cipher_suite = Fernet(key)
+            encrypted_password = password_db
+            # Decode the encrypted password from base64
+            encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
+            # Decrypt the password
+            decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
+    
             # Compare plain passwords
-            if password == password_db:
+            if password == decrypted_password:
                 return JsonResponse({
                     "message": "Login successful",
                     "email": email_db,
