@@ -1,4 +1,4 @@
-<div class="px-24 pt-7 flex-col">
+<div class="px-24 pt-7 flex-col bg-Bluebg h-[calc(100vh-4rem)]">
   <div class="text-[#3F6CB5] text-2xl font-bold font-['Poppins'] mb-4">
     Notifications - Radiologue
   </div>
@@ -6,7 +6,8 @@
   <div *ngFor="let demande of demandes" class="w-full">
     <app-notification-cardd
       [demande]="demande"
-      (cardClicked)="onCardClick(demande)"
+      (cardClicked)="openPopup(demande)"
     ></app-notification-cardd>
+    <app-add-radio [Imagerie]="selectedRadioData" ></app-add-radio>
   </div>
 </div>

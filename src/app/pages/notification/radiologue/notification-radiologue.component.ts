@@ -1,23 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpClientModule } from '@angular/common/http';
 import { NotificationCardComponent } from '../radiologue/card/notification-card/notification-cardd.component';
 import { FormsModule } from '@angular/forms';
+import { PopupService } from '../../../Services/PopupRadio.service';
+import {AddRadioComponent} from '../../../components/add-radio/add-radio.component'
 
 @Component({
   selector: 'app-notification-radiologue',
   standalone: true,
-  imports: [NotificationCardComponent, FormsModule, CommonModule],
+  imports: [NotificationCardComponent, FormsModule, CommonModule , HttpClientModule ,AddRadioComponent],
   templateUrl: './notification-radiologue.component.html',
   styleUrls: ['./notification-radiologue.component.css'],
+  providers: [PopupService]
 })
 export class NotificationRadiologueComponent implements OnInit {
   selectedDemande: any = null;
   demandes: any[] = [];
   isModalOpen = false;
   user_id: string | null | undefined;
+  selectedRadioData: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient ,private popupService: PopupService) {}
 
   ngOnInit(): void {
     this.user_id = localStorage.getItem('user_id');
@@ -28,8 +32,9 @@ export class NotificationRadiologueComponent implements OnInit {
 
   fetchDemandes(user_id: string | null): void {
     this.http
-      .post<any[]>('http://127.0.0.1:8000/profil/demandes_radio/', { userId: user_id })
+      .post<any[]>('http://127.0.0.1:8000/profil/demandes_radio/', { radiologueId: user_id })
       .subscribe(
+        
         (data) => {
           // Map the response to the desired format
           this.demandes = data.map((demande: any) => ({
@@ -37,7 +42,8 @@ export class NotificationRadiologueComponent implements OnInit {
             doctorName: `${demande.docteur.nom} ${demande.docteur.prenom}`,
             typeRadio: demande.typeRadio,
             date: demande.dateDenvoi,
-            etatDemande: demande.etatDemande,
+            etatDemande: demande.etatDemande, 
+            demandeId : demande.demandeId
           }));
         },
         (error) => {
@@ -47,8 +53,18 @@ export class NotificationRadiologueComponent implements OnInit {
   }
 
   onCardClick(demande: any): void {
+   
     this.selectedDemande = demande;
     this.openModal();
+  }
+
+ 
+
+  openPopup(demande : any ): void {
+    console.log('hdy demande: '+ demande)
+    this.popupService.showPopup();
+    this.selectedRadioData = demande;  // Set the selected item data
+    console.log('Item passed to popup:', demande);
   }
 
   openModal(): void {
@@ -60,3 +76,16 @@ export class NotificationRadiologueComponent implements OnInit {
     this.selectedDemande = null;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

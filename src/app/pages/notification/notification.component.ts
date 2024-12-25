@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Importer CommonModule pour les directives Angular
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NotificationRadiologueComponent } from './radiologue/notification-radiologue.component';
-import { LaboratinNotificationsComponent } from './laborantin/notification-laborantin.component';
+//import { LaboratinNotificationsComponent } from './laborantin/notification-laborantin.component';
 
 
 
@@ -10,7 +11,8 @@ import { LaboratinNotificationsComponent } from './laborantin/notification-labor
   standalone: true,
   imports: [
     CommonModule,
-    NotificationRadiologueComponent
+    NotificationRadiologueComponent,
+    HttpClientModule
 ],
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css'], 
