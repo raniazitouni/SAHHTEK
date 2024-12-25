@@ -105,7 +105,7 @@ class Bilanradiologique(models.Model):
     TYPE_RADIO_CHOICES = [
         ('IRM', 'IRM'),
         ('echographie', 'Échographie'),
-        ('radiographie', 'Radiographie'),
+        ('radiographic', 'Radiographic'),
         ('autre', 'Autre')
     ]
     radiotype = models.CharField(db_column='Radiotype', max_length=50,choices=TYPE_RADIO_CHOICES)
@@ -229,8 +229,8 @@ class Demanderadio(models.Model):
     radiologueid = models.ForeignKey('Tuser', on_delete=models.SET_NULL, db_column='radiologueId', related_name='demanderadio_radiologueid_set', blank=True, null=True)  # Field name made lowercase.
     TYPE_RADIO_CHOICES = [
         ('IRM', 'IRM'),
-        ('echographie', 'Échographie'),
-        ('radiographie', 'Radiographie'),
+        ('echographie', 'Echographie'),
+        ('radiographic', 'Radiographic'),
         ('autre', 'Autre')
     ]
     typeradio = models.CharField(db_column='typeRadio', max_length=50,choices=TYPE_RADIO_CHOICES)  # Field name made lowercase.
