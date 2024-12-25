@@ -1,1 +1,2 @@
-<app-notification-radiologue></app-notification-radiologue>
+<app-notification-radiologue *ngIf="role === 'radiologue'"></app-notification-radiologue>
+<app-laboratin-notifications *ngIf="role === 'laborantin'"></app-laboratin-notifications>

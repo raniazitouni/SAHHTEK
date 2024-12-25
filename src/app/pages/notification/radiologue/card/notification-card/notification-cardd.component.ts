@@ -25,6 +25,15 @@ export class NotificationCardComponent {
   }
 
   handleClick(): void {
-    this.cardClicked.emit();
+    if (!this.demande.etatDemande) {
+
+      this.cardClicked.emit();
+      console.log('Card clicked and event emitted');
+
+
+      this.demande.etatDemande = true;
+    } else {
+      console.log('Card has already been processed');
+    }
   }
 }

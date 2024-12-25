@@ -85,7 +85,7 @@ export class RechercheComponent {
 
   // NSS Validation Logic
   isValidNSS(nss: string): boolean {
-    const regex = /^[0-9]{4}$/; // Example format: 15-digit number
+    const regex = /^[0-9]{16}$/; // Example format: 15-digit number
     return regex.test(nss);
   }
 

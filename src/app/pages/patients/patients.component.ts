@@ -53,7 +53,7 @@ export class PatientsComponent implements OnInit {
     fetchPatients(user_id : number) {
       const url = 'http://127.0.0.1:8000/profil/docteur_patients/';
       
-      this.http.post<Patient[]>(url, { userId: user_id }).subscribe(
+      this.http.post<Patient[]>(url, { doctorId: user_id }).subscribe(
         (data) => {
           this.patients = data.map((patient: any) => ({
             nss: patient.patientId || '',

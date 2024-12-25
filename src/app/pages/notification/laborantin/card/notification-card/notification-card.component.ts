@@ -1,11 +1,12 @@
 import { Component, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient , HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-notification-card',
   templateUrl: './notification-card.component.html',
   styleUrls: ['./notification-card.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule , HttpClientModule]
 })
 export class NotificationCardComponent {
 
@@ -26,6 +27,8 @@ export class NotificationCardComponent {
   }
 
   handleClick(): void {
+    console.log(this.notification)
+
     if (!this.notification.etatDemande) {
       
       this.cardClicked.emit();

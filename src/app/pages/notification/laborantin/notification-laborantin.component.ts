@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpClientModule } from '@angular/common/http';
 import { NotificationCardComponent } from './card/notification-card/notification-card.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -29,7 +29,7 @@ Chart.register(
   selector: 'app-laboratin-notifications',
   templateUrl: './notification-laborantin.component.html',
   styleUrls: ['./notification-laborantin.component.css'],
-  imports: [NotificationCardComponent, FormsModule, CommonModule],
+  imports: [NotificationCardComponent, FormsModule, CommonModule , HttpClientModule],
 })
 export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
   
