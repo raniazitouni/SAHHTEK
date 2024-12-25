@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Chart, BarElement, CategoryScale, LinearScale, BarController, Title, Tooltip, Legend } from 'chart.js';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 Chart.register(
   BarElement,
@@ -15,33 +16,50 @@ Chart.register(
 
 @Component({
   selector: 'app-popupbio',
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule,],
   templateUrl: './popupbio.component.html',
-  styleUrl: './popupbio.component.css'
+  styleUrls: ['./popupbio.component.css'],
 })
 export class PopupbioComponent {
-  selectedDemande: any = null;
-  inputValues: any = {
-    glycemie: '12',
-    pression: '12',
-    cholesterol: '12',
-  };
-
-
   isModalOpen = false;
-  selectedNotification: any = null;
+  inputValues: any = {
+    glycemie: null,
+    pression: null,
+    cholesterol: null,
+  };
+  laborantin: any = null;
+  resultDate: string = '';
   chart: any;
+  openchart: any;
+
+  constructor(private http: HttpClient) {}
+  //<button (click)="openModal()">Afficher Bilan</button> hadi lazem tkoun eand yara
 
   openModal(): void {
-    this.isModalOpen = true;
-    setTimeout(() => this.generateGraph(), 500); 
+     // hna declari l bilanId
+    this.http.post('http://127.0.0.1:8000/profil/detail_bilan_bio/', { /*bilanBiologiqueId: bilanId*/ })
+      .subscribe((data: any) => {
+        this.inputValues.glycemie = data.glycemieValue;
+        this.inputValues.pression = data.pressionValue;
+        this.inputValues.cholesterol = data.cholesterolValue;
+        this.laborantin = data.laborantin;
+        this.resultDate = data.resultDate;
+        this.openchart = data.etatbilan;
+        this.isModalOpen = true;
+        setTimeout(() => this.generateGraph(), 500); // Delay to ensure canvas is rendered
+      });
   }
- 
-  ngAfterViewInit() { this.generateGraph();}
+
+  closeModal(): void {
+    this.isModalOpen = false;
+    if (this.chart) {
+      this.chart.destroy(); // Clean up the chart instance
+    }
+  }
 
   showGraph(): boolean {
-    const { glycemie, pression, cholesterol } = this.inputValues;
-    return !isNaN(parseFloat(glycemie)) && !isNaN(parseFloat(pression)) && !isNaN(parseFloat(cholesterol));
+    
+    return this.openchart ;
   }
 
   generateGraph(): void {
@@ -89,11 +107,4 @@ export class PopupbioComponent {
       console.log('Veuillez remplir toutes les valeurs numériques.');
     }
   }
-
-  closeModal(): void {
-    this.isModalOpen = false;
-    this.selectedNotification = null;
-  }
 }
-
-

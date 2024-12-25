@@ -11,11 +11,6 @@
   </div>
 </div>
 
-
-
-
-
-<!-- Modal -->
 <!-- Modal -->
 <div
   class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
@@ -72,9 +67,9 @@
           Générer le Graphique
         </button>
 
-        <button type="submit"
+        <button type="submit" (ngSubmit)="sendBilanToBackend()"
           class="mt-4 px-4 py-2 bg-[#3F6CB5] text-white rounded-lg hover:bg-[#839FCD] self-start"
-          (click)="closeModal()"
+          (click)="closeModal()" 
         >
           Enregistrer
         </button>

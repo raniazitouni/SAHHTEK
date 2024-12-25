@@ -32,6 +32,7 @@ Chart.register(
   imports: [NotificationCardComponent, FormsModule, CommonModule],
 })
 export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
+  
   notifications: any[] = [];
   user_id: any;
   isModalOpen = false;
@@ -46,30 +47,33 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
 
  
   chart: any;
+  grapheexi: boolean | undefined;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.fetchNotifications();
+    this.user_id = localStorage.getItem('user_id');
+    if (this.user_id) {
+      this.fetchNotifications(this.user_id);
+    }
   }
+
 
   ngAfterViewInit(): void {}
 
 
-  fetchNotifications(): void {
-    const apiUrl = 'http://127.0.0.1:8000/profil/demandes_bilan/';
-    this.user_id = localStorage.getItem('user_id');
-    const payload = { user_id: this.user_id };
-  
-    this.http.post<any[]>(apiUrl, payload).subscribe(
+  fetchNotifications(user_id: string | null): void {
+    
+      this.http.post<any[]>('http://127.0.0.1:8000/profil/demandes_bilan/', { laborantinId: user_id })
+      .subscribe(
       (data) => {
         if (Array.isArray(data)) {
           
-          this.notifications = data.map((item) => ({
-            patient: `${item.patient.nom} ${item.patient.prenom}`,
-            doctor: `${item.docteur.nom} ${item.docteur.prenom}`,
-            date: new Date().toLocaleDateString(), 
-            etatdemande: false, 
+          this.notifications = data.map((notification: any) => ({
+            patientName: `${notification.patient.nom} ${notification.patient.prenom}`,
+            doctorName: `${notification.docteur.nom} ${notification.docteur.prenom}`,
+            date: notification.dateDenvoi, 
+            etatDemande: notification.etatDemande, 
           }));
         } else {
           console.error('Unexpected response format:', data);
@@ -100,8 +104,13 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
       this.inputValues.cholesterol,
     ];
 
+       
     // Check if all input values are filled
     if (values.every((val) => val != null && val !== '')) {
+
+      
+      this.grapheexi= true;
+
       if (this.chart) {
         this.chart.destroy();  // Destroy the previous chart if exists
       }
@@ -138,8 +147,34 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  sendBilanToBackend(): void{
+    const demandebilanid = this.selectedNotification?.demandebilanid || null;
+    this.user_id = localStorage.getItem('user_id');
+    const bilannn = {
+      etatbilan: this.grapheexi,
+      glycemievalue: this.inputValues.glycemie,
+      pressionvalue: this.inputValues.pression,
+      cholesterolvalue: this.inputValues.cholesterol,
+      resultdate: new Date().toISOString().split('T')[0], 
+      userid: this.user_id, 
+      demandebilanid, 
+    };
+
+    this.http.post('http://127.0.0.1:8000/maj/AjouterBillan/{patientid}/', bilannn)
+      .subscribe({
+        next: (response) => {
+          console.log('Bilan added successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error adding bilan:', error);
+        },
+      });
+  }
+
+
   closeModal(): void {
     this.isModalOpen = false;
     this.selectedNotification = null;
   }
 }
+

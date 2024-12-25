@@ -8,13 +8,13 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule]
 })
 export class NotificationCardComponent {
-  
+
   @Input() notification!: {
-    patient: string;
-    doctor: string;
+    patientName: string;
+    doctorName: string;
     date: string;
-    etatdemande: boolean;
-    testResults: any[]; 
+    etatDemande: boolean;
+    demandebilanid: BigInteger;
   };
 
   
@@ -22,17 +22,17 @@ export class NotificationCardComponent {
 
  
   get isProcessed(): boolean {
-    return this.notification.etatdemande;
+    return this.notification.etatDemande;
   }
 
   handleClick(): void {
-    if (!this.notification.etatdemande) {
+    if (!this.notification.etatDemande) {
       
       this.cardClicked.emit();
       console.log('Card clicked and event emitted');
       
      
-      this.notification.etatdemande = true;
+      this.notification.etatDemande = true;
     } else {
       console.log('Card has already been processed');
     }

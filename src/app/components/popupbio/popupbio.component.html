@@ -19,8 +19,8 @@ aria-describedby="modal-description"
     
     <div>
       <h2 class="text-lg font-bold text-[#3F6CB5]">Informations:</h2>
-      <p class="text-gray-700">Date: <span class="font-bold">20/00/2020</span></p>
-      <p class="text-gray-700">Laboratin Responsable: <span class="font-bold">Dr. XYZ</span></p>
+      <p class="text-gray-700">Date: <span class="font-bold">{{ resultDate }}</span></p>
+      <p class="text-gray-700">Laboratin Responsable: <span class="font-bold">{{ laborantin?.prenom }} {{ laborantin?.nom }}</span></p>
     </div>
 
     <div class="mt-4">
@@ -35,7 +35,7 @@ aria-describedby="modal-description"
 
   <!-- Right Section -->
   <div class="w-full sm:w-1/2 flex flex-col justify-center items-center border-l pl-4">
-    <!-- Graph -->
+    <!-- Graph (si il a ete generé par le laborantin) -->
     <div *ngIf="showGraph()">
       <h2 class="text-lg font-bold text-[#3F6CB5] text-center">Graphique</h2>
       <canvas id="chartCanvas" (ngAfterViewInit)="generateGraph()"></canvas>

@@ -139,11 +139,11 @@ export class PatientsComponent implements OnInit {
 
   updatePatientStatus(patient: Patient) {
     const updatedPatientData = {
-      nss: patient.nss, 
+      patientid: patient.nss, 
       etatpatient: patient.etatpatient
     };
 
-    this.http.put(`http://127.0.0.1:8000/profil/patients_by_hospital/${patient.nss}`, updatedPatientData).subscribe(
+    this.http.post(`http://127.0.0.1:8000/maj/UpdatePatientStatus/`, updatedPatientData).subscribe(
       (response) => {
         console.log('Patient status updated:', response);
       },

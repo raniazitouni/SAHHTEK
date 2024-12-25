@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NotificationComponent } from './notification.component';
 import { NotificationRadiologueComponent } from './radiologue/notification-radiologue.component';
 import { LaboratinNotificationsComponent } from './laborantin/notification-laborantin.component';
-import { CanvasJSAngularChartsModule } from '@canvasjs/angular-charts'; 
+
 
 
 describe('NotificationComponent', () => {
