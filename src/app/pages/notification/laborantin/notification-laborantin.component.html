@@ -1,0 +1,83 @@
+<div class="px-24 pt-7 flex-col bg-Bluebg">
+  <div class="text-[#3F6CB5] text-2xl font-bold font-['Poppins'] mb-4">
+    Notifications - Laborantin
+  </div>
+
+  <div *ngFor="let notification of notifications" class="w-full">
+    <app-notification-card
+      [notification]="notification"
+      (cardClicked)="onCardClick(notification)"
+    ></app-notification-card>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+  *ngIf="isModalOpen"
+>
+  <div class="w-3/4 sm:w-3/4 md:w-2/3 bg-white rounded-lg p-6 flex flex-row">
+    <div class="w-1/2 flex flex-col gap-4">
+      <h2 class="text-xl font-bold text-center text-[#3F6CB5] mb-4">
+        Ajouter Bilan d'Analyse
+      </h2>
+      <p class="text-sm text-gray-700 mb-4">
+        Détails pour la demande : {{ selectedNotification?.id }}
+      </p>
+      <!-- Inputs -->
+      <div >
+        <label class="block text-sm font-medium text-gray-700">Glycémie</label>
+        <input
+          type="text"
+          [(ngModel)]="inputValues.glycemie"
+          class="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]"
+          placeholder="Entrez la glycémie"
+        required/>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Pression</label>
+        <input
+          type="text"
+          [(ngModel)]="inputValues.pression"
+          class="mt-1 p-2 border border-gray-300  rounded-md w-full focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]"
+          placeholder="Entrez la pression"
+        required/>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Cholestérol</label>
+        <input
+          type="text"
+          [(ngModel)]="inputValues.cholesterol"
+          class="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]"
+          placeholder="Entrez le cholestérol"
+        requi/>
+      </div>
+      <!-- Buttons -->
+      <div class="justify-end mt-4 flex-row">
+        <button
+          class="mt-4 mr-2 px-4 py-2 bg-[#3F6CB5] text-white rounded-lg hover:bg-[#839FCD] self-start"
+          (click)="closeModal()"
+        >
+          Annuler
+        </button>
+        <button
+          class="mt-4 mr-2 px-4 py-2 bg-[#3F6CB5] text-white rounded-lg hover:bg-[#839FCD] self-start"
+          (click)="generateGraph()"
+        >
+          Générer le Graphique
+        </button>
+
+        <button type="submit" (ngSubmit)="sendBilanToBackend()"
+          class="mt-4 px-4 py-2 bg-[#3F6CB5] text-white rounded-lg hover:bg-[#839FCD] self-start"
+          (click)="closeModal()" 
+        >
+          Enregistrer
+        </button>
+      </div>
+    </div>
+    <div class="w-1/2">
+      <canvas id="chartCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
