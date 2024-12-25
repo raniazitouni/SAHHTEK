@@ -14,4 +14,5 @@ urlpatterns = [
       path('AjouterObservation/', views.AjouterObservation.as_view(), name='AjouterObservation'),
       path('UpdateUserInfo/', views.UpdateUserInfo.as_view(), name='UpdateUserInfo'),
       path('ResetPassword/', views.ResetPassword.as_view(), name='ResetPassword'),
+      path('UpdatePatientStatus/', views.UpdatePatientStatus.as_view(), name='UpdatePatientStatus'),
 ]

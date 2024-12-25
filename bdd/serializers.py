@@ -184,3 +184,8 @@ class  PasswordResetSerializer(serializers.ModelSerializer):
         model = Tuser
         fields = ['password' , 'oldpassword']
 
+class  ParientStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Patient
+        fields = ['etatpatient']
+

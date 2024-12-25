@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from bdd.models import Patient, Dpi , Tuser ,Demanderadio ,Demandebilan , Ordonnance, Medicament ,Ordonnancemedicament ,Consultation ,Bilanradiologique , Bilanbiologique , Demandecertaficat ,Soinobservation
-from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer , BilanbiologiqueSerializer , DemandecertaficatSerializer , TuserUpdateSerializer ,PasswordResetSerializer ,SoinobservationSerializer
+from bdd.serializers import PatientSerializer, DpiSerializer , TuserSerializer,DemanderadioSerializer ,DemandebilanSerializer ,OrdonnanceSerializer ,OrdonnancemedicamentSerializer,MedicamentSerializer,ConsultationSerializer,BilanradiologiqueSerializer , BilanbiologiqueSerializer , DemandecertaficatSerializer , TuserUpdateSerializer ,PasswordResetSerializer ,SoinobservationSerializer , ParientStatusSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -434,7 +434,7 @@ class ResetPassword(APIView):
             encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
             # Decrypt the password
             decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
-
+           
             if decrypted_password == oldpsw :  
                   new_psw = request.data.get('newPassword',None)
                   psw = new_psw.encode()
@@ -456,6 +456,24 @@ class ResetPassword(APIView):
         else : 
             return Response({'error': "user not found"}, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+
+class UpdatePatientStatus(APIView):
+
+    def put(self, request, *args, **kwargs):
+
+        patient_id= request.data.get('patientid', None)
+        patient = Patient.objects.filter(patientid=patient_id).first()
+        if patient : 
+            serializer = ParientStatusSerializer(patient, data=request.data, partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message": "patient status updated successfully"}, status=200)
+            else:
+                return Response(serializer.errors, status=400)
+        else : 
+            return Response({'error': "user not found"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

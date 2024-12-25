@@ -85,6 +85,7 @@ class Bilanbiologique(models.Model):
     pressionvalue = models.FloatField(null=True, blank=True, default=None)
     cholesterolvalue = models.FloatField(null=True, blank=True, default=None)
     resultdate = models.DateField(null=True, blank=True, default=None)  
+    etatbilan = models.BooleanField(db_column='etatbilan',default=False) # Field name made lowercase.
     # TYPE_BILAN_CHOICES = [
     #     ('glycemie', 'glycémie'),
     #     ('pression', 'pression'),
