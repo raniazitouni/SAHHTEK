@@ -1,0 +1,6 @@
+billanbiologiqueId,userId,patientId,typeBilan,graphImage
+1,1,glycémie,1,image1.png
+2,2,pression,2,image2.png
+3,3,cholestérol,3,image3.png
+4,4,glycémie,4,image4.png
+5,5,pression,5,image5.png
