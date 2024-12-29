@@ -133,17 +133,6 @@ class Consultation(models.Model):
         db_table = 'consultation'
 
 
-class Demande(models.Model):
-    demandeid = models.AutoField(db_column='demandeId', primary_key=True)  # Field name made lowercase.
-    etatdemande = models.IntegerField(db_column='etatDemande')  # Field name made lowercase.
-    userid = models.ForeignKey('Tuser', models.DO_NOTHING, db_column='userId', blank=True, null=True)  # Field name made lowercase.
-    typedemande = models.CharField(db_column='typeDemande', max_length=17)  # Field name made lowercase.
-    contenudemande = models.CharField(db_column='contenuDemande', max_length=100)  # Field name made lowercase.
-    datedenvoi = models.DateField(db_column='dateDenvoi', blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = False
-        db_table = 'demande'
 
 
 class Demandebilan(models.Model):

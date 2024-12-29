@@ -600,7 +600,7 @@ class DemandesBilanByLaborantin(APIView):
                             "nom": demande[3],
                             "prenom": demande[4]
                         },
-                        "etatDemande": "Validée" if demande[5] else "En attente"  # Conversion de l'état
+                        "etatDemande": "True" if demande[5] else "False"  # Conversion de l'état
                     })
                 return result
             else:

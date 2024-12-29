@@ -12,7 +12,6 @@ from .models import (
     Demandebilan,
     Demanderadio,
     Demandecertaficat,
-    Demande,
     DjangoAdminLog,
     DjangoContentType,
     DjangoMigrations,
@@ -80,11 +79,6 @@ class ConsultationSerializer(serializers.ModelSerializer):
         model = Consultation
         fields = '__all__'
 
-
-class DemandeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Demande
-        fields = '__all__'
 
 class DemandebilanSerializer(serializers.ModelSerializer):
     class Meta:
