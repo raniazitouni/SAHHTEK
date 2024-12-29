@@ -22,6 +22,3 @@ nomUser :'Terkmani',
 role : 'medecin'
 }
 
-
-
-
