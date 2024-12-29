@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajouter Consultation</title>
+</head>
+<body>
+  <div class="consultation-page">
+    <main>
+      <div class="Mainframe">
+        <h2>Ajouter Consultation</h2> 
+         <div class="form-container">
+            <div class="form-group2">
+                <label  >Résumé de la consultation</label>
+                <textarea class="summary" placeholder="Résumé"
+                    [value]="consultationData.resumeconsultation"
+                    (input)="updateResume($event)">
+          </textarea>
+                <button class="btn"id="Submitbtn" >Ajouter le résumé</button>
+              </div>
+
+              <div class="date-button">
+              <div class="button-group">
+                <button class="btn" id="dropdownButton" aria-expanded="false" (click)="toggleDropdown()" >
+                  Demande Bilan Radiologique <span class="arrow" >&#9662;</span>
+                </button>
+                  <div class="dropdown-menu" id="dropdownMenu" [style.display]="isDropdownVisible ? 'block' : 'none'">
+                    <a  (click)="selectRadioType('IRM');hideDropdown()">IRM</a>
+                    <a  (click)="selectRadioType('echographie');hideDropdown()">Échographie</a>
+                    <a  (click)="selectRadioType('radiographic');hideDropdown()">Radiographie</a>
+                    <a  (click)="selectRadioType('autre');hideDropdown()">Autre</a>
+                  </div>
+                <button class="btn"(click)="submitDemandeBillan()">Demander Bilan Biologique</button>
+                <button class="btn" (click)="openOrdonnancePopup()">Ajouter une Ordonnance</button>
+
+                <div class="modal" [style.display]="isModalVisible ? 'flex' : 'none'">
+           <div class="modal-content">
+        <div class="modal-header">
+            <h1>Ordonnance</h1>
+            <span class="close" (click)="closeModal()">×</span>
+        </div>
+        
+        <div class="form-group3">
+            <label for="medicament">Médicament
+              </label>
+            <input class="fill" type="text" id="medicament" placeholder="paracetamol"
+            [value]="ordonnanceData.nommedicament"
+            (input)="updatenommedicament($event)">
+        </div>
+        <div class="form-group3">
+            <label for="dose">Dose</label>
+            <input class="fill" type="text" id="dose" placeholder="200mg"
+            [value]="ordonnanceData.dose"
+            (input)="updatedose($event)">
+        </div>
+        <div class="form-group3">
+            <label for="duree">Durée</label>
+            <input class="fill"  type="text" id="duree" placeholder="1 semaine"
+            [value]="ordonnanceData.duree"
+            (input)="updateduree($event)" >
+        </div>
+        <div class="btn22">
+        <button class="btn" id="ajouttter" (click)="addOrdonnance();openOrdonnancePopup()">Ajouter</button>
+        <button class="btn" id="done" (click)="saveOrdonnance()">Terminé</button></div>
+        </div>
+        </div>
+
+              </div>
+           
+            <div class="form-group">
+              <label for="consultation-date"> Date de la consultation</label>
+              <input type="date" id="consultation-date" 
+              [value]="consultationData.consulationdate"
+              (input)="onDateChange($event)">
+            </div>
+            
+          </div>
+          
+        </div>
+        <button class="btn"id="termine"(click)="submitConsultation()">Terminé</button>
+      </div>
+    </main>
+  </div> 
+</body>
+</html>

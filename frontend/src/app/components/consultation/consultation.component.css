@@ -1,0 +1,259 @@
+.consultation-page {
+    font-family: Poppins;
+}
+
+main {
+    margin: 20px;
+}
+.Mainframe {
+  padding: 20px;         
+  width: 100%; 
+  max-width: 1363px; 
+  height: auto; 
+  position: relative; 
+  margin: 50px auto; 
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 24px;
+    color: #3F6CB5;
+}
+h1 {
+  
+  font-size: 24px;
+  color: #3F6CB5;
+}
+
+
+.form-container {
+    display: flex;
+    flex-direction: row; /* Changed from line to row */
+    width: 100%; 
+    height: auto; 
+    position: relative; /* Changed from absolute to relative */
+    top: 0; /* Removed positioning */
+    margin-top: 20px; /* Added margin for spacing */
+}
+
+.date-button {
+  display: flex;
+  flex-direction: column;
+  width: 100%; /* Changed from fixed width to 100% */
+  max-width: 280px; /* Maximum width constraint */
+  gap: 20px; /* Adjusted gap for better spacing */
+  height: auto; /* Allow height to adjust based on content */
+  margin-top: 60px; /* Adds spacing above the section */
+}
+
+.form-group {
+  display: flex; 
+  gap: 10px;
+  width: 100%; /* Changed from fixed width to 100% */
+  height: auto; /* Allow height to adjust based on content */
+  flex-direction: column;
+}
+
+.form-group3{
+  display: flex; 
+  gap: 2px;
+  width: 100%; /* Changed from fixed width to 100% */
+  height: auto; /* Allow height to adjust based on content */
+  flex-direction: column;
+}
+
+
+
+#termine {
+    color: #121212;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #F5A48F;
+    font-weight: bold;
+    margin-left: auto; /* Push the button to the right */
+  margin-right: 0; /* Ensure no margin on the right side */
+    font-size: 17px;
+    display: block; /* Display block for centering */
+}
+
+#termine:hover {
+    background-color: #e99a87; 
+    transform: scale(1.01); 
+}
+
+.form-group2 {
+    display: flex;
+    gap:19px;
+    width: 100%; /* Make the width 100% for responsiveness */
+    max-width: 1050px; /* Maximum width constraint */
+    height: auto; /* Allow height to adjust based on content */
+    flex-direction: column;
+    padding: 10px; 
+}
+
+@media (max-width: 768px) {
+    .form-group2 {
+        gap: 15px; /* Adjust the gap between elements */
+    }
+}
+
+@media (max-width: 480px) {
+    .form-group2 {
+        gap: 10px; /* Reduce gap to make elements fit better */
+        padding: 5px; /* Reduce padding for smaller screens */
+    }
+}
+
+textarea {
+    height: 150px;
+    border: 0.5px solid #DCDCDC;
+    width: 100%; 
+    max-width: 1050px; 
+    height: 400px;
+    background: white;
+    padding: 17px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px); 
+}
+.close {
+  position: relative;
+  cursor: pointer;
+  color: #999999;
+  font-size: 20px;
+}
+.show-modal {
+  display: flex; 
+}
+.modal-header{
+  display: flex ;
+ flex-direction: line;
+ gap: 220px;
+}
+a[role="button"] {
+  cursor: pointer;
+}
+
+.modal-content {
+  display: flex ;
+  flex-direction: column;
+  gap: 7px ;
+  background-color: #fff;
+  color: #000;
+  padding: 20px;
+  border-radius: 8px;
+  width: 435px;
+  height: 370px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.fill {
+  border-radius: 5px;
+    cursor: text;
+    padding: 10px;
+    background-color: #F1F1F1;
+    font-size: 14px;
+  
+}
+.button-group {
+    display: flex;
+    gap: 19px;
+    flex-direction: column;
+}
+
+#Submitbtn {
+  width: 100%; /* Make button take full width on smaller screens */
+  max-width: 200px; /* Maximum width constraint */
+  margin-left: auto; /* Push the button to the right */
+  margin-right: 0; /* Ensure no margin on the right side */
+  display: block; /* Ensure the button behaves as a block element */
+}
+
+
+#consultation-date {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3F6CB5;
+    color: white;
+    font-size: 14px;
+}
+#done{
+width: 100%; 
+  max-width: 150px; 
+  margin-left: auto;
+  margin-right: 0; 
+  display: block; 
+  margin-top: 20px; 
+  color: #121212;
+  font-size: 16px;
+  background-color: #F5A48F;
+}
+#ajouttter {
+  width: 100%; 
+  max-width: 150px; 
+  margin-left: 0; 
+  margin-right: auto; 
+  display: block; 
+  margin-top: 20px; 
+}
+.btn22{
+  display: flex;
+  gap: 19px;
+  flex-direction: line;
+}
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #3F6CB5;
+    color: white;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #2A497C; 
+    transform: scale(1.01); 
+}
+
+.arrow {
+    margin-left: 10px;
+}
+
+
+.dropdown-menu {
+    display: none; /* Initially hidden */
+    position: absolute;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    width: 200px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.dropdown-menu a {
+    display: block;
+    color: black;
+    padding: 8px 12px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #D9D9D9;
+    border-radius: 4px;
+}
