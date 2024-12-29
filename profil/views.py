@@ -551,6 +551,7 @@ class PatientsByHospital(APIView):
 
 
 ############################################################################################################################
+
 class DemandesBilanByLaborantin(APIView):
     """
     API pour récupérer les demandes de bilan biologique par laborantin.
@@ -559,15 +560,17 @@ class DemandesBilanByLaborantin(APIView):
     def get_demandes_bilan(self, laborantinId):
         """
         Récupérer les demandes de bilans biologiques par laborantin, 
-        incluant les informations des docteurs et patients.
+        incluant les informations des docteurs, des patients et l'état de la demande.
         """
         try:
             query = """
                 SELECT 
+                    db.demandeBilanId,  -- ID de la demande
                     docteur.nomUser AS docteurNom,
                     docteur.prenomUser AS docteurPrenom,
                     patientUser.nomUser AS patientNom,
-                    patientUser.prenomUser AS patientPrenom
+                    patientUser.prenomUser AS patientPrenom,
+                    db.etatDemande  -- État de la demande
                 FROM 
                     demandeBilan db
                 JOIN 
@@ -588,15 +591,16 @@ class DemandesBilanByLaborantin(APIView):
                 result = []
                 for demande in demandes:
                     result.append({
-                       # "dateDemande": str(demande[0]),  # zidi la date hna apres ma tmodifi la bdd
+                        "demandeId": demande[0],  # ID de la demande
                         "docteur": {
-                            "nom": demande[0],
-                            "prenom": demande[1]
+                            "nom": demande[1],
+                            "prenom": demande[2]
                         },
                         "patient": {
-                            "nom": demande[2],
-                            "prenom": demande[3]
-                        }
+                            "nom": demande[3],
+                            "prenom": demande[4]
+                        },
+                        "etatDemande": "Validée" if demande[5] else "En attente"  # Conversion de l'état
                     })
                 return result
             else:
@@ -622,7 +626,6 @@ class DemandesBilanByLaborantin(APIView):
         return Response(demandes, status=status.HTTP_200_OK)
 
 ###############################################################################################################################
-
 class DemandesRadiosByRadiologue(APIView):
     """
     API pour récupérer la liste des demandes de radios d'un radiologue donné.
@@ -631,16 +634,18 @@ class DemandesRadiosByRadiologue(APIView):
     def get_demandes_radios(self, radiologueId):
         """
         Récupérer les demandes de radios pour un radiologue spécifique,
-        incluant les informations des patients et des docteurs.
+        incluant les informations des patients, des docteurs et l'état de la demande.
         """
         try:
             query = """
                 SELECT 
+                    dr.demandeRadioId,  -- ID de la demande
                     p.nomUser AS patientNom,
                     p.prenomUser AS patientPrenom,
                     d.nomUser AS docteurNom,
                     d.prenomUser AS docteurPrenom,
-                    dr.typeRadio
+                    dr.typeRadio,
+                    dr.etatDemande  -- État de la demande
                 FROM 
                     demandeRadio dr
                 JOIN 
@@ -659,15 +664,17 @@ class DemandesRadiosByRadiologue(APIView):
                 result = []
                 for demande in demandes:
                     result.append({
+                        "demandeId": demande[0],  # ID de la demande
                         "patient": {
-                            "nom": demande[0],
-                            "prenom": demande[1]
+                            "nom": demande[1],
+                            "prenom": demande[2]
                         },
                         "docteur": {
-                            "nom": demande[2],
-                            "prenom": demande[3]
+                            "nom": demande[3],
+                            "prenom": demande[4]
                         },
-                        "typeRadio": demande[4]
+                        "typeRadio": demande[5],
+                        "etatDemande": "Validée" if demande[6] else "En attente"  # Convertir état booléen en texte
                     })
                 return result
             else:
@@ -821,3 +828,73 @@ class BilanBiologiqueDetail(APIView):
             return Response({"error": bilan_details["error"]}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(bilan_details, status=status.HTTP_200_OK)
+
+############################################################################################################################
+class DoctorPatients(APIView):
+    def get_patients_for_doctor(self, doctorId):
+        """
+        Récupérer les patients pour un docteur spécifique via la table des consultations, 
+        incluant leurs noms et prénoms.
+        """
+        try:
+            query = """
+                SELECT DISTINCT
+                    p.patientId,
+                    p.mutuelle,
+                    p.etatPatient,
+                    p.personneAContacter,
+                    t.nomUser,
+                    t.prenomUser
+                FROM 
+                    Consultation c
+                INNER JOIN Patient p ON c.patientId = p.patientId
+                INNER JOIN Tuser t ON t.patientId = p.patientId
+                WHERE 
+                    c.userId = %s
+                ORDER BY t.nomUser, t.prenomUser;
+            """
+            
+            with connection.cursor() as cursor:
+                cursor.execute(query, [doctorId])
+                patients = cursor.fetchall()
+            
+            # Structurer les données en JSON
+            result = {
+                "doctorId": doctorId,
+                "patients": [
+                    {
+                        "patientId": patient[0],
+                        "mutuelle": patient[1],
+                        "etatPatient": patient[2],
+                        "personneAContacter": patient[3],
+                        "nom": patient[4],
+                        "prenom": patient[5],
+                    }
+                    for patient in patients
+                ]
+            }
+            return result
+
+        except Exception as e:
+            return {"error": str(e)}
+
+    def post(self, request):
+        """
+        Récupérer les patients d'un docteur via une requête POST.
+        """
+        doctorId = request.data.get("doctorId", None)
+
+        if not doctorId:
+            return Response(
+                {"error": "doctorId non fourni"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        patients = self.get_patients_for_doctor(doctorId)
+        if "error" in patients:
+            return Response({"error": patients["error"]}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if not patients["patients"]:
+            return Response({"message": "Aucun patient trouvé pour ce docteur."}, status=status.HTTP_404_NOT_FOUND)
+
+        return Response(patients, status=status.HTTP_200_OK)

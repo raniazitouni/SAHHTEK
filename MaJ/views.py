@@ -378,28 +378,15 @@ class AjouterSoin(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        request.data.pop('observation', None)
+        observation = request.data.get('observation')
+        if not observation : 
+            request.data.pop('observation', None) 
         serializer_soin = SoinobservationSerializer(data=request.data)
         if serializer_soin.is_valid() : 
             serializer_soin.save()
             return Response({'message': 'soin created successfully'}, status=status.HTTP_201_CREATED)
         else :
             return Response({'errors': {'consultation': serializer_soin.errors}}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AjouterObservation(APIView):
-
-    def post(self, request, *args, **kwargs):
-
-        request.data.pop('descriptionsoin', None)
-        request.data.pop('consultationdate', None)
-        serializer_observation = SoinobservationSerializer(data=request.data)
-        if serializer_observation.is_valid() : 
-            serializer_observation.save()
-            return Response({'message': 'observation created successfully'}, status=status.HTTP_201_CREATED)
-        else :
-            return Response({'errors': {'consultation': serializer_observation.errors}}, status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class UpdateUserInfo(APIView):
@@ -434,7 +421,7 @@ class ResetPassword(APIView):
             encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
             # Decrypt the password
             decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
-           
+            print(decrypted_password)
             if decrypted_password == oldpsw :  
                   new_psw = request.data.get('newPassword',None)
                   psw = new_psw.encode()
