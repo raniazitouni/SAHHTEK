@@ -29,7 +29,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/chart.umd.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -87,13 +89,15 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/chart.js/dist/chart.umd.js"
+            ]
           }
         }
       }
     }
   },
   "cli": {
-    "analytics": "9ea92d7a-fe18-4aa4-bd03-98258842e704"
+    "analytics": false
   }
 }

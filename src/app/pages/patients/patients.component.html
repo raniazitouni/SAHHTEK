@@ -1,1 +1,200 @@
-<p>patients works!</p>
+<div class="px-4 md:px-12 lg:px-24 pt-7 h-[calc(100vh-4rem)] bg-Bluebg">
+  <div class="w-full flex flex-wrap items-center justify-between gap-4">
+    <div class="text-[#3F6CB5] text-xl md:text-2xl font-bold font-['Poppins']">Liste de patients</div>
+    <button
+      class="flex items-center px-4 py-2 bg-[#3F6CB5] hover:bg-[#839FCD] rounded-md gap-2 text-sm md:text-base"
+      (click)="openModal()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5 md:w-6 md:h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+      </svg>
+      <span class="text-white font-semibold">Ajouter patient</span>
+    </button>
+  </div>
+
+  <!-- Liste des patients -->
+  <div class="mt-6 overflow-x-auto">
+    <table class="w-full border-collapse bg-white text-left text-sm font-['Poppins'] rounded-sm">
+      <thead class="h-10 bg-[#839FCD] text-[#ffffff]">
+        <tr>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Nom</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Prénom</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Date de Naissance</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">NSS</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Téléphone</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Adresse</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Statut</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Dynamic patient list -->
+        <tr *ngFor="let patient of patients; let i = index" [ngClass]="{'bg-[#ffffff]': i % 2 === 0, 'bg-Bluebg': i % 2 !== 0}">
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.name }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.surname }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.birthdate }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.nss }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.phone }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.address }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">
+            <select [(ngModel)]="patient.etatpatient"
+                    (change)="updatePatientStatus(patient)"
+                    class="bg-transparent rounded-xl px-2 py-1 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5] text-sm md:text-base">
+              <option value="0">Hospitalisé</option>
+              <option value="1">Non hospitalisé</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+ <!-- Ajouter DPI -->
+ <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-all font-['Poppins']" [class.hidden]="!isModalOpen">
+  <div class="w-3/4 md:w-2/3 lg:w-1/2 bg-Bluebg rounded-lg p-4 flex flex-col gap-y-2 max-h-[90vh] overflow-y-auto">
+    <h2 class="text-neutral-900 text-2xl font-semibold">Créer DPI</h2>
+    <form  (ngSubmit)="addPatient()" #dpiForm="ngForm">
+    <div class=" flex flex-col gap-y-1.5">
+      <div class="grid grid-cols-2 gap-x-6 gap-y-1.5 ">
+       
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Nom</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPatient.name" 
+            name="name" 
+            placeholder="Nom" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ\-]+$" 
+            title="Le nom ne doit contenir que des lettres"
+            required
+          />
+        </div>
+
+       
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Prénom</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPatient.surname" 
+            name="surname" 
+            placeholder="Prénom" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ\-]+$" 
+            title="Le prénom ne doit contenir que des lettres"
+            required
+          />
+        </div>
+
+      
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">NSS</label>
+          <input 
+            type="number" 
+            [(ngModel)]="newPatient.nss" 
+            name="nss" 
+            placeholder="0000000000" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            required
+          />
+        </div>
+
+       
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Date de naissance</label>
+          <input 
+            type="date" 
+            [(ngModel)]="newPatient.birthdate" 
+            name="birthdate" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            max="{{ today }}" 
+            required
+          />
+        </div>
+
+       
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Téléphone</label>
+          <input 
+            type="tel" 
+            [(ngModel)]="newPatient.phone" 
+            name="phone" 
+            placeholder="0000000000" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            pattern="^\d{10}$" 
+            title="Le téléphone doit contenir exactement 10 chiffres"
+            required
+          />
+        </div>
+
+        
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Adresse</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPatient.address" 
+            name="address" 
+            placeholder="Algeria, Alger, Hydra" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            required
+          />
+        </div>
+
+        
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Mail</label>
+          <input 
+            type="email" 
+            [(ngModel)]="newPatient.mail" 
+            name="mail" 
+            placeholder="exemple@mail.com" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            required
+          />
+        </div>
+
+        
+        <div>
+          <label class="block text-neutral-900 text-base font-medium">Mutuelle</label>
+          <input 
+            type="text" 
+            [(ngModel)]="newPatient.mutuelle" 
+            name="mutuelle" 
+            placeholder="Mutuelle" 
+            class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+            required
+          />
+        </div>
+      </div>
+
+     
+      <div >
+        <label class="block text-neutral-900 text-base font-medium">Personne à contacter</label>
+        <input 
+          type="text" 
+          [(ngModel)]="newPatient.personne" 
+          name="personne" 
+          placeholder="Name" 
+          class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
+          pattern="^[a-zA-ZÀ-ÖØ-öø-ÿ\-]+$" 
+          title="Ce champ ne doit contenir que des lettres"
+          required
+        />
+      </div>
+    </div>
+     
+      <div class="w-full flex justify-end mt-6 gap-4">
+        <button type="button" class="px-4 py-2 bg-[#ECF1F7] hover:bg-[#839FCD] rounded-md" (click)="closeModal()">Annuler</button>
+        <button 
+          type="submit" 
+          class="px-5 py-2 bg-[#3F6CB5] hover:bg-[#839FCD] text-white rounded-md" 
+          [disabled]="dpiForm.form.valid"
+        >
+          Ajouter le patient
+          
+       </button>
+      </div>
+    </form>
+   </div>
+  </div>
+
+</div>  

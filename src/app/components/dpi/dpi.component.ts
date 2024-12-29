@@ -24,8 +24,8 @@ export class DPIComponent implements OnInit{
   
 patientData = {
   qrCodeImageUrl: '',
-  userId: 4,
-  patientId: 1,
+  userId: localStorage.getItem('user_id') || '',
+  patientId: localStorage.getItem('patient_id') || '',
   nomUser: '',
   prenomUser: '',
   telephone: '',
@@ -38,7 +38,7 @@ patientData = {
 
 soinData  = {
   consultationDate: '',
-  userId: '',
+  userId: localStorage.getItem('user_id') || '',
   nomUser: '',
   prenomUser:'',
   descriptionSoin:'',
@@ -46,8 +46,8 @@ soinData  = {
 };
 
 soinsdata = {
-  patientid: 1,
-  userid: 6,
+  patientid: localStorage.getItem('patient_id') || '',
+  userid: localStorage.getItem('user_id') || '',
   consultationdate: '',
   descriptionsoin: '',
   observation: '',

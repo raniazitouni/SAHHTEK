@@ -17,8 +17,8 @@ export class ConsultationComponent {
   consultationData = {
     consulationdate: '',
     resumeconsultation: '',
-    userid: 4 ,
-    patientid: 1,
+    userid:localStorage.getItem('user_id') || '',
+    patientid: localStorage.getItem('patient_id') || '',
     demanderadioid:'',
     demandebilanid:'',
     ordonnanceid: null
@@ -26,13 +26,13 @@ export class ConsultationComponent {
   isDropdownVisible = false;
   
   demanderadio ={
-    patientid : 1,
-    docteurid:4,
+    patientid : localStorage.getItem('patient_id') || '',
+    docteurid:localStorage.getItem('user_id') || '',
     typeradio : ''
   }
   demandeBillan ={
-    patientid : 1,
-    docteurid:4
+    patientid : localStorage.getItem('patient_id') || '',
+    docteurid:localStorage.getItem('user_id') || ''
   }
 
   toggleDropdown(): void {
