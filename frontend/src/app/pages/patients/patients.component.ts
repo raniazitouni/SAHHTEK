@@ -53,25 +53,31 @@ export class PatientsComponent implements OnInit {
     fetchPatients(user_id : number) {
       const url = 'http://127.0.0.1:8000/profil/docteur_patients/';
       
-      this.http.post<Patient[]>(url, { doctorId: user_id }).subscribe(
+      this.http.post<{ patients: Patient[] }>(url, { doctorId: user_id }).subscribe(
         (data) => {
-          this.patients = data.map((patient: any) => ({
-            nss: patient.patientId || '',
-            name: patient.nomUser || '',
-            surname: patient.prenomUser || '',
-            phone: patient.telephone || '',
-            birthdate: patient.dateDeNaissance || '',
-            address: patient.adresse || '',
-            mail: patient.emailUser || '',
-            mutuelle: patient.mutuelle || '',
-            personne: patient.personneAContacter || '',
-            etatpatient: patient.etatPatient || 0,
-          }));
+          console.log(data); // Log the entire response for debugging
+          if (Array.isArray(data.patients)) {
+            this.patients = data.patients.map((patient: any) => ({
+              nss: patient.patientId || '',
+              name: patient.nom || '', // Corrected to match the provided data structure
+              surname: patient.prenom || '',
+              phone: patient.telephone || '',
+              birthdate: patient.dateDeNaissance || '',
+              address: patient.adresse || '',
+              mail: patient.emailUser || '',
+              mutuelle: patient.mutuelle || '',
+              personne: patient.personneAContacter || '',
+              etatpatient: patient.etatPatient || 0,
+            }));
+          } else {
+            console.error('Expected patients to be an array but got', data.patients);
+          }
         },
         (error) => {
           console.error('Error fetching patients:', error);
         }
       );
+      
     }
   
 

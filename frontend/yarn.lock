@@ -15,24 +15,24 @@
     "@jridgewell/gen-mapping" "^0.3.5"
     "@jridgewell/trace-mapping" "^0.3.24"
 
-"@angular-devkit/architect@0.1900.4":
-  version "0.1900.4"
-  resolved "https://registry.npmjs.org/@angular-devkit/architect/-/architect-0.1900.4.tgz"
-  integrity sha512-9XwZ21BPYS2vGOOwVB40fsMyuwJT0H1lWaAMo8Umwi6XbKBVfaWbEhjtR9dlarrySKtFuTz9hmTZkIXHLjXPdA==
+"@angular-devkit/architect@0.1900.6":
+  version "0.1900.6"
+  resolved "https://registry.npmjs.org/@angular-devkit/architect/-/architect-0.1900.6.tgz"
+  integrity sha512-w11bAXQnNWBawTJfQPjvaTRrzrqsOUm9tK9WNvaia/xjiRFpmO0CfmKtn3axNSEJM8jb/czaNQrgTwG+TGc/8g==
   dependencies:
-    "@angular-devkit/core" "19.0.4"
+    "@angular-devkit/core" "19.0.6"
     rxjs "7.8.1"
 
 "@angular-devkit/build-angular@^19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@angular-devkit/build-angular/-/build-angular-19.0.4.tgz"
-  integrity sha512-n7fcRdNB7ed5j6aZI+qPI/1LylFv1OiRNgBIeJxX3HEmzQxsHHLcxWog2yZK2Fvw3390xFx/VjZaklITj6tBFA==
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@angular-devkit/build-angular/-/build-angular-19.0.6.tgz"
+  integrity sha512-dWTAsE6BSI8z0xglQdYBdqTBwg1Q+RWE3OrmlGs+520Dcoq/F0Z41Y1F3MiuHuQPdDAIQr88iB0APkIRW4clMg==
   dependencies:
     "@ampproject/remapping" "2.3.0"
-    "@angular-devkit/architect" "0.1900.4"
-    "@angular-devkit/build-webpack" "0.1900.4"
-    "@angular-devkit/core" "19.0.4"
-    "@angular/build" "19.0.4"
+    "@angular-devkit/architect" "0.1900.6"
+    "@angular-devkit/build-webpack" "0.1900.6"
+    "@angular-devkit/core" "19.0.6"
+    "@angular/build" "19.0.6"
     "@babel/core" "7.26.0"
     "@babel/generator" "7.26.2"
     "@babel/helper-annotate-as-pure" "7.25.9"
@@ -43,7 +43,7 @@
     "@babel/preset-env" "7.26.0"
     "@babel/runtime" "7.26.0"
     "@discoveryjs/json-ext" "0.6.3"
-    "@ngtools/webpack" "19.0.4"
+    "@ngtools/webpack" "19.0.6"
     "@vitejs/plugin-basic-ssl" "1.1.0"
     ansi-colors "4.1.3"
     autoprefixer "10.4.20"
@@ -86,18 +86,18 @@
   optionalDependencies:
     esbuild "0.24.0"
 
-"@angular-devkit/build-webpack@0.1900.4":
-  version "0.1900.4"
-  resolved "https://registry.npmjs.org/@angular-devkit/build-webpack/-/build-webpack-0.1900.4.tgz"
-  integrity sha512-eovr5Am8EwxF7d/y0Hbfz/KYWnOXXVXVwquPUcg8JBI19lLbfctz4+71Vjz2qGroijr2FlZztRpmhd498SLt/A==
+"@angular-devkit/build-webpack@0.1900.6":
+  version "0.1900.6"
+  resolved "https://registry.npmjs.org/@angular-devkit/build-webpack/-/build-webpack-0.1900.6.tgz"
+  integrity sha512-WehtVrbBow4fc7hsaUKb+BZ6MDE5lO98/tgv7GR5PkRdGKnyLA0pW1AfPLJJQDgcaKjneramMhDFNc1eGSX0mQ==
   dependencies:
-    "@angular-devkit/architect" "0.1900.4"
+    "@angular-devkit/architect" "0.1900.6"
     rxjs "7.8.1"
 
-"@angular-devkit/core@19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@angular-devkit/core/-/core-19.0.4.tgz"
-  integrity sha512-+imxIj1JLr2hbUYQePHgkTUKr0VmlxNSZvIREcCWtXUcdCypiwhJAtGXv6MfpB4hAx+FJZYEpVWeLwYOS/gW0A==
+"@angular-devkit/core@19.0.6":
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@angular-devkit/core/-/core-19.0.6.tgz"
+  integrity sha512-WUWJhzQDsovfMY6jtb9Ktz/5sJszsaErj+XV2aXab85f1OweI/Iv2urPZnJwUSilvVN5Ok/fy3IJ6SuihK4Ceg==
   dependencies:
     ajv "8.17.1"
     ajv-formats "3.0.1"
@@ -106,12 +106,12 @@
     rxjs "7.8.1"
     source-map "0.7.4"
 
-"@angular-devkit/schematics@19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-19.0.4.tgz"
-  integrity sha512-2r6Qs4N5NSPho+qzegCYS8kIgylXyH4DHaS7HJ5+4XvM1I8V8AII8payLWkUK0i29XufVoD5XfPUFnjxZrBfYQ==
+"@angular-devkit/schematics@19.0.6":
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@angular-devkit/schematics/-/schematics-19.0.6.tgz"
+  integrity sha512-R9hlHfAh1HKoIWgnYJlOEKhUezhTNl0fpUmHxG2252JSY5FLRxmYArTtJYYmbNdBbsBLNg3UHyM/GBPvJSA3NQ==
   dependencies:
-    "@angular-devkit/core" "19.0.4"
+    "@angular-devkit/core" "19.0.6"
     jsonc-parser "3.3.1"
     magic-string "0.30.12"
     ora "5.4.1"
@@ -124,13 +124,13 @@
   dependencies:
     tslib "^2.3.0"
 
-"@angular/build@19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@angular/build/-/build-19.0.4.tgz"
-  integrity sha512-ubsNjLb54VkZwcPQ21Ke8aAHiIrRIcv7gG3R6/6XOoWeK1K2+tsv8bnO4mz5cHgzWOspLOT7FDC83NJjrKX3Nw==
+"@angular/build@19.0.6":
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@angular/build/-/build-19.0.6.tgz"
+  integrity sha512-KEVNLgTZUF2dfpOYQn+yR2HONHUTxq/2rFVhiK9qAvrm/m+uKJNEXx7hGtbRyoqenZff4ScJq+7feITUldfX8g==
   dependencies:
     "@ampproject/remapping" "2.3.0"
-    "@angular-devkit/architect" "0.1900.4"
+    "@angular-devkit/architect" "0.1900.6"
     "@babel/core" "7.26.0"
     "@babel/helper-annotate-as-pure" "7.25.9"
     "@babel/helper-split-export-declaration" "7.24.7"
@@ -167,16 +167,16 @@
     parse5 "^7.1.2"
 
 "@angular/cli@^19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@angular/cli/-/cli-19.0.4.tgz"
-  integrity sha512-jxnD9qkhelcRMCrHDCxNsWgn6HQCvMIj8uI0T2eB9Vy93q2YWUo/fWl2Sy4gFlR+VNeF+1hYhPLb/vqLLzjWuA==
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@angular/cli/-/cli-19.0.6.tgz"
+  integrity sha512-ZEHhgRRVIdn10dbsAjB8TE9Co32hfuL9/im5Jcfa1yrn6KJefmigz6KN8Xu7FXMH5FkdqfQ11QpLBxJSPb9aww==
   dependencies:
-    "@angular-devkit/architect" "0.1900.4"
-    "@angular-devkit/core" "19.0.4"
-    "@angular-devkit/schematics" "19.0.4"
+    "@angular-devkit/architect" "0.1900.6"
+    "@angular-devkit/core" "19.0.6"
+    "@angular-devkit/schematics" "19.0.6"
     "@inquirer/prompts" "7.1.0"
     "@listr2/prompt-adapter-inquirer" "2.0.18"
-    "@schematics/angular" "19.0.4"
+    "@schematics/angular" "19.0.6"
     "@yarnpkg/lockfile" "1.1.0"
     ini "5.0.0"
     jsonc-parser "3.3.1"
@@ -1077,15 +1077,15 @@
   resolved "https://registry.npmjs.org/@discoveryjs/json-ext/-/json-ext-0.6.3.tgz"
   integrity sha512-4B4OijXeVNOPZlYA2oEwWOTkzyltLao+xbotHQeqN++Rv27Y6s818+n2Qkp8q+Fxhn0t/5lA5X1Mxktud8eayQ==
 
-"@esbuild/darwin-arm64@0.21.5":
+"@esbuild/win32-x64@0.21.5":
   version "0.21.5"
-  resolved "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.21.5.tgz"
-  integrity sha512-DwqXqZyuk5AiWWf3UfLiRDJ5EDd49zg6O9wclZ7kUMv2WRFr4HKjXp/5t8JZ11QbQfUS6/cRCKGwYhtNAY88kQ==
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.21.5.tgz"
+  integrity sha512-tQd/1efJuzPC6rCFwEvLtci/xNFcTZknmXs98FYDfGE4wP9ClFV98nyKrzJKVPMhdDnjzLhdUyMX4PsQAPjwIw==
 
-"@esbuild/darwin-arm64@0.24.0":
+"@esbuild/win32-x64@0.24.0":
   version "0.24.0"
-  resolved "https://registry.npmjs.org/@esbuild/darwin-arm64/-/darwin-arm64-0.24.0.tgz"
-  integrity sha512-CKyDpRbK1hXwv79soeTJNHb5EiG6ct3efd/FTPdzOWdbZZfGhpbcqIpiD0+vwmpu0wTIL97ZRPZu8vUt46nBSw==
+  resolved "https://registry.npmjs.org/@esbuild/win32-x64/-/win32-x64-0.24.0.tgz"
+  integrity sha512-7IAFPrjSQIJrGsK6flwg7NFmwBoSTyF3rl7If0hNUFQU4ilTsEPL6GuMuU9BfIWVVGuRnuIidkSMC+c0Otu8IA==
 
 "@inquirer/checkbox@^4.0.2":
   version "4.0.2"
@@ -1297,9 +1297,9 @@
   integrity sha512-q6XAnWQDIMA3+FTiOYajoYqySkO+JSat0ytXGSuRdq9uXE7o92gzuQwQM14xaCRlBLGq3v5miDGC4vkVTn54xA==
 
 "@jsonjoy.com/json-pack@^1.0.3":
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/@jsonjoy.com/json-pack/-/json-pack-1.1.0.tgz"
-  integrity sha512-zlQONA+msXPPwHWZMKFVS78ewFczIll5lXiVPwFPCZUsrOKdxc2AvxU1HoNBmMRhqDZUR9HkC3UOm+6pME6Xsg==
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@jsonjoy.com/json-pack/-/json-pack-1.1.1.tgz"
+  integrity sha512-osjeBqMJ2lb/j/M8NCPjs1ylqWIcTRTycIhVB5pt6LgzgeRSb0YRZ7j9RfA8wIUrsr/medIuhVyonXRZWLyfdw==
   dependencies:
     "@jsonjoy.com/base64" "^1.1.1"
     "@jsonjoy.com/util" "^1.1.2"
@@ -1328,20 +1328,20 @@
   dependencies:
     "@inquirer/type" "^1.5.5"
 
-"@lmdb/lmdb-darwin-arm64@3.1.5":
+"@lmdb/lmdb-win32-x64@3.1.5":
   version "3.1.5"
-  resolved "https://registry.npmjs.org/@lmdb/lmdb-darwin-arm64/-/lmdb-darwin-arm64-3.1.5.tgz"
-  integrity sha512-ue5PSOzHMCIYrfvPP/MRS6hsKKLzqqhcdAvJCO8uFlDdj598EhgnacuOTuqA6uBK5rgiZXfDWyb7DVZSiBKxBA==
+  resolved "https://registry.npmjs.org/@lmdb/lmdb-win32-x64/-/lmdb-win32-x64-3.1.5.tgz"
+  integrity sha512-KYar6W8nraZfSJspcK7Kp7hdj238X/FNauYbZyrqPBrtsXI1hvI4/KcRcRGP50aQoV7fkKDyJERlrQGMGTZUsA==
 
-"@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.3":
+"@msgpackr-extract/msgpackr-extract-win32-x64@3.0.3":
   version "3.0.3"
-  resolved "https://registry.npmjs.org/@msgpackr-extract/msgpackr-extract-darwin-arm64/-/msgpackr-extract-darwin-arm64-3.0.3.tgz"
-  integrity sha512-QZHtlVgbAdy2zAqNA9Gu1UpIuI8Xvsd1v8ic6B2pZmeFnFcMWiPLfWXh7TVw4eGEZ/C9TH281KwhVoeQUKbyjw==
+  resolved "https://registry.npmjs.org/@msgpackr-extract/msgpackr-extract-win32-x64/-/msgpackr-extract-win32-x64-3.0.3.tgz"
+  integrity sha512-x0fWaQtYp4E6sktbsdAqnehxDgEc/VwM7uLsRCYWaiGu0ykYdZPiS8zCWdnjHwyiumousxfBm4SO31eXqwEZhQ==
 
-"@napi-rs/nice-darwin-arm64@1.0.1":
+"@napi-rs/nice-win32-x64-msvc@1.0.1":
   version "1.0.1"
-  resolved "https://registry.npmjs.org/@napi-rs/nice-darwin-arm64/-/nice-darwin-arm64-1.0.1.tgz"
-  integrity sha512-91k3HEqUl2fsrz/sKkuEkscj6EAj3/eZNCLqzD2AA0TtVbkQi8nqxZCZDMkfklULmxLkMxuUdKe7RvG/T6s2AA==
+  resolved "https://registry.npmjs.org/@napi-rs/nice-win32-x64-msvc/-/nice-win32-x64-msvc-1.0.1.tgz"
+  integrity sha512-JlF+uDcatt3St2ntBG8H02F1mM45i5SF9W+bIKiReVE6wiy3o16oBP/yxt+RZ+N6LbCImJXJ6bXNO2kn9AXicg==
 
 "@napi-rs/nice@^1.0.1":
   version "1.0.1"
@@ -1365,10 +1365,10 @@
     "@napi-rs/nice-win32-ia32-msvc" "1.0.1"
     "@napi-rs/nice-win32-x64-msvc" "1.0.1"
 
-"@ngtools/webpack@19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@ngtools/webpack/-/webpack-19.0.4.tgz"
-  integrity sha512-N3WCbQz5ipdAZoSWHNf81RLET6+isq35+GZu9u0StpFtJCpXAmRRAv4vdMUYL7DLOzRmvEgwww6Rd5AwGeLFSw==
+"@ngtools/webpack@19.0.6":
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@ngtools/webpack/-/webpack-19.0.6.tgz"
+  integrity sha512-eWrIb0tS1CK6+JvFS4GgTD4fN9TtmApKrlaj3pPQXKXKKd42361ec85fuQQXdb4G8eEEq0vyd/bn4NJllh/3vw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1474,10 +1474,10 @@
     proc-log "^5.0.0"
     which "^5.0.0"
 
-"@parcel/watcher-darwin-arm64@2.5.0":
+"@parcel/watcher-win32-x64@2.5.0":
   version "2.5.0"
-  resolved "https://registry.npmjs.org/@parcel/watcher-darwin-arm64/-/watcher-darwin-arm64-2.5.0.tgz"
-  integrity sha512-hyZ3TANnzGfLpRA2s/4U1kbw2ZI4qGxaRJbBH2DCSREFfubMswheh8TeiC1sGZ3z2jUf3s37P0BBlrD3sjVTUw==
+  resolved "https://registry.npmjs.org/@parcel/watcher-win32-x64/-/watcher-win32-x64-2.5.0.tgz"
+  integrity sha512-lPrxve92zEHdgeff3aiu4gDOIt4u7sJYha6wbdEZDCDUhtjTsOMiaJzG5lMY4GkWH8p0fMmO2Ppq5G5XXG+DQw==
 
 "@parcel/watcher@^2.4.1":
   version "2.5.0"
@@ -1508,18 +1508,18 @@
   resolved "https://registry.npmjs.org/@pkgjs/parseargs/-/parseargs-0.11.0.tgz"
   integrity sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==
 
-"@rollup/rollup-darwin-arm64@4.26.0":
+"@rollup/rollup-win32-x64-msvc@4.26.0":
   version "4.26.0"
-  resolved "https://registry.npmjs.org/@rollup/rollup-darwin-arm64/-/rollup-darwin-arm64-4.26.0.tgz"
-  integrity sha512-ErTASs8YKbqTBoPLp/kA1B1Um5YSom8QAc4rKhg7b9tyyVqDBlQxy7Bf2wW7yIlPGPg2UODDQcbkTlruPzDosw==
+  resolved "https://registry.npmjs.org/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.26.0.tgz"
+  integrity sha512-2x8MO1rm4PGEP0xWbubJW5RtbNLk3puzAMaLQd3B3JHVw4KcHlmXcO+Wewx9zCoo7EUFiMlu/aZbCJ7VjMzAag==
 
-"@schematics/angular@19.0.4":
-  version "19.0.4"
-  resolved "https://registry.npmjs.org/@schematics/angular/-/angular-19.0.4.tgz"
-  integrity sha512-1fXBtkA/AjgMPxHLpGlw7NuT/wggCqAwBAmDnSiRnBBV7Pgs/tHorLgh7A9eoUi3c8CYCuAh8zqWNyjBGGigOQ==
+"@schematics/angular@19.0.6":
+  version "19.0.6"
+  resolved "https://registry.npmjs.org/@schematics/angular/-/angular-19.0.6.tgz"
+  integrity sha512-HicclmbW/+mlljU7a4PzbyIWG+7tognoL5LsgMFJQUDzJXHNjRt1riL0vk57o8Pcprnz9FheeWZXO1KRhXkQuw==
   dependencies:
-    "@angular-devkit/core" "19.0.4"
-    "@angular-devkit/schematics" "19.0.4"
+    "@angular-devkit/core" "19.0.6"
+    "@angular-devkit/schematics" "19.0.6"
     jsonc-parser "3.3.1"
 
 "@sigstore/bundle@^3.0.0":
@@ -2883,9 +2883,9 @@ domhandler@^5.0.2, domhandler@^5.0.3:
     domelementtype "^2.3.0"
 
 domutils@^3.0.1, domutils@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/domutils/-/domutils-3.1.0.tgz"
-  integrity sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/domutils/-/domutils-3.2.1.tgz"
+  integrity sha512-xWXmuRnN9OMP6ptPd2+H0cCbcYBULa5YDTbMm/2lvkWvNA3O4wcW+GvzooqBuNM8yy6pl3VIAeJTUUWUbfI5Fw==
   dependencies:
     dom-serializer "^2.0.0"
     domelementtype "^2.3.0"
@@ -3372,11 +3372,6 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
-
-fsevents@~2.3.2, fsevents@~2.3.3:
-  version "2.3.3"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
-  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
 
 function-bind@^1.1.2:
   version "1.1.2"
@@ -4336,9 +4331,9 @@ media-typer@0.3.0:
   integrity sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==
 
 memfs@^4.6.0:
-  version "4.14.1"
-  resolved "https://registry.npmjs.org/memfs/-/memfs-4.14.1.tgz"
-  integrity sha512-Fq5CMEth+2iprLJ5mNizRcWuiwRZYjNkUD0zKk224jZunE9CRacTRDK8QLALbMBlNX2y3nY6lKZbesCwDwacig==
+  version "4.15.1"
+  resolved "https://registry.npmjs.org/memfs/-/memfs-4.15.1.tgz"
+  integrity sha512-ufCzgFwiVnR6R9cCYuvwznJdhdYXEvFl0hpnM4cCtVaVkHuqBR+6fo2sqt1SSMdp+uiHw9GyPZr3OMM5tqjSmQ==
   dependencies:
     "@jsonjoy.com/json-pack" "^1.0.3"
     "@jsonjoy.com/util" "^1.3.0"

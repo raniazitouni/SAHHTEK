@@ -2,6 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
+import { PopupService } from '../../Services/PopupRadio.service';
+import {PopupRadioComponent} from '../popup-radio/popup-radio.component'
+import {AddRadioComponent} from '../add-radio/add-radio.component'
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+
 type OrdonnanceDetail = {
   nomMedicament: string;
   dose: string;
@@ -10,12 +16,24 @@ type OrdonnanceDetail = {
 @Component({
   selector: 'app-dpi',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule ,PopupRadioComponent,HttpClientModule],
   templateUrl: './dpi.component.html',
-  styleUrl: './dpi.component.css'
+  styleUrl: './dpi.component.css' ,
+  providers: [PopupService]
 })
 export class DPIComponent implements OnInit{
-  constructor(private router: Router) {}
+ 
+ constructor(private router: Router , private popupService: PopupService) {}
+  radioIdToShow: string  | null = null ; 
+  
+  consultation : string = '1' ;
+
+
+  openPopup(bilanRadiologiqueId : string): void {
+    this.popupService.showPopup();
+    this.radioIdToShow = bilanRadiologiqueId ;
+  }
+
 
   navigateToConsultation() {
       this.router.navigate(['/consultation']); // Navigates to /consultation

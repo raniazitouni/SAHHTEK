@@ -41,7 +41,7 @@ export class RechercheComponent {
         } else if (response.patients && response.patients.length > 0) {
           console.log(response.patients) ;
           localStorage.setItem('patient_id', nss);
-          //this.router.navigate(['/DPI', nss]);
+          this.router.navigate(['dpi']);
         } else {
           this.errorMessage = 'Aucun patient trouvé pour ce NSS.';
           this.autoDismissError();

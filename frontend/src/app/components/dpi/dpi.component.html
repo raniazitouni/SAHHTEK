@@ -1,4 +1,4 @@
-<div class="dpi-container">
+<div class="dpi-container  bg-Bluebg">
 <div class="third">
 <div class="second">
 <div class="first">
@@ -144,7 +144,11 @@
                     </div>
                 </div>
             </td>
-                <td><button>Bilan rad</button></td>
+                <td><button *ngIf= consultation 
+                  (click)="openPopup(consultation.bilanRadiologiqueId)">Bilan rad</button>
+                  <app-popup-radio [bilanRadiologiqueId]="radioIdToShow" >
+                  </app-popup-radio>
+                </td>  
                 <td><button>Bilan bio</button></td>
                 <td>
                     <button (click)="openresumePopup(consultation)">Résumé</button>
