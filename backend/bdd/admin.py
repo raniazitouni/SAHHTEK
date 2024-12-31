@@ -9,7 +9,6 @@ from .models import (
     Bilanbiologique,
     Bilanradiologique,
     Consultation,
-    Demande,
     DjangoAdminLog,
     DjangoContentType,
     DjangoMigrations,
@@ -38,7 +37,6 @@ admin.site.register(AuthUserUserPermissions)
 admin.site.register(Bilanbiologique)
 admin.site.register(Bilanradiologique)
 admin.site.register(Consultation)
-admin.site.register(Demande)
 admin.site.register(DjangoAdminLog)
 admin.site.register(DjangoContentType)
 admin.site.register(DjangoMigrations)
