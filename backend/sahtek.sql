@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS demandeBilan;
 DROP TABLE IF EXISTS demandeRadio;
 DROP TABLE IF EXISTS demandeCertaficat;
 DROP TABLE IF EXISTS Consultation;
-DROP TABLE IF EXISTS demande;
 DROP TABLE IF EXISTS dpi;
 DROP TABLE IF EXISTS tuser;
 DROP TABLE IF EXISTS patient;
@@ -54,17 +53,6 @@ CREATE TABLE IF NOT EXISTS Tuser (
 );
 
 
-
--- TABLEAU DEMANDE
-CREATE TABLE IF NOT EXISTS Demande (
-    demandeId             INT PRIMARY KEY AUTO_INCREMENT,
-    etatDemande           BOOLEAN NOT NULL, 
-    userId                INT,
-    typeDemande           ENUM('radio', 'bilan', 'certaficatMedical') NOT NULL,
-    contenuDemande        VARCHAR(100) NOT NULL,
-    dateDenvoi            DATE,
-    FOREIGN KEY (userId) REFERENCES Tuser(userId)
-);
 
 -- TABLEAU BILLAN-BIOLOGIQUE
 CREATE TABLE IF NOT EXISTS BilanBiologique (
