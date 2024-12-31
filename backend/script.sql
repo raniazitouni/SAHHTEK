@@ -4,7 +4,6 @@ ALTER TABLE Hopital AUTO_INCREMENT = 1;
 ALTER TABLE Patient AUTO_INCREMENT = 1;
 ALTER TABLE Tuser AUTO_INCREMENT = 1;
 ALTER TABLE DPI AUTO_INCREMENT = 1;
-ALTER TABLE Demande AUTO_INCREMENT = 1;
 ALTER TABLE BilanBiologique AUTO_INCREMENT = 1;
 ALTER TABLE BilanRadiologique AUTO_INCREMENT = 1;
 ALTER TABLE demandeCertaficat AUTO_INCREMENT = 1;
@@ -45,7 +44,7 @@ VALUES
     (NULL, 'Alouane', 'safa', '0112233445', '2004-09-23', 'Constantine, 32 Rue LMN', 'ms_alouane@esi.dz', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==','Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 1, 'docteur'),
     (NULL, 'Zitouni', 'rania', '0112233445', '2004-09-23', 'Constantine, 32 Rue LMN', 'mr_zitouni@esi.dz', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==','Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 1, 'laborantin'),
     (NULL, 'Hasnaoui', 'sarah', '0112233445', '2004-09-23', 'Constantine, 32 Rue LMN', 'ms_hasnaoui@esi.dz', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==','Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 1, 'radiologue'),
-    (NULL, 'Zitouni', 'fares', '0112233445', '2004-09-23', 'Constantine, 32 Rue LMN', 'ms_hasnaoui@esi.dz', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==','Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 1, 'recepcioniste'),
+    (NULL, 'Zitouni', 'fares', '0112233445', '2004-09-23', 'Constantine, 32 Rue LMN', 'fares123@gmail.com', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==','Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 1, 'recepcioniste'),
     (NULL, 'Terkmani', 'Aya', '0112233445', '2000-09-23', 'Constantine, 32 Rue LMN', 'ma_terkmani@esi.dz', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==','Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 1, 'infermier'),
 
     ('321548765', 'Karim', 'Bouaziz', '0156781234', '1992-02-20', 'Blida, 10 Rue ABC', 'karim.bouaziz@example.com', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 'Z0FBQUFBQm5jNTNVeWhBLTYzNF96NGpnWU0zWHM1SjV0RkU2bFV4ek1XQ01wTWFYNVVsaFphbmQyaUxheGJCMlVpZWJhaHlhRWlkSXJ5bWh4bmJLQWdhbVlUTzNCMWIwX2c9PQ==', 2, 'patient'),
@@ -99,10 +98,10 @@ INSERT INTO demandeRadio (etatDemande, docteurId, patientId, radiologueId, dateD
 VALUES
     (TRUE, 4, '123456789', 6, '2024-12-20', 'IRM'),
     (FALSE, 4, '456789012', 6, '2024-12-19', 'echographie'),
-    (FALSE, 4, '123456789', 6, '2024-12-23', 'radiographie'),
+    (FALSE, 4, '123456789', 6, '2024-12-23', 'radiographic'),
     (TRUE, 4, '987654321', 6, '2024-12-21', 'IRM'),
     (TRUE, 4, '123456789', 6, '2024-12-22', 'echographie'),
-    (TRUE, 4, '123456789', 6, '2024-12-24', 'radiographie');
+    (TRUE, 4, '123456789', 6, '2024-12-24', 'radiographic');
 
 -- Insert data into demandeBilan table
 INSERT INTO demandeBilan (etatDemande, docteurId, patientId, laborantinId, dateDenvoi)
