@@ -55,11 +55,11 @@ export class PatientsComponent implements OnInit {
       
       this.http.post<{ patients: Patient[] }>(url, { doctorId: user_id }).subscribe(
         (data) => {
-          console.log(data); // Log the entire response for debugging
+          console.log(data); 
           if (Array.isArray(data.patients)) {
             this.patients = data.patients.map((patient: any) => ({
               nss: patient.patientId || '',
-              name: patient.nom || '', // Corrected to match the provided data structure
+              name: patient.nom || '', 
               surname: patient.prenom || '',
               phone: patient.telephone || '',
               birthdate: patient.dateDeNaissance || '',
@@ -104,7 +104,7 @@ export class PatientsComponent implements OnInit {
         etatpatient: this.newPatient.etatpatient,
         mutuelle: this.newPatient.mutuelle,
         personneacontacter: this.newPatient.personne,
-        hopitalid: 1,  // Assuming you are passing the hospital ID here
+        hopitalid: 1,  // the hospital ID here
       };
   
       console.log("Sending patient data:", patientData);

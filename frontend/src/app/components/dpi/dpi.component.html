@@ -149,7 +149,12 @@
                   <app-popup-radio [bilanRadiologiqueId]="radioIdToShow" >
                   </app-popup-radio>
                 </td>  
-                <td><button>Bilan bio</button></td>
+        <td>
+          <button *ngIf= consultation (click)="openModal(consultation.bilanBiologiqueId)">Bilan bio</button>
+          <app-popupbio [bilanBiologiqueId]="bilanBiologiqueId"></app-popupbio>
+        </td>
+
+
                 <td>
                     <button (click)="openresumePopup(consultation)">Résumé</button>
                     <div

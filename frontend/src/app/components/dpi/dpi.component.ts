@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
 import { PopupService } from '../../Services/PopupRadio.service';
-import {PopupRadioComponent} from '../popup-radio/popup-radio.component'
-import {AddRadioComponent} from '../add-radio/add-radio.component'
+import {PopupRadioComponent} from '../popup-radio/popup-radio.component';
+import {PopupbioComponent} from '../popupbio/popupbio.component';
+import {AddRadioComponent} from '../add-radio/add-radio.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
 
@@ -16,12 +17,13 @@ type OrdonnanceDetail = {
 @Component({
   selector: 'app-dpi',
   standalone: true,
-  imports: [CommonModule ,PopupRadioComponent,HttpClientModule],
+  imports: [CommonModule ,PopupRadioComponent,HttpClientModule, PopupbioComponent],
   templateUrl: './dpi.component.html',
   styleUrl: './dpi.component.css' ,
   providers: [PopupService]
 })
 export class DPIComponent implements OnInit{
+  bilanBiologiqueId: string | undefined;
  
  constructor(private router: Router , private popupService: PopupService) {}
   radioIdToShow: string  | null = null ; 
@@ -33,6 +35,12 @@ export class DPIComponent implements OnInit{
     this.popupService.showPopup();
     this.radioIdToShow = bilanRadiologiqueId ;
   }
+
+
+  openModal(bilanBiologiqueId: string): void {
+    this.bilanBiologiqueId = bilanBiologiqueId;
+  }
+
 
 
   navigateToConsultation() {
