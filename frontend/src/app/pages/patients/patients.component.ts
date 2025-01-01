@@ -48,12 +48,12 @@ export class PatientsComponent implements OnInit {
   
     ngOnInit() {
       this.user_id = localStorage.getItem('user_id');
-      this.userRole = localStorage.getItem('user_role') as 'receptionist' | 'doctor';
+      this.userRole = localStorage.getItem('role') as 'docteur' | 'recepcioniste';
       const hospitalId = localStorage.getItem('hospital_id');
 
-      if (this.userRole === 'doctor') {
+      if (this.userRole === 'docteur') {
         this.fetchPatientsByDoctor(this.user_id);
-      } else if (this.userRole === 'receptionist') {
+      } else if (this.userRole === 'recepcioniste') {
         this.fetchPatientsByHospital(Number(hospitalId));
       }
     }
