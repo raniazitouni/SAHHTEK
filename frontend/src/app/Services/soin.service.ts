@@ -3,11 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable , map } from 'rxjs';
 
 // Define the structure for the Soin and the response
+
 interface Soin {
   consultationDate: string;
   descriptionSoin: string;
-  observation: string;
+  observation: string | null; // Allow null values
+  showDetails?: boolean; // Optional property for UI
 }
+
 
 interface SoinResponse {
   patientId: string;
@@ -18,21 +21,24 @@ interface SoinResponse {
   providedIn: 'root',
 })
 export class SoinService {
-  private apiUrl = 'http://127.0.0.1:8000/profil/patient-soins/'; // API URL
+  private apiUrl = 'http://127.0.0.1:8000/profil/soins_infermier/'; // API URL
 
   constructor(private http: HttpClient) {}
 
-  // Method to fetch soins for a given patientId
-  getSoins(patientId: string): Observable<Soin[]> {
-    // Prepare the body for the POST request
-    const body = { patientId };
-
-    // Send the POST request and return the soins list from the response
-    return this.http.post<SoinResponse>(this.apiUrl, body).pipe(
-      // Extract soins from the response object
-      map((response) => response.soins)
+  getSoins(userId: string): Observable<Soin[]> {
+    const body = { userId };
+  
+    return this.http.post<any[]>(this.apiUrl, body).pipe(
+      map((response) =>
+        response.map((item) => ({
+          consultationDate: item.consultationDate,
+          descriptionSoin: item.descriptionSoin,
+          observation: item.observation, // May be null
+        }))
+      )
     );
   }
+  
 }
 
 

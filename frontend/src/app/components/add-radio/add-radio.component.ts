@@ -69,7 +69,7 @@ export class AddRadioComponent implements OnInit {
     formData.append('compterendu', this.compteRendu); // Append "compte rendu"
     formData.append('radiotype', this.Imagerie.typeRadio); 
     formData.append('demanderadioid', this.Imagerie.demandeId);
-    formData.append('userid', '1');  // remplace 1 b user.id m local storage 
+    formData.append('userid', localStorage.getItem('user_id') || '');  // remplace 1 b user.id m local storage 
 
   
     if (this.selectedFile) {
