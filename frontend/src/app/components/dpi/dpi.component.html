@@ -220,7 +220,7 @@
       <!-- Graph (si il a ete generé par le laborantin) -->
       <div *ngIf="showGraph()">
         <h2 class="text-lg font-bold text-[#3F6CB5] text-center">Graphique</h2>
-        <canvas id="chartCanvas" (ngAfterViewInit)="generateGraph()"></canvas>
+        <canvas #chartCanvas></canvas> 
       </div>
       
       <div class="mb-4">

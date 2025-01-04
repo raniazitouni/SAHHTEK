@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
 import { PopupService } from '../../Services/PopupRadio.service';
@@ -7,9 +7,8 @@ import {PopupRadioComponent} from '../popup-radio/popup-radio.component';
 import {PopupbioComponent} from '../popupbio/popupbio.component';
 import {AddRadioComponent} from '../add-radio/add-radio.component';
 import { HttpClientModule } from '@angular/common/http';
-import { Chart, BarElement, CategoryScale, LinearScale, BarController, Title, Tooltip, Legend } from 'chart.js';
 import { HttpClient } from '@angular/common/http';
-
+import { Chart, BarElement, CategoryScale, LinearScale, BarController, Title, Tooltip,  Legend,} from 'chart.js';
 
 Chart.register(
   BarElement,
@@ -35,8 +34,9 @@ type OrdonnanceDetail = {
   styleUrl: './dpi.component.css' ,
   providers: [PopupService]
 })
-export class DPIComponent implements OnInit{
+export class DPIComponent implements OnInit, AfterViewInit {
     
+ @ViewChild('chartCanvas') chartCanvas: ElementRef | undefined;
  @Input() bilanBiologiqueId: string | undefined;
  isModalOpen = false;
  inputValues: any = {
@@ -48,8 +48,15 @@ export class DPIComponent implements OnInit{
  resultDate: string = '';
  chart: any;
  openchart: any;
-  http: any;
- constructor(private router: Router , private popupService: PopupService) {}
+  
+  constructor(private router: Router, private popupService: PopupService, private http: HttpClient) {}
+
+  ngAfterViewInit(): void {
+    if (this.openchart && this.chartCanvas) {
+      this.generateGraph(); 
+    }
+  }
+
   radioIdToShow: string  | null = null ; 
   
   consultation : string = '1' ;
@@ -57,15 +64,18 @@ export class DPIComponent implements OnInit{
 
   openModal(bilanBiologiqueId: string): void {
     this.isModalOpen = true;
-    this.http.post('http://127.0.0.1:8000/profil/detail_bilan_bio/', { bilanBiologiqueId })
-      .subscribe((data: any) => {
+    this.http.post('http://127.0.0.1:8000/profil/detail_bilan_bio/', { bilanBiologiqueId }).subscribe(
+      (data: any) => {
         this.inputValues.glycemie = data.glycemieValue;
         this.inputValues.pression = data.pressionValue;
         this.inputValues.cholesterol = data.cholesterolValue;
         this.laborantin = data.laborantin;
         this.resultDate = data.resultDate;
         this.openchart = data.etatbilan;
-        setTimeout(() => this.generateGraph(), 500); // Delay to ensure canvas is rendered
+        if (this.openchart) {
+          this.generateGraph(); // Only generate graph if openchart is true
+        }
+        
       });
   }
 
