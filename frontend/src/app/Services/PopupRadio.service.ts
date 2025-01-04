@@ -19,7 +19,7 @@ export class PopupService {
   constructor(private http: HttpClient) {}
 
  // Fetch user profile
- getImagerie(bilanRadiologiqueId: string): Observable<any> {
+ getImagerie(bilanRadiologiqueId: string | null ): Observable<any> {
   const body = { bilanRadiologiqueId };
   console.log(body) ;
   return this.http.post(this.apiUrl, body);  // Add return statement here

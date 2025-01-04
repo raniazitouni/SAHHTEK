@@ -35,12 +35,12 @@ export class PopupRadioComponent implements OnInit {
   }
   
   fetchRadioData(): void {
-    this.popupService.getImagerie('1').subscribe(
+    this.popupService.getImagerie( this.bilanRadiologiqueId ).subscribe(
       (data) => {
         this.radio = data;
-        this.imageUrl = `http://127.0.0.1:8000/${data.image}`;
-        console.log(data.image);
         console.log('radio:', this.radio);
+        this.imageUrl = `http://127.0.0.1:8000/${data.image}`;
+  
       },
       (error) => {
         console.error('Error fetching radio:', error);
