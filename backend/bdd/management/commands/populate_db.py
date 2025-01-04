@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from bdd.models import AuthUser
-from faker import Faker
+from faker import Faker # type: ignore
 import random
 from datetime import timedelta
 
