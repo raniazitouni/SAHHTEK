@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
 import { PopupService } from '../../Services/PopupRadio.service';
@@ -8,6 +8,18 @@ import {PopupbioComponent} from '../popupbio/popupbio.component';
 import {AddRadioComponent} from '../add-radio/add-radio.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from '@angular/common/http';
+import { Chart, BarElement, CategoryScale, LinearScale, BarController, Title, Tooltip,  Legend,} from 'chart.js';
+
+Chart.register(
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  BarController,
+  Title,
+  Tooltip,
+  Legend
+);
+
 
 type OrdonnanceDetail = {
   nomMedicament: string;
@@ -17,18 +29,116 @@ type OrdonnanceDetail = {
 @Component({
   selector: 'app-dpi',
   standalone: true,
-  imports: [CommonModule ,PopupRadioComponent,HttpClientModule, PopupbioComponent],
+  imports: [CommonModule ,PopupRadioComponent,HttpClientModule],
   templateUrl: './dpi.component.html',
   styleUrl: './dpi.component.css' ,
   providers: [PopupService]
 })
-export class DPIComponent implements OnInit{
-  bilanBiologiqueId: string | undefined;
- 
- constructor(private router: Router , private popupService: PopupService) {}
+export class DPIComponent implements OnInit, AfterViewInit {
+    
+ @ViewChild('chartCanvas') chartCanvas: ElementRef | undefined;
+ @Input() bilanBiologiqueId: string | undefined;
+ isModalOpen = false;
+ inputValues: any = {
+   glycemie: null,
+   pression: null,
+   cholesterol: null,
+ };
+ laborantin: any = null;
+ resultDate: string = '';
+ chart: any;
+ openchart: any;
+  
+  constructor(private router: Router, private popupService: PopupService, private http: HttpClient) {}
+
+  ngAfterViewInit(): void {
+    if (this.openchart && this.chartCanvas) {
+      this.generateGraph(); 
+    }
+  }
+
   radioIdToShow: string  | null = null ; 
   
   consultation : string = '1' ;
+
+
+  openModal(bilanBiologiqueId: string): void {
+    this.isModalOpen = true;
+    this.http.post('http://127.0.0.1:8000/profil/detail_bilan_bio/', { bilanBiologiqueId }).subscribe(
+      (data: any) => {
+        this.inputValues.glycemie = data.glycemieValue;
+        this.inputValues.pression = data.pressionValue;
+        this.inputValues.cholesterol = data.cholesterolValue;
+        this.laborantin = data.laborantin;
+        this.resultDate = data.resultDate;
+        this.openchart = data.etatbilan;
+        if (this.openchart) {
+          this.generateGraph(); // Only generate graph if openchart is true
+        }
+        
+      });
+  }
+
+    closeModall(): void {
+      this.isModalOpen = false;
+      if (this.chart) {
+        this.chart.destroy(); // Clean up the chart instance
+      }
+    }
+  
+    showGraph(): boolean {
+      
+      return this.openchart ;
+    }
+  
+    generateGraph(): void {
+      const labels = ['Glycémie', 'Pression', 'Cholestérol'];
+      const values = [
+        parseFloat(this.inputValues.glycemie),
+        parseFloat(this.inputValues.pression),
+        parseFloat(this.inputValues.cholesterol),
+      ];
+  
+      if (values.every((val) => !isNaN(val) && val !== 0)) {
+        // Destroy the existing chart if it exists
+        if (this.chart) {
+          this.chart.destroy();
+        }
+  
+        const canvas = document.getElementById('chartCanvas') as HTMLCanvasElement;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          this.chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+              labels: labels,
+              datasets: [
+                {
+                  label: 'Bilan Biologique',
+                  data: values,
+                  backgroundColor: 'rgba(63, 108, 181, 0.6)',
+                  borderColor: 'rgba(63, 108, 181, 1)',
+                  borderWidth: 1,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        }
+      } else {
+        console.log('Veuillez remplir toutes les valeurs numériques.');
+      }
+    }
+
+
+
 
 
   openPopup(bilanRadiologiqueId : string): void {
@@ -36,10 +146,6 @@ export class DPIComponent implements OnInit{
     this.radioIdToShow = bilanRadiologiqueId ;
   }
 
-
-  openModal(bilanBiologiqueId: string): void {
-    this.bilanBiologiqueId = bilanBiologiqueId;
-  }
 
 
 
