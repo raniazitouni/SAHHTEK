@@ -58,17 +58,17 @@ def forgot_password(request):
             user_id, encrypted_password = user
 
             # Decrypt the password
-            key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
-            cipher_suite = Fernet(key)
+            # key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
+            # cipher_suite = Fernet(key)
 
-            # Decode the encrypted password from base64
-            encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
+            # # Decode the encrypted password from base64
+            # encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
 
-            # Decrypt the password
-            decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
+            # # Decrypt the password
+            # decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
 
             # Send the decrypted password to the user via email
-            email_sent = send_reset_email(email, decrypted_password)
+            email_sent = send_reset_email(email, encrypted_password)
 
             if email_sent:
                 return JsonResponse({
