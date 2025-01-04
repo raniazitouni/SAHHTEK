@@ -32,6 +32,7 @@ export class LoginPageComponent {
         if (response.message === 'Login successful') {
           localStorage.setItem('user_id', response.user_id);
           localStorage.setItem('role', response.role);
+          localStorage.setItem('hospital_id', response.hopital_id);
           if (localStorage.getItem('role') == 'patient') {
             localStorage.setItem('patient_id', response.patientId);
           }
