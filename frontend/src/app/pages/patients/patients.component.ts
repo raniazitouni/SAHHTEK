@@ -49,12 +49,12 @@ export class PatientsComponent implements OnInit {
     ngOnInit() {
       this.user_id = localStorage.getItem('user_id');
       this.userRole = localStorage.getItem('role') as 'docteur' | 'recepcioniste';
-      const hospitalId = localStorage.getItem('hospital_id');
+      //const hospitalId = localStorage.getItem('hospital_id');
 
       if (this.userRole === 'docteur') {
         this.fetchPatientsByDoctor(this.user_id);
       } else if (this.userRole === 'recepcioniste') {
-        this.fetchPatientsByHospital(Number(hospitalId));
+        this.fetchPatientsByHospital(/*Number(hospitalId)*/1);
       }
     }
     
@@ -139,7 +139,7 @@ export class PatientsComponent implements OnInit {
         etatpatient: this.newPatient.etatpatient,
         mutuelle: this.newPatient.mutuelle,
         personneacontacter: this.newPatient.personne,
-        hopitalid: Number(hospitalId),  // the hospital ID here
+        hopitalid: 1 /*Number(hospitalId)*/,  // the hospital ID here
       };
   
       console.log("Sending patient data:", patientData);
