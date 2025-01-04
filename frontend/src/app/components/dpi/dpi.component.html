@@ -1,3 +1,4 @@
+<body>
 <div class="dpi-container">
 <div class="third">
 <div class="second">
@@ -11,7 +12,7 @@
     </div>
     <div class="info">
       <h2>{{ patientData.nomUser }} {{ patientData.prenomUser }}</h2>
-      <p id="nss">NSS: 85784373409</p>
+      <p id="nss">NSS: {{patientData.patientId}}</p>
     </div>
     </div>
     <div class="qr-code">
@@ -35,7 +36,7 @@
 <!-- Les Soins -->
 <div class="les-soins">
     <h3>Les soins 
-    <button class="btn" (click)="opensoinPopup()">Ajouter soin</button>
+    <button class="btn" *ngIf="role === 'infermier'"  (click)="opensoinPopup()" >Ajouter soin</button>
 <div class="modal" [style.display]="isModalVisible ? 'flex' : 'none'">
 <div class="modal-content">
 <div class="modal-header">
@@ -95,7 +96,7 @@
 <div class="les-consultations">
     <div class="head">
       <h3>Les consultations</h3>
-      <button class="ajouter-consultation" (click)="navigateToConsultation()">
+      <button class="ajouter-consultation" *ngIf="role === 'docteur'" (click)="navigateToConsultation()">
         Ajouter consultation
     </button>
     </div>
@@ -144,9 +145,17 @@
                     </div>
                 </div>
             </td>
-                <td><button>Bilan rad</button></td>
-                <td><button>Bilan bio</button></td>
-                <td>
+                
+            <td><button *ngIf= consultation 
+              (click)="openPopup(consultation.bilanRadiologiqueId)">Bilan rad</button>
+              <app-popup-radio [bilanRadiologiqueId]="radioIdToShow" >
+              </app-popup-radio>
+            </td>  
+                  <td>
+                    <button *ngIf= consultation (click)="openModal(consultation.bilanBiologiqueId)">Bilan bio</button>
+                    <app-popupbio [bilanBiologiqueId]="bilanBiologiqueId"></app-popupbio>
+                  </td>
+                   <td>
                     <button (click)="openresumePopup(consultation)">Résumé</button>
                     <div
                         class="modal" 
@@ -169,3 +178,4 @@
   
 </div>
 </div>
+</body>

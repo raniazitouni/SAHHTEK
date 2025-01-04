@@ -2,8 +2,13 @@
     font-family: poppins, sans-serif;
     color: #333;
     padding: 70px;
-    height: auto;
-
+    height: 1200px;
+  }
+  body {
+    margin: 0;              /* Removes default margins */
+    padding: 0;             /* Removes default padding */
+    height: 100% ;           /* Ensures the elements occupy the full height */
+    background-color: #F3F3F3; /* Sets the background color */
   }
   .first{
     display: flex;
@@ -236,6 +241,7 @@ p , li{
   
   .les-soins .table-header {
     position: sticky;
+    z-index: 1;
     top: 0; 
     color: #fff; 
   }

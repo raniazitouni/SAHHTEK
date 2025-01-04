@@ -15,6 +15,8 @@ urlpatterns = [
     path('demandes_radio/', views.DemandesRadiosByRadiologue.as_view(), name='demandes_radio'),
     path('detail_bilan_radio/', views.BilanRadiologiqueDetail.as_view(), name='detail_bilan_radio'),
     path('detail_bilan_bio/', views.BilanBiologiqueDetail.as_view(), name='detail_bilan_bio'),
+    path('docteur_patients/', views.DoctorPatients.as_view(), name='docteur_patients'),
+    path('soins_infermier/', views.SoinsParInfirmier.as_view(), name='soins_infermier'),
 
 
 

@@ -30,7 +30,7 @@ export class NotificationCardComponent {
       this.cardClicked.emit();
       console.log('Card clicked and event emitted');
 
-
+      console.log('hah',this.demande);
       this.demande.etatDemande = true;
     } else {
       console.log('Card has already been processed');

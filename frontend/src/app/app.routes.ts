@@ -11,6 +11,7 @@ import { PersonalInfoComponent } from './components/personal-info/personal-info.
 import { LoginInfoComponent } from './components/login-info/login-info.component';
 import { ResetComponent } from './components/reset/reset.component';
 import { PopupRadioComponent } from './components/popup-radio/popup-radio.component'; 
+import { PopupbioComponent } from './components/popupbio/popupbio.component';
 import { LoginPageComponent } from "./pages/login/login.component";
 import { provideHttpClient } from '@angular/common/http';
 import { AuthGuard } from './Services/auth.guard';

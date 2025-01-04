@@ -95,29 +95,28 @@ def login_user(request):
         with connection.cursor() as cursor:
             # Query for user authentication and retrieve role
             cursor.execute("""
-                SELECT userId, emailUser, password, role 
+                SELECT userId, emailUser, password, role , patientId 
                 FROM Tuser 
                 WHERE emailUser = %s
             """, [email])
             user = cursor.fetchone()
 
         if user:
-            user_id, email_db, password_db, role = user
-
-            key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
-            cipher_suite = Fernet(key)
-            encrypted_password = password_db
+            user_id, email_db, password_db, role , patientId = user 
+           #key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
+           #cipher_suite = Fernet(key)
+           #encrypted_password = password_db
             # Decode the encrypted password from base64
-            encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
+            # encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
             # Decrypt the password
-            decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
-    
+            #decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
             # Compare plain passwords
-            if password == decrypted_password:
+            if password == password_db:
                 return JsonResponse({
                     "message": "Login successful",
                     "email": email_db,
                     "role": role,
+                    "patientId": patientId,
                     "user_id": user_id,
                 }, status=200)
             else:

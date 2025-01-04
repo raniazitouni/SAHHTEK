@@ -1,4 +1,4 @@
-<div  class="bg-customBlue flex justify-between items-center px-4 lg:px-8 w-full pt-4 h-16 sticky top-0">
+<div  class="bg-customBlue flex justify-between items-center px-4 lg:px-8 w-full pt-4 h-16 sticky top-0" z-index = "9999999">
   <!-- Logo and Hamburger Icon -->
   <div class="flex items-center gap-4">
     <!-- Logo -->
@@ -40,7 +40,7 @@
      
         (click)="setActiveLink(data.routeLink)"
       >
-        <a class="lg:mb-4" [routerLink]="[data.routeLink]">{{ data.routeLink }}</a>
+        <a class="lg:mb-4" [routerLink]="[data.routeLink]">{{ data.routeLink | uppercase }}</a>
         <span class="absolute bottom-0 -left-4 w-4 h-4 bg-customBlue rounded-full opacity-0"
         [ngClass]="{
           'opacity-100 shadow-[8px_8px_0px_rgba(243,243,243)]': (activeLink === data.routeLink) && !isMenuOpen ,

@@ -28,7 +28,7 @@ def search_patient_by_ssn(request):
             # Now, use the patientId to fetch the associated details from the Tuser table
             cursor.execute("""
                 SELECT u.patientid, u.nomuser, u.prenomuser, u.telephone, u.datedenaissance,
-                       u.adresse, u.emailuser, p.mutuelle, p.etatPatient, p.personneAContacter
+                       u.adresse, u.emailuser, p.mutuelle, p.etatPatient, p.personneAContacter,u.userid
                 FROM Tuser u
                 JOIN Patient p ON u.patientid = p.patientid
                 WHERE u.patientId IN (%s)
@@ -40,7 +40,8 @@ def search_patient_by_ssn(request):
         # If patients are found, return their details as JSON
         if patients:
             patient_list = [
-                {
+                { 
+                    "userid" :patient[10],
                     "patientId": patient[0],
                     "nomUser": patient[1],
                     "prenomUser": patient[2],

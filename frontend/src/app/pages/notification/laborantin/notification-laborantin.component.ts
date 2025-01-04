@@ -67,6 +67,8 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
       this.http.post<any[]>('http://127.0.0.1:8000/profil/demandes_bilan/', { laborantinId: user_id })
       .subscribe(
       (data) => {
+        console.log('Notifications:lllll');
+        console.log('Notifications:', data);
         if (Array.isArray(data)) {
           
           this.notifications = data.map((notification: any) => ({

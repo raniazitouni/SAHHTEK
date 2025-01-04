@@ -39,6 +39,7 @@ export class PopupRadioComponent implements OnInit {
       (data) => {
         this.radio = data;
         this.imageUrl = `http://127.0.0.1:8000/${data.image}`;
+        console.log(data.image);
         console.log('radio:', this.radio);
       },
       (error) => {

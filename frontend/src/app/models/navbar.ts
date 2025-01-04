@@ -1,9 +1,9 @@
 export const Datanavbar = [
   { routeLink : 'Recherche',
-    role :'docteur,recepcioniste,patient'
+    role :'docteur,recepcioniste,infermier'
   },
   { routeLink : 'Patients',
-    role :'docteur,recepcioniste,patient'
+    role :'docteur,recepcioniste'
   },
   { routeLink : 'Notification',
     role :'laborantin,radiologue'
@@ -12,8 +12,12 @@ export const Datanavbar = [
     role :'docteur,receptioniste,laborantin,radiologue,infermier,patient'
   },
   { routeLink : 'Soins',
-    role :'docteur'
+    role :'infermier'
   },
+
+  { routeLink : 'dpi',
+    role :'patient'
+    }
 ];
 
    

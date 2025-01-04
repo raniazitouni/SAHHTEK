@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../Services/auth.service';
+ 
 @Component({
   selector: 'app-consultation',
   templateUrl: './consultation.component.html',
-  styleUrls: ['./consultation.component.css']
+  styleUrls: ['./consultation.component.css'],
+  imports: [ FormsModule, CommonModule,HttpClientModule],
+  providers: [AuthService]
 })
 export class ConsultationComponent {
   isModalVisible = false;
@@ -12,7 +20,7 @@ export class ConsultationComponent {
     duree: ''
   };
   ordonnanceList: { nommedicament: string; dose: string; duree: string; }[] = []; // Correctly declare the array of OrdonnanceData
-
+    
   
   consultationData = {
     consulationdate: '',
@@ -156,6 +164,7 @@ export class ConsultationComponent {
   closeModal(): void {
     this.isModalVisible = false;
   }
+  constructor(private http: HttpClient , private router: Router, private authService: AuthService) {}
 
   submitConsultation(): void {
     const url = `http://127.0.0.1:8000/maj/AjouterConsultation/`;
@@ -178,15 +187,17 @@ export class ConsultationComponent {
       },
       body: JSON.stringify(dataToSend),  
     })
-  
     .then((response) => response.json())  
     .then((data) => {
       
       console.log(data.message);
+      this.router.navigate(['dpi']); 
       })
     .catch((error) => {
       console.error('Error during Consultation creation:', error);
     });
-    }  }
+    } 
+
+ }
 
   

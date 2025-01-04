@@ -57,7 +57,7 @@ class UserPersonalInfo(APIView):
         else:
             return Response({'error': 'userId non fourni'}, status=status.HTTP_400_BAD_REQUEST)
 
-#################################################################################################################
+###############################################################################################################################
 
 class PatientSoins(APIView):
     def get_soins_for_patient(self, patientId):
@@ -469,9 +469,7 @@ class ListeMedecins(APIView):
 
         return Response(medecins, status=status.HTTP_200_OK)
 
-
 ##################################################################################################################################
-
 
 class PatientsByHospital(APIView):
     """
@@ -548,18 +546,15 @@ class PatientsByHospital(APIView):
 
         return Response(patients, status=status.HTTP_200_OK)
 
-
-
 ############################################################################################################################
-
 class DemandesBilanByLaborantin(APIView):
     """
-    API pour récupérer les demandes de bilan biologique par laborantin.
+    API pour récupérer les demandes de bilan biologique.
     """
 
-    def get_demandes_bilan(self, laborantinId):
+    def get_demandes_bilan(self):
         """
-        Récupérer les demandes de bilans biologiques par laborantin, 
+        Récupérer toutes les demandes de bilans biologiques, 
         incluant les informations des docteurs, des patients et l'état de la demande.
         """
         try:
@@ -579,12 +574,10 @@ class DemandesBilanByLaborantin(APIView):
                     Patient p ON db.patientId = p.patientId
                 JOIN 
                     Tuser patientUser ON p.patientId = patientUser.patientId
-                WHERE 
-                    db.laborantinId = %s;
             """
 
             with connection.cursor() as cursor:
-                cursor.execute(query, [laborantinId])
+                cursor.execute(query)
                 demandes = cursor.fetchall()
 
             if demandes:
@@ -600,41 +593,35 @@ class DemandesBilanByLaborantin(APIView):
                             "nom": demande[3],
                             "prenom": demande[4]
                         },
-                        "etatDemande": "True" if demande[5] else "False"  # Conversion de l'état
+                        "etatDemande": True if demande[5] else False # Conversion de l'état
                     })
                 return result
             else:
-                return {"error": "Aucune demande de bilan trouvée pour ce laborantin"}
+                return {"error": "Aucune demande de bilan trouvée"}
 
         except Exception as e:
             return {"error": str(e)}
 
     def post(self, request):
         """
-        Récupérer la liste des demandes via une requête POST.
+        Récupérer la liste de toutes les demandes via une requête POST.
         """
-        laborantinId = request.data.get("laborantinId", None)
-
-        if not laborantinId:
-            return Response({"error": "laborantinId non fourni"}, status=status.HTTP_400_BAD_REQUEST)
-
-        demandes = self.get_demandes_bilan(laborantinId)
+        demandes = self.get_demandes_bilan()
 
         if isinstance(demandes, dict) and "error" in demandes:
             return Response({"error": demandes["error"]}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(demandes, status=status.HTTP_200_OK)
-
-###############################################################################################################################
+#############################################################################################################################
 class DemandesRadiosByRadiologue(APIView):
     """
-    API pour récupérer la liste des demandes de radios d'un radiologue donné.
+    API pour récupérer toutes les demandes de radios.
     """
 
-    def get_demandes_radios(self, radiologueId):
+    def get_demandes_radios(self):
         """
-        Récupérer les demandes de radios pour un radiologue spécifique,
-        incluant les informations des patients, des docteurs et l'état de la demande.
+        Récupérer toutes les demandes de radios, incluant les informations des patients, 
+        des docteurs, le type de radio, et l'état de la demande.
         """
         try:
             query = """
@@ -651,13 +638,11 @@ class DemandesRadiosByRadiologue(APIView):
                 JOIN 
                     Tuser p ON dr.patientId = p.patientId
                 JOIN 
-                    Tuser d ON dr.docteurId = d.userId
-                WHERE 
-                    dr.radiologueId = %s;
+                    Tuser d ON dr.docteurId = d.userId;
             """
 
             with connection.cursor() as cursor:
-                cursor.execute(query, [radiologueId])
+                cursor.execute(query)
                 demandes = cursor.fetchall()
 
             if demandes:
@@ -674,32 +659,25 @@ class DemandesRadiosByRadiologue(APIView):
                             "prenom": demande[4]
                         },
                         "typeRadio": demande[5],
-                        "etatDemande": "Validée" if demande[6] else "En attente"  # Convertir état booléen en texte
+                        "etatDemande": True if demande[6] else False
                     })
                 return result
             else:
-                return {"error": "Aucune demande de radio trouvée pour ce radiologue"}
+                return {"error": "Aucune demande de radio trouvée"}
 
         except Exception as e:
             return {"error": str(e)}
 
     def post(self, request):
         """
-        Récupérer les demandes de radios via une requête POST.
+        Récupérer la liste de toutes les demandes via une requête POST.
         """
-        radiologueId = request.data.get("radiologueId", None)
-
-        if not radiologueId:
-            return Response({"error": "radiologueId non fourni"}, status=status.HTTP_400_BAD_REQUEST)
-
-        demandes = self.get_demandes_radios(radiologueId)
+        demandes = self.get_demandes_radios()
 
         if isinstance(demandes, dict) and "error" in demandes:
             return Response({"error": demandes["error"]}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(demandes, status=status.HTTP_200_OK)
-
-
 #####################################################################################################################################
 class BilanRadiologiqueDetail(APIView):
     """
@@ -837,14 +815,20 @@ class DoctorPatients(APIView):
         incluant leurs noms et prénoms.
         """
         try:
+
             query = """
                 SELECT DISTINCT
                     p.patientId,
                     p.mutuelle,
                     p.etatPatient,
                     p.personneAContacter,
+                    t.userId,
                     t.nomUser,
-                    t.prenomUser
+                    t.prenomUser,
+                    t.telephone,
+                    t.dateDeNaissance,
+                    t.adresse,
+                    t.emailUser
                 FROM 
                     Consultation c
                 INNER JOIN Patient p ON c.patientId = p.patientId
@@ -867,8 +851,13 @@ class DoctorPatients(APIView):
                         "mutuelle": patient[1],
                         "etatPatient": patient[2],
                         "personneAContacter": patient[3],
-                        "nom": patient[4],
-                        "prenom": patient[5],
+                        "nom": patient[5],
+                        "prenom": patient[6],
+                        "telephone": patient[7],
+                        "dateDeNaissance": str(patient[8]),
+                        "adresse": patient[9],
+                        "emailUser": patient[10]
+
                     }
                     for patient in patients
                 ]
@@ -898,3 +887,68 @@ class DoctorPatients(APIView):
             return Response({"message": "Aucun patient trouvé pour ce docteur."}, status=status.HTTP_404_NOT_FOUND)
 
         return Response(patients, status=status.HTTP_200_OK)
+
+
+###################################################################################################################################
+class SoinsParInfirmier(APIView):
+    """
+    API pour récupérer les soins d'un infirmier.
+    """
+
+    def get_soins_par_infirmier(self, userId):
+        """
+        Récupérer les soins d'un infirmier depuis la table SoinObservation.
+        """
+        try:
+            query = """
+                SELECT 
+                    compteur, 
+                    patientId, 
+                    consultationDate, 
+                    descriptionSoin, 
+                    observation
+                FROM 
+                    SoinObservation
+                WHERE 
+                    userId = %s;
+            """
+            with connection.cursor() as cursor:
+                cursor.execute(query, [userId])
+                soins = cursor.fetchall()
+
+            if not soins:
+                return None
+
+            result = [
+                {
+                    "compteur": soin[0],
+                    "patientId": soin[1],
+                    "consultationDate": soin[2].strftime("%Y-%m-%d") if soin[2] else None,
+                    "descriptionSoin": soin[3],
+                    "observation": soin[4],
+                }
+                for soin in soins
+            ]
+            return result
+
+        except Exception as e:
+            return {"error": f"Erreur lors de la récupération des données: {str(e)}"}
+
+    def post(self, request):
+        """
+        Récupérer la liste des soins via une requête POST.
+        """
+        userId = request.data.get("userId")
+
+        if not userId:
+            return Response({"error": "L'identifiant de l'infirmier (userId) est requis."}, status=status.HTTP_400_BAD_REQUEST)
+
+        soins = self.get_soins_par_infirmier(userId)
+
+        if soins is None:
+            return Response({"message": "Aucun soin trouvé pour cet infirmier."}, status=status.HTTP_404_NOT_FOUND)
+
+        if isinstance(soins, dict) and "error" in soins:
+            return Response(soins, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(soins, status=status.HTTP_200_OK)

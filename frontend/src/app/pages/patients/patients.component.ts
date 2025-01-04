@@ -55,10 +55,11 @@ export class PatientsComponent implements OnInit {
       
       this.http.post<Patient[]>(url, { doctorId: user_id }).subscribe(
         (data) => {
+          console.log('theeheheh',data);
           this.patients = data.map((patient: any) => ({
             nss: patient.patientId || '',
-            name: patient.nomUser || '',
-            surname: patient.prenomUser || '',
+            name: patient.nom || '',
+            surname: patient.prenom || '',
             phone: patient.telephone || '',
             birthdate: patient.dateDeNaissance || '',
             address: patient.adresse || '',
@@ -73,8 +74,6 @@ export class PatientsComponent implements OnInit {
         }
       );
     }
-  
-
     openModal() {
       this.isModalOpen = true;
     }

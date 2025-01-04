@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Chart, BarElement, CategoryScale, LinearScale, BarController, Title, Tooltip, Legend } from 'chart.js';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -21,6 +21,8 @@ Chart.register(
   styleUrls: ['./popupbio.component.css'],
 })
 export class PopupbioComponent {
+  @Input() bilanBiologiqueId: string | undefined;
+
   isModalOpen = false;
   inputValues: any = {
     glycemie: null,
@@ -33,11 +35,15 @@ export class PopupbioComponent {
   openchart: any;
 
   constructor(private http: HttpClient) {}
-  //<button (click)="openModal()">Afficher Bilan</button> hadi lazem tkoun eand yara
 
-  openModal(): void {
-     // hna declari l bilanId
-    this.http.post('http://127.0.0.1:8000/profil/detail_bilan_bio/', { /*bilanBiologiqueId: bilanId*/ })
+  ngOnInit(): void {
+    if (this.bilanBiologiqueId) {
+      this.openModal(this.bilanBiologiqueId);
+    }
+  }
+
+  openModal(bilanBiologiqueId: string): void {
+    this.http.post('http://127.0.0.1:8000/profil/detail_bilan_bio/', { bilanBiologiqueId })
       .subscribe((data: any) => {
         this.inputValues.glycemie = data.glycemieValue;
         this.inputValues.pression = data.pressionValue;

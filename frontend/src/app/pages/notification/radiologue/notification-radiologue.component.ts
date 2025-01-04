@@ -34,8 +34,9 @@ export class NotificationRadiologueComponent implements OnInit {
     this.http
       .post<any[]>('http://127.0.0.1:8000/profil/demandes_radio/', { radiologueId: user_id })
       .subscribe(
-        
+      
         (data) => {
+          console.log('Notifications:', data);
           // Map the response to the desired format
           this.demandes = data.map((demande: any) => ({
             patientName: `${demande.patient.nom} ${demande.patient.prenom}`,

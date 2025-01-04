@@ -23,7 +23,9 @@ export class NotificationCardComponent {
 
  
   get isProcessed(): boolean {
+
     return this.notification.etatDemande;
+    console.log(this.notification.etatDemande)
   }
 
   handleClick(): void {
@@ -33,11 +35,13 @@ export class NotificationCardComponent {
       
       this.cardClicked.emit();
       console.log('Card clicked and event emitted');
-      
+
+      console.log('hah',this.notification.etatDemande)
      
       this.notification.etatDemande = true;
     } else {
       console.log('Card has already been processed');
+      console.log('hah',this.notification.etatDemande)
     }
   }
 }

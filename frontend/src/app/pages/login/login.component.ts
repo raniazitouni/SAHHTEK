@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../Services/auth.service';
-
+ 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html', 
@@ -16,7 +16,6 @@ export class LoginPageComponent {
   email: string = '';
   password: string = '';
   forgotEmail: string = ''; 
-
   constructor(private http: HttpClient , private router: Router, private authService: AuthService) {}
 
 
@@ -25,17 +24,20 @@ export class LoginPageComponent {
       email: this.email,
       password: this.password,
     };
-
+    console.log(loginData),
     this.http.post('http://127.0.0.1:8000/login/', loginData).subscribe(
-      
+     
       (response: any) => {
-       
+       console.log(response)
         if (response.message === 'Login successful') {
           localStorage.setItem('user_id', response.user_id);
           localStorage.setItem('role', response.role);
+          if (localStorage.getItem('role') == 'patient') {
+            localStorage.setItem('patient_id', response.patientId);
+          }
+          
           this.authService.login(); 
           this.router.navigate(['Profile']); 
-          console.log(response)
         } else {
           alert('E-mail ou mot de passe invalide');
         }
@@ -46,6 +48,7 @@ export class LoginPageComponent {
       }
     );
   }
+
 
 
 
