@@ -43,13 +43,13 @@ class CreateDpi(APIView):
                 
                 # Generate a random password and encrypt it 
                 plain_password = generate_password()
-                key = config('ENCRYPTION_KEY')
-                cipher_suite = Fernet(key)
-                psw = plain_password.encode()
-                encrypted = cipher_suite.encrypt(psw)
-                psw_tostore = base64.b64encode(encrypted).decode('utf-8')
-                request.data['password'] = psw_tostore
-                request.data['oldpassword'] = psw_tostore
+                # key = config('ENCRYPTION_KEY')
+                # cipher_suite = Fernet(key)
+                # psw = plain_password.encode()
+                # encrypted = cipher_suite.encrypt(psw)
+                # psw_tostore = base64.b64encode(encrypted).decode('utf-8')
+                request.data['password'] = plain_password 
+                request.data['oldpassword'] = plain_password 
 
                 #if one of the serializers is not valid , the transation would roollback
                 with transaction.atomic():
@@ -81,7 +81,7 @@ class AjouterDemandeRadio(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        request.data['etatdemande'] = False
+        request.data['etatdemande'] = True
         request.data['datedenvoi'] = date.today()
 
         serializer_demanderadio = DemanderadioSerializer(data=request.data)
@@ -96,7 +96,7 @@ class AjouterDemandeBilan(APIView):
 
     def post(self, request, *args, **kwargs):
 
-        request.data['etatdemande'] = False
+        request.data['etatdemande'] = True
         request.data['datedenvoi'] = date.today()
 
         serializer_demandebilan = DemandebilanSerializer(data=request.data)
@@ -207,7 +207,7 @@ class AjouterRadio(APIView):
                     if demanderadio_id : 
                         try : 
                             demande = Demanderadio.objects.get(demanderadioid=demanderadio_id)
-                            demande.etatdemande = True
+                            demande.etatdemande = False
                             radioloque_id= data.get('userid', None)
                             radiologue = Tuser.objects.filter(userid=radioloque_id).first()
                             if not radiologue : 
@@ -250,7 +250,7 @@ class AjouterBillan(APIView):
                     if demandebilan_id : 
                         try : 
                             demande = Demandebilan.objects.get(demandebilanid=demandebilan_id)
-                            demande.etatdemande = True
+                            demande.etatdemande = False
                             laborantin_id= request.data.get('userid', None)
                             laborantin = Tuser.objects.filter(userid=laborantin_id).first()
                             if not laborantin : 
@@ -414,22 +414,22 @@ class ResetPassword(APIView):
         if user : 
             oldpsw = request.data.get('currentPassword',None)
 
-            key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
-            cipher_suite = Fernet(key)
+            # key = config('ENCRYPTION_KEY')  # Get the key from the environment variable
+            # cipher_suite = Fernet(key)
             encrypted_password = user.password
-            # Decode the encrypted password from base64
-            encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
-            # Decrypt the password
-            decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
-            print(decrypted_password)
-            if decrypted_password == oldpsw :  
+            # # Decode the encrypted password from base64
+            # encrypted_password_bytes = base64.b64decode(encrypted_password.encode('utf-8'))
+            # # Decrypt the password
+            # decrypted_password = cipher_suite.decrypt(encrypted_password_bytes).decode('utf-8')
+            # print(decrypted_password)
+            if encrypted_password  == oldpsw :  
                   new_psw = request.data.get('newPassword',None)
-                  psw = new_psw.encode()
-                  encrypted = cipher_suite.encrypt(psw)
-                  psw_tostore = base64.b64encode(encrypted).decode('utf-8')
+                #   psw = new_psw.encode()
+                #   encrypted = cipher_suite.encrypt(psw)
+                #   psw_tostore = base64.b64encode(encrypted).decode('utf-8')
                   data={
                       "oldpassword" : encrypted_password,
-                      "password" : psw_tostore
+                      "password" : new_psw
                   }
                   serializer = PasswordResetSerializer(user, data=data, partial=True)
                   if serializer.is_valid():
