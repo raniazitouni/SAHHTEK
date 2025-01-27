@@ -5,7 +5,7 @@ export const Datanavbar = [
   { routeLink : 'Patients',
     role :'docteur,recepcioniste'
   },
-  { routeLink : 'Notification',
+  { routeLink : 'Notif',
     role :'laborantin,radiologue'
   },
   { routeLink : 'Profile',
