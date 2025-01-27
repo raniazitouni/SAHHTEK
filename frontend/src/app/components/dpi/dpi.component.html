@@ -179,7 +179,7 @@
   </div>
   
   <!-- popup bio -->
-  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center font-['Poppins']"
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center font-['Poppins'] backdrop-blur-sm z-[9999]"
   *ngIf="isModalOpen"
   role="dialog"
   aria-labelledby="modal-title"
@@ -217,12 +217,12 @@
       <!-- Right Section -->
       <div class="w-full sm:w-1/2 flex flex-col justify-center items-center border-l pl-4">
         <!-- Graph (si il a ete généré par le laborantin) -->
-        <div>
-          <h2 class="text-lg font-bold text-[#3F6CB5] text-center">Graphique</h2>
+        <div >
+          <h2 class="text-lg mb-6 font-bold text-[#3F6CB5] text-center">Graphique</h2>
           <canvas id="chartCanvas" #chartCanvas></canvas>
         </div>
       
-      <div class="mb-4">
+      <div class="mt-8">
         <button
           type="button"
           class="px-4 py-2 bg-[#3F6CB5] text-white rounded-lg hover:bg-[#839FCD]"
