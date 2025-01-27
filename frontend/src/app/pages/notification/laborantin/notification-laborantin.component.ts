@@ -76,6 +76,8 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
             doctorName: `${notification.docteur.nom} ${notification.docteur.prenom}`,
             date: notification.dateDenvoi, 
             etatDemande: notification.etatDemande, 
+            demandebilanid : notification.demandeId ,
+
           }));
         } else {
           console.error('Unexpected response format:', data);
@@ -91,6 +93,8 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
 
   onCardClick(notification: any): void {
     this.selectedNotification = notification;
+
+    console.log('notification ; '+ notification.demandebilanid)
     this.openModal();
   }
 
@@ -150,6 +154,8 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
   }
 
   sendBilanToBackend(): void{
+    console.log( 'hiiiiiiii true ')
+
     const demandebilanid = this.selectedNotification?.demandebilanid || null;
     this.user_id = localStorage.getItem('user_id');
     const bilannn = {
@@ -159,15 +165,18 @@ export class LaboratinNotificationsComponent implements OnInit, AfterViewInit {
       cholesterolvalue: this.inputValues.cholesterol,
       resultdate: new Date().toISOString().split('T')[0], 
       userid: this.user_id, 
+      patientid:1, 
       demandebilanid, 
     };
 
-    this.http.post('http://127.0.0.1:8000/maj/AjouterBillan/{patientid}/', bilannn)
+    this.http.post('http://127.0.0.1:8000/maj/AjouterBillan/', bilannn)
       .subscribe({
         next: (response) => {
+          console.log(bilannn + 'hiiiiiiii true ')
           console.log('Bilan added successfully:', response);
         },
         error: (error) => {
+          console.log(bilannn)
           console.error('Error adding bilan:', error);
         },
       });
