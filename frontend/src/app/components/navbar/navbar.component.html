@@ -26,7 +26,7 @@
 
   <!-- Navigation Links -->
   <ul
-    class="hidden lg:flex lg:gap-4 items-center font-semibold  text-white lg:relative "
+    class="hidden lg:flex lg:gap-4 items-center font-semibold  text-white lg:relative"
     [ngClass]="{ 'flex flex-col absolute top-16 left-0 w-full bg-customBlue': isMenuOpen, 'hidden': !isMenuOpen }"
   >
     <ng-container *ngFor="let data of navData">
@@ -40,7 +40,7 @@
      
         (click)="setActiveLink(data.routeLink)"
       >
-        <a class="lg:mb-4" [routerLink]="[data.routeLink]">{{ data.routeLink  }}</a>
+        <a class="lg:mb-4" [routerLink]="[data.routeLink]">{{ data.routeLink | uppercase }}</a>
         <span class="absolute bottom-0 -left-4 w-4 h-4 bg-customBlue rounded-full opacity-0"
         [ngClass]="{
           'opacity-100 shadow-[8px_8px_0px_rgba(243,243,243)]': (activeLink === data.routeLink) && !isMenuOpen ,
