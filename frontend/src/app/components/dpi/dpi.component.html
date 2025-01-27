@@ -1,181 +1,237 @@
-<body>
-<div class="dpi-container">
-<div class="third">
-<div class="second">
-<div class="first">
-    <!-- Patient Info -->
- 
-    <div class="patient-info">
-    <div class="nom-avatar">
-    <div class="avatar">
-        <span class="avatar-letter">{{ (patientData.nomUser || '').charAt(0).toUpperCase() }}</span>
+<div class="dpi-container  bg-Bluebg">
+  <div class="third">
+  <div class="second">
+  <div class="first">
+      <!-- Patient Info -->
+   
+      <div class="patient-info">
+      <div class="nom-avatar">
+      <div class="avatar">
+          <span class="avatar-letter">{{ (patientData.nomUser || '').charAt(0).toUpperCase() }}</span>
+      </div>
+      <div class="info">
+        <h2>{{ patientData.nomUser }} {{ patientData.prenomUser }}</h2>
+        <p id="nss">NSS: {{patientData.patientId}}</p>
+      </div>
+      </div>
+      <div class="qr-code">
+          <img [src]="patientData.qrCodeImageUrl" alt="QR Code" />
+      </div>
     </div>
-    <div class="info">
-      <h2>{{ patientData.nomUser }} {{ patientData.prenomUser }}</h2>
-      <p id="nss">NSS: {{patientData.patientId}}</p>
-    </div>
-    </div>
-    <div class="qr-code">
-        <img [src]="patientData.qrCodeImageUrl" alt="QR Code" />
-    </div>
+  
+    <!-- Details Section -->
+    <div class="details">
+      <div class="column">
+        <p><strong class="ll">Date de naissance:</strong> <br>{{ patientData.dateDeNaissance}}</p>
+        <p><strong class="ll">Numéro de téléphone:</strong><br>{{patientData.telephone}}</p>
+      </div>
+      <div class="column">
+        <p><strong class="ll">Mutuelle:</strong> <br>{{patientData.mutuelle}}</p>
+        <p><strong class="ll">Adresse:</strong> <br>{{patientData.adresse}}</p>
+        <p><strong class="ll">Personne à contacter:</strong> <br>{{patientData.personneAContacter}}</p>
+      </div>
+  </div></div>
+  
+  <!-- Les Soins -->
+  <div class="les-soins">
+      <h3>Les soins 
+      <button class="btn" (click)="opensoinPopup()">Ajouter soin</button>
+  <div class="modal" [style.display]="isModalVisible ? 'flex' : 'none'">
+  <div class="modal-content">
+  <div class="modal-header">
+      <h3>Ajouter soin</h3>  
+      <span class="close" (click)="closeModal()">×</span>
   </div>
-
-  <!-- Details Section -->
-  <div class="details">
-    <div class="column">
-      <p><strong class="ll">Date de naissance:</strong> <br>{{ patientData.dateDeNaissance}}</p>
-      <p><strong class="ll">Numéro de téléphone:</strong><br>{{patientData.telephone}}</p>
-    </div>
-    <div class="column">
-      <p><strong class="ll">Mutuelle:</strong> <br>{{patientData.mutuelle}}</p>
-      <p><strong class="ll">Adresse:</strong> <br>{{patientData.adresse}}</p>
-      <p><strong class="ll">Personne à contacter:</strong> <br>{{patientData.personneAContacter}}</p>
-    </div>
-</div></div>
-
-<!-- Les Soins -->
-<div class="les-soins">
-    <h3>Les soins 
-    <button class="btn" *ngIf="role === 'infermier'"  (click)="opensoinPopup()" >Ajouter soin</button>
-<div class="modal" [style.display]="isModalVisible ? 'flex' : 'none'">
-<div class="modal-content">
-<div class="modal-header">
-    <h3>Ajouter soin</h3>
-
-    <span class="close" (click)="closeModal()">×</span>
-</div>
-<div class="form-group3">
-    <label>Date de soin
-      </label>
-        <input class="fill" type="date" id="soin-date" 
-        [value]="soinsdata.consultationdate"
-        (input)="onDateChange($event)">
-</div>
-<div class="form-groupp">
-<div class="form-group3">
-    <label>Description</label>
-    <textarea class="fill" type="text" id="description" placeholder="La description du soin"
-    [value]="soinsdata.descriptionsoin"
-    (input)="updatedescriptionSoin($event)"></textarea>
-</div>
-<div class="form-group3">
-    <label >Observation</label>
-    <textarea class="fill"  type="text" id="observation" placeholder="une observation"
-    [value]="soinsdata.observation"
-    (input)="updateobser($event)"
-    updateobser></textarea>
-</div></div>
-<button 
-  class="btn1" 
-  id="ajouttter" 
-  (click)="saveSoin()">
-  Ajouter
-</button>
-</div>
-</div>
-    </h3>
-    <div class="table-body">
-      <table >
-    <thead class="table-header">
-            <tr >
-              <th id="ff">Date</th>
-              <th id="ss">Fait par</th>
-            </tr>
-          </thead> 
-        <tbody>
-          <tr *ngFor="let soin of soinsList">
-            <td>{{soin.consultationDate}}</td>
-            <td>{{soin.nomUser}} {{soin.prenomUser}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="form-group3">
+      <label>Date de soin
+        </label>
+          <input class="fill" type="date" id="soin-date" 
+          [value]="soinsdata.consultationdate"
+          (input)="onDateChange($event)">
   </div>
-</div>
-
-<div class="les-consultations">
-    <div class="head">
-      <h3>Les consultations</h3>
-      <button class="ajouter-consultation" *ngIf="role === 'docteur'" (click)="navigateToConsultation()">
-        Ajouter consultation
-    </button>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th id="dd">Date</th>
-          <th id="m">Ordonnance</th>
-          <th id="m">Bilan radiologique</th>
-          <th id="m">Bilan biologique</th>
-          <th id="ddd">Résumé</th>
-        </tr>
-      </thead>
-    </table>
-    <div class="table-body">
-      <table>
-        <tbody>
-            
-            <tr *ngFor="let consultation of consultationList">
-                <td>{{ consultation.consultationDate }}</td>
-                <td><button (click)="openordPopup(consultation)">Ordonnance</button>
-                    <div
-                    class="modal" 
-                    [style.display]="consultation.isordVisible ? 'flex' : 'none'" >
-                    <div class="modal-content2">
-                        <div class="modal-header2">
-                            <h3>L'ordonnance</h3>
-                            <span class="close" (click)="closeordPopup(consultation)">×</span>
-                        </div>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Médicament</th>
-                                    <th>Dosage</th>
-                                    <th>Durée</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let med of consultation.ordonnanceDetails">
-                                    <td id="j">{{ med.nomMedicament }}</td>
-                                    <td>{{ med.dose }}</td>
-                                    <td id="jj">{{ med.duree }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </td>
-                
-            <td><button *ngIf= consultation 
-              (click)="openPopup(consultation.bilanRadiologiqueId)">Bilan rad</button>
-              <app-popup-radio [bilanRadiologiqueId]="radioIdToShow" >
-              </app-popup-radio>
-            </td>  
-                  <td>
-                    <button *ngIf= consultation (click)="openModal(consultation.bilanBiologiqueId)">Bilan bio</button>
-                    <app-popupbio [bilanBiologiqueId]="bilanBiologiqueId"></app-popupbio>
-                  </td>
-                   <td>
-                    <button (click)="openresumePopup(consultation)">Résumé</button>
-                    <div
-                        class="modal" 
-                        [style.display]="consultation.isResumeVisible ? 'flex' : 'none'" >
-                        <div class="modal-content1">
-                            <div class="modal-header1">
-                                <h3>Resume de la consultation</h3>
-                                <span class="close" (click)="closeResumePopup(consultation)">×</span>
-                            </div>
-                            <p>{{ consultation.resumeConsultation }}</p>
-                        </div>
-                    </div>
-                </td>
+  <div class="form-groupp">
+  <div class="form-group3">
+      <label>Description</label>
+      <textarea class="fill" type="text" id="description" placeholder="La description du soin"
+      [value]="soinsdata.descriptionsoin"
+      (input)="updatedescriptionSoin($event)"></textarea>
+  </div>
+  <div class="form-group3">
+      <label >Observation</label>
+      <textarea class="fill"  type="text" id="observation" placeholder="une observation"
+      [value]="soinsdata.observation"
+      (input)="updateobser($event)"
+      updateobser></textarea>
+  </div></div>
+  <button 
+    class="btn1" 
+    id="ajouttter" 
+    (click)="saveSoin()">
+    Ajouter
+  </button>
+  </div>
+  </div>
+      </h3>
+      <div class="table-body">
+        <table >
+      <thead class="table-header">
+              <tr >
+                <th id="ff">Date</th>
+                <th id="ss">Fait par</th>
+              </tr>
+            </thead> 
+          <tbody>
+            <tr *ngFor="let soin of soinsList">
+              <td>{{soin.consultationDate}}</td>
+              <td>{{soin.nomUser}} {{soin.prenomUser}}</td>
             </tr>
-            
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   
-</div>
-</div>
-</body>
+  <div class="les-consultations">
+      <div class="head">
+        <h3>Les consultations</h3>
+        <button class="ajouter-consultation" (click)="navigateToConsultation()">
+          Ajouter consultation
+      </button>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th id="dd">Date</th>
+            <th id="m">Ordonnance</th>
+            <th id="m">Bilan radiologique</th>
+            <th id="m">Bilan biologique</th>
+            <th id="ddd">Résumé</th>
+          </tr>
+        </thead>
+      </table>
+      <div class="table-body">
+        <table>
+          <tbody>
+              
+              <tr *ngFor="let consultation of consultationList">
+                  <td>{{ consultation.consultationDate }}</td>
+                  <td><button (click)="openordPopup(consultation)">Ordonnance</button>
+                      <div
+                      class="modal" 
+                      [style.display]="consultation.isordVisible ? 'flex' : 'none'" >
+                      <div class="modal-content2">
+                          <div class="modal-header2">
+                              <h3>L'ordonnance</h3>
+                              <span class="close" (click)="closeordPopup(consultation)">×</span>
+                          </div>
+                          <table>
+                              <thead>
+                                  <tr>
+                                      <th>Médicament</th>
+                                      <th>Dosage</th>
+                                      <th>Durée</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let med of consultation.ordonnanceDetails">
+                                      <td id="j">{{ med.nomMedicament }}</td>
+                                      <td>{{ med.dose }}</td>
+                                      <td id="jj">{{ med.duree }}</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </td>
+                  <td><button *ngIf= consultation 
+                    (click)="openPopup(consultation.bilanRadiologiqueId)">Bilan rad</button>
+                    <app-popup-radio [bilanRadiologiqueId]="radioIdToShow" >
+                    </app-popup-radio>
+                  </td>  
+          <td>
+            <button *ngIf= consultation 
+            (click)="openModal(consultation.bilanBiologiqueId)">Bilan bio</button>
+          </td>
+  
+  
+                  <td>
+                      <button (click)="openresumePopup(consultation)">Résumé</button>
+                      <div
+                          class="modal" 
+                          [style.display]="consultation.isResumeVisible ? 'flex' : 'none'" >
+                          <div class="modal-content1">
+                              <div class="modal-header1">
+                                  <h3>Resume de la consultation</h3>
+                                  <span class="close" (click)="closeResumePopup(consultation)">×</span>
+                              </div>
+                              <p>{{ consultation.resumeConsultation }}</p>
+                          </div>
+                      </div>
+                  </td>
+              </tr>
+              
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+  </div>
+  
+  <!-- popup bio -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center font-['Poppins']"
+  *ngIf="isModalOpen"
+  role="dialog"
+  aria-labelledby="modal-title"
+  aria-describedby="modal-description"
+  >
+  <div class="w-3/4 sm:w-3/4 md:w-2/3 bg-white rounded-lg shadow-lg p-6 flex flex-col sm:flex-row">
+    
+    <!-- Left Section -->
+    <div class="w-full sm:w-1/2 flex flex-col gap-4">
+      <div class="text-center border-b pb-4 mb-4">
+        <h1 class="text-2xl font-bold text-[#3F6CB5]" id="modal-title">
+          Bilan d'Analyse
+        </h1>
+        <p class="text-sm text-gray-500">
+          Laboratoire d'analyse | Rapport personnalisé
+        </p>
+      </div>
+      
+      <div>
+        <h2 class="text-lg font-bold text-[#3F6CB5]">Informations:</h2>
+        <p class="text-gray-700">Date: <span class="font-bold">{{ resultDate }}</span></p>
+        <p class="text-gray-700">Laboratin Responsable: <span class="font-bold">{{ laborantin?.prenom }} {{ laborantin?.nom }}</span></p>
+      </div>
+  
+      <div class="mt-4">
+        <h2 class="text-lg font-bold text-[#3F6CB5]">Résultats du Bilan</h2>
+        <ul class="list-disc pl-5">
+          <li>Glycémie: <span class="font-semibold">{{ inputValues?.glycemie || 'Non Disponible' }} mg/dL</span></li>
+          <li>Pression: <span class="font-semibold">{{ inputValues?.pression || 'Non Disponible' }} mmHg</span></li>
+          <li>Cholestérol: <span class="font-semibold">{{ inputValues?.cholesterol || 'Non Disponible' }} mg/dL</span></li>
+        </ul>
+      </div>
+    </div>
+  
+      <!-- Right Section -->
+      <div class="w-full sm:w-1/2 flex flex-col justify-center items-center border-l pl-4">
+        <!-- Graph (si il a ete généré par le laborantin) -->
+        <div>
+          <h2 class="text-lg font-bold text-[#3F6CB5] text-center">Graphique</h2>
+          <canvas id="chartCanvas" #chartCanvas></canvas>
+        </div>
+      
+      <div class="mb-4">
+        <button
+          type="button"
+          class="px-4 py-2 bg-[#3F6CB5] text-white rounded-lg hover:bg-[#839FCD]"
+          (click)="closeModall()"
+        >
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+  
