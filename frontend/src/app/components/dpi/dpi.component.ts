@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef  } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild, ElementRef  } from '@angular/core';
 import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
 import { PopupService } from '../../Services/PopupRadio.service';
@@ -37,6 +38,7 @@ type OrdonnanceDetail = {
 @Component({
   selector: 'app-dpi',
   standalone: true,
+  imports: [CommonModule ,PopupRadioComponent,HttpClientModule],
   imports: [CommonModule ,PopupRadioComponent,HttpClientModule],
   templateUrl: './dpi.component.html',
   styleUrl: './dpi.component.css' ,
