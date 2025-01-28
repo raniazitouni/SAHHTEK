@@ -26,9 +26,8 @@ interface Patient {
 export class PatientsComponent implements OnInit {
     patients: Patient[] = [];
     isModalOpen = false;
-  
     today: string = new Date().toISOString().split('T')[0];
-  
+    errorMessage: string = '';
     newPatient: Patient = {
       nss: '',
       name: '',
@@ -39,7 +38,7 @@ export class PatientsComponent implements OnInit {
       mail: '',
       mutuelle: '',
       personne: '',
-      etatpatient: 0, // hospitalisé
+      etatpatient: 0, // hospitalisÃ©
     };
     user_id: any;
     userRole: string | undefined;
@@ -126,8 +125,15 @@ export class PatientsComponent implements OnInit {
   
     // Add a new patient
     addPatient() {
+      this.errorMessage = '';
       console.log("Adding new patient:", this.newPatient);
       const hospitalId = localStorage.getItem('hospital_id');
+      
+      if (!this.newPatient.nss || !/^\d{16}$/.test(this.newPatient.nss)) {
+        this.errorMessage = 'Le NSS doit contenir exactement 16 chiffres';
+        return; 
+      }
+
       const patientData = {
         patientid: this.newPatient.nss,
         nomuser: this.newPatient.name,
@@ -143,13 +149,14 @@ export class PatientsComponent implements OnInit {
       };
       
       console.log("Sending patient data:", patientData);
-  
+      
       this.http.post('http://127.0.0.1:8000/maj/CreateDpi/', patientData).subscribe(
-        (response) => {
+        (response :any ) => {
           console.log('Patient added:', response);
   
           // Check if the response is successful
-          if (response === 'Object created successfully') {
+          if (response.message === 'Object created successfully') {
+            this.closeModal()
             // Add the new patient to the patients list
             this.patients.push({ ...this.newPatient });
   
@@ -165,15 +172,20 @@ export class PatientsComponent implements OnInit {
               mutuelle: '',
               personne: '',
               etatpatient: 0,  // Reset status
-            };
-  
-            this.isModalOpen = false;
-          } 
+            }; 
+          } else {
+            
+            this.errorMessage = 'Le NSS existe déja';
+          }
+
         },
         (error) => {
           console.error('Error adding patient:', error);
+          this.errorMessage = 'Le NSS existe déja';
         }
       );
+
+     
     }
 
     updatePatientStatus(patient: Patient) {
