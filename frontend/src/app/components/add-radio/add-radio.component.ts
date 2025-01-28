@@ -36,6 +36,7 @@ export class AddRadioComponent implements OnInit {
     this.popupService.hidePopup();
     this.compteRendu = '';
     this.selectedFile = null; 
+    this.selectedFileName = '';
   }
 
   onFileSelected(event: Event): void {
