@@ -22,7 +22,7 @@
           <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Date de Naissance</th>
           <th class="px-4 py-2 md:px-6 md:py-4 font-medium">NSS</th>
           <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Téléphone</th>
-          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Adresse</th>
+          <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Personne à contacter</th>
           <th class="px-4 py-2 md:px-6 md:py-4 font-medium">Statut</th>
         </tr>
       </thead>
@@ -34,7 +34,7 @@
           <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.birthdate }}</td>
           <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.nss }}</td>
           <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.phone }}</td>
-          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.address }}</td>
+          <td class="px-4 py-2 md:px-6 md:py-4">{{ patient.personne }}</td>
           <td class="px-4 py-2 md:px-6 md:py-4">
             <select [(ngModel)]="patient.etatpatient"
                     (change)="updatePatientStatus(patient)"
@@ -93,9 +93,11 @@
             [(ngModel)]="newPatient.nss" 
             name="nss" 
             placeholder="0000000000" 
+            pattern="^\d{16}$" 
             class="w-full bg-[#ECF1F7] rounded-md px-3 py-2 border-2 border-[#3F6CB5] focus:outline-none focus:ring-2 focus:ring-[#3F6CB5]" 
             required
           />
+          <p *ngIf="errorMessage" class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
         </div>
 
        
