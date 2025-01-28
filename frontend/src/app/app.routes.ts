@@ -29,7 +29,7 @@ export const routes: Routes = [
   },
   { path: 'login', component: LoginPageComponent }, 
   { path: 'Patients', component: PatientsComponent , canActivate: [AuthGuard]  },
-  { path: 'Notification', component: NotificationComponent , canActivate: [AuthGuard] },
+  { path: 'Notif', component: NotificationComponent , canActivate: [AuthGuard] },
   { path: 'Recherche', component: RechercheComponent , canActivate: [AuthGuard] },
   { path: 'Soins', component: SoinsComponent , canActivate: [AuthGuard] },
   { path: 'consultation', component: ConsultationComponent , canActivate: [AuthGuard]},
