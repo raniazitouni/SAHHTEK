@@ -141,7 +141,7 @@ export class PatientsComponent implements OnInit {
         personneacontacter: this.newPatient.personne,
         hopitalid: 1 /*Number(hospitalId)*/,  // the hospital ID here
       };
-  
+      
       console.log("Sending patient data:", patientData);
   
       this.http.post('http://127.0.0.1:8000/maj/CreateDpi/', patientData).subscribe(
@@ -168,9 +168,7 @@ export class PatientsComponent implements OnInit {
             };
   
             this.isModalOpen = false;
-          } else {
-            console.error('Failed to add patient');
-          }
+          } 
         },
         (error) => {
           console.error('Error adding patient:', error);
